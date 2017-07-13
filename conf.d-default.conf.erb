@@ -34,22 +34,5 @@ server {
         location = /50x.html {
     }
 
-    # these definitions are moved into the default and ssl server blocks since they are slightly different 
-    # in the different locations
-    #
-    location /@uiscgi_app/ {
-      rewrite ^/@uiscgi_app(.*)$ $1 break;
-      internal;
-      add_header X-Upstream "uiscgi_app" always;
-      proxy_pass http://<%= ENV['BACKEND_UISCGI_APP'] || "ist-uiscgi-app-#{ENV['LANDSCAPE']}.bu.edu"  %> ;
-    }
-
-    location /@uiscgi_content/ {
-      rewrite ^/@uiscgi_content(.*)$ $1 break;
-      internal;
-      add_header X-Upstream "uiscgi_content" always;
-      proxy_pass http://<%= ENV['BACKEND_UISCGI_CONTENT'] || "ist-uiscgi-content-#{ENV['LANDSCAPE']}.bu.edu"  %> ;
-    }
-
 }
 
