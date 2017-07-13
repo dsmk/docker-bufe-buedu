@@ -1,0 +1,98 @@
+rewrite_log on;
+
+# ####
+# These paths are specified as locations because they don't need to be dynamic.  Use standard NGINX 
+# whenever possible.
+#
+location ^~ /link/bin/ {
+  add_header X-Upstream "uiscgi_app" always;
+  proxy_pass $scheme://<%= ENV['BACKEND_UISCGI_APP'] || "ist-uiscgi-app-#{ENV['LANDSCAPE']}.bu.edu"  %> ;
+}
+
+location ^~ /link {
+  add_header X-Upstream "uiscgi_content" always;
+  proxy_pass $scheme://<%= ENV['BACKEND_UISCGI_CONTENT'] || "ist-uiscgi-content-#{ENV['LANDSCAPE']}.bu.edu"  %> ;
+}
+
+location = /robots.txt {
+<% if ENV['ROBOTS_TXT'] %>
+  proxy_pass http://content<%= ENV['ROBOTS_TXT'] %> ;
+<% else %>
+  proxy_pass http://content/robots.txt ;
+<% end %>
+  add_header X-Upstream "content" always;
+}
+
+location = / {
+  proxy_pass http://content/ ;
+  add_header X-Upstream "content" always;
+}
+
+location ^~ /studentlink {
+  add_header X-Upstream 'redirect' always; 
+  return 302 /link/bin/uiscgi_studentlink.pl/uismpl/?ModuleName=menu.pl&NewMenu=Home ;
+}
+
+location ~^/server/(?P<toplevel>version)$ {
+  add_header X-Upstream "version" always;
+  add_header Content-Type text/plain always;
+  return 200 "hostname: $hostname\nsites: $backend\n";
+}
+
+location ~^/+(?P<microsite>(?P<toplevel>[a-zA-Z0-9_\.\-]+)(?P<second>/[a-zA-Z0-9_\-]+)) {
+  add_header X-URI $uri always;
+  add_header X-Top-Level $toplevel always;
+  add_header X-Micro-Level $microsite always;
+
+  # if map entry then proxy to that location
+  if ($micro_backend) {
+    proxy_pass http://$micro_backend ;
+    add_header X-Backend $micro_backend always;
+    add_header X-Upstream $micro_backend always;
+  }
+
+  if ($backend) {
+    proxy_pass http://$backend ;
+    add_header X-Backend $backend always;
+    add_header X-Upstream $backend always;
+  }
+
+  # otherwise default to WordPress
+  # we send all static files to the WordPress content servers
+  #
+  if ($request_uri ~ ^/+([a-zA-Z0-9_\-]+/)?files/ ) {
+    proxy_pass http://wpassets ;
+    add_header X-Upstream wpassets always;
+  }
+
+  # the rest of this is WordPress app servers
+  add_header X-Upstream "wpapp" always;
+  proxy_pass http://<%= ENV['BACKEND_WP_APP'] || "ist-uiscgi-app-#{ENV['LANDSCAPE']}.bu.edu"  %> ;
+
+}
+
+location  ~^/+(?P<toplevel>[a-zA-Z0-9\.\-]+) {
+  add_header X-URI $uri always;
+  add_header X-Top-Level $toplevel always;
+  add_header X-Backend $backend always;
+
+  # if map entry then proxy to that location
+  if ($backend) {
+    proxy_pass http://$backend ;
+    add_header X-Backend $backend always;
+    add_header X-Upstream $backend always;
+  }
+
+  # otherwise default to WordPress
+  # we send all static files to the WordPress content servers
+  #
+  if ($request_uri ~ ^/+([a-zA-Z0-9_\-]+/)?files/ ) {
+    proxy_pass http://wpassets ;
+    add_header X-Upstream wpassets always;
+  }
+
+  # the rest of this is WordPress app servers
+  add_header X-Upstream "wpapp" always;
+  proxy_pass http://<%= ENV['BACKEND_WP_APP'] || "ist-uiscgi-app-#{ENV['LANDSCAPE']}.bu.edu"  %> ;
+}
+

@@ -1,0 +1,42 @@
+map $microsite $micro_backend {
+  include /etc/nginx/sites.map;
+}
+
+map $toplevel $backend {
+  include /etc/nginx/sites.map;
+}
+
+# ####
+# These are upstream so we don't need to adjust the configuration
+#
+upstream media {
+  server <%= ENV['BACKEND_MEDIA'] || "ist-w3-media-#{ENV['LANDSCAPE']}.bu.edu:481" %> ;
+}
+
+upstream content {
+  server <%= ENV['BACKEND_CONTENT'] || "ist-w3-content-#{ENV['LANDSCAPE']}.bu.edu:381" %> ;
+}
+
+upstream wpassets {
+  server <%= ENV['BACKEND_WP_CONTENT'] || "ist-wp-assets-#{ENV['LANDSCAPE']}.bu.edu"  %> ;
+}
+
+upstream wpapp {
+  server <%= ENV['BACKEND_WP_APP'] || "ist-wp-app-#{ENV['LANDSCAPE']}.bu.edu"  %> ;
+}
+
+upstream dbin {
+  server <%= ENV['BACKEND_DBIN'] || "dbin-#{ENV['LANDSCAPE']}.bu.edu"  %> ;
+}
+
+upstream phpbin {
+  server <%= ENV['BACKEND_PHPBIN'] || "phpbin-#{ENV['LANDSCAPE']}.bu.edu"  %> ;
+}
+
+upstream django {
+  server <%= ENV['BACKEND_DJANGO'] || "django-#{ENV['LANDSCAPE']}.bu.edu" %> ;
+<% if ENV['BACKEND_DJANGO2'] %>
+  server <%= ENV['BACKEND_DJANGO2'] %> ;
+<% end %>
+}
+
