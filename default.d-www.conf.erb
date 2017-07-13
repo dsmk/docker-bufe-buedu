@@ -6,11 +6,13 @@ rewrite_log on;
 #
 location ^~ /link/bin/ {
   add_header X-Upstream "uiscgi_app" always;
+  resolver 8.8.8.8;
   proxy_pass $scheme://<%= ENV['BACKEND_UISCGI_APP'] || "ist-uiscgi-app-#{ENV['LANDSCAPE']}.bu.edu"  %> ;
 }
 
 location ^~ /link {
   add_header X-Upstream "uiscgi_content" always;
+  resolver 8.8.8.8;
   proxy_pass $scheme://<%= ENV['BACKEND_UISCGI_CONTENT'] || "ist-uiscgi-content-#{ENV['LANDSCAPE']}.bu.edu"  %> ;
 }
 
