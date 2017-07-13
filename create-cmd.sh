@@ -2,7 +2,7 @@
 #
 # We are building a container for each landscape bound to the same main ports
 #
-docker_image="nginx"
+docker_image="bufe-buedu"
 logdir="${PWD}/logs"
 if [ ! -d "$logdir" ]; then
   mkdir "$logdir"
