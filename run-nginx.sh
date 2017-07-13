@@ -7,6 +7,15 @@ if [ "x$LANDSCAPE" = "x" ]; then
   export LANDSCAPE
 fi
 
+# generate self-signed SSL certificates if they do not actually exist
+if [ ! -f /etc/pki/nginx/cert.key ]; then
+  set -x 
+  cd /etc/pki/nginx
+  openssl req -x509 -newkey rsa:4096 -keyout cert.key -out cert.pem -days 365 -nodes -subj "/C=US/ST=Massachusetts/L=Boston/O=Boston University/CN=internal-${LANDSCAPE}.domain"
+  set +x
+  ls -l /etc/pki/nginx
+fi
+
 # this is where we would load the first map files
 # look through the common configuration files and run erb to 
 FILES="nginx.conf conf.d/map-def.conf conf.d/ssl.conf conf.d/default.conf default.d/www.conf"
