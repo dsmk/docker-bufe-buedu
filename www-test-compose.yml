@@ -1,0 +1,19 @@
+bufe-buedu-test:
+  image: docker.io/dsmk/bufe-buedu:latest
+  volumes:
+    - /home/dsmk/docker-bufe-buedu/logs/test:/var/log/nginx
+  ports:
+    - 80:80
+    - 443:443
+  restart: always
+  environment:
+    - LANDSCAPE=test
+    - ROBOTS_TXT=/home/robots.txt.test
+    - BACKEND_W3_CONTENT=ist-w3-content-test.bu.edu:381
+    - BACKEND_W3_MEDIA=ist-w3-media-test.bu.edu:481
+    - BACKEND_WP_APP=ist-wp-app-test101.bu.edu
+    - BACKEND_WP_CONTENT=ist-wp-assets-test101.bu.edu
+    - BACKEND_PHPBIN=phpbin-test.bu.edu:181
+    - BACKEND_DBIN=dbin-test.bu.edu:181
+    - BACKEND_DJANGO=vsc66.bu.edu:197
+    - BACKEND_DJANGO2=vsc67.bu.edu:197
