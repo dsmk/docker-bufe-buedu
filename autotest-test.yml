@@ -5,10 +5,10 @@ services:
   sut:
     build: test/sut/
     links:
-      - bufe-autotest
+      - bufe-autotest-test
     volumes:
       - ./test/results:/results
-  bufe-autotest:
+  bufe-autotest-test:
     build: .
     ports:
       - 80:80

@@ -180,6 +180,10 @@ else
   HOST="www-$LANDSCAPE.bu.edu"
 fi
 
+if $julog ; then
+  /wait-for-it.sh "$CONNECT_TO:80"
+fi
+
 echo ""
 echo "### Test default routing to WordPress"
 test_url "default-wpapp-http-admissions" http://${CONNECT_TO}/admissions/ 200 wpapp
