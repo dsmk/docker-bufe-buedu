@@ -8,6 +8,7 @@ export https_proxy
 https_proxy=
 
 julog=/bin/false
+exitcode=0
 
 host=www-devl.bu.edu
 
@@ -19,12 +20,17 @@ test_log () {
   log="$1"
 
   if $julog ; then
-    juLog -name="$label" "$status" "$log"
+    if juLog -name="$label" "$status" "$log" ; then
+      /bin/true
+    else
+      exitcode=1
+    fi
   else
     if "$status" ; then
       echo "PASS $label $log"
     else
       echo "FAIL $label $log"
+      exitcode=1
     fi
   fi
 }
@@ -230,3 +236,5 @@ fi
 echo "" 
 echo "Testing system urls"
 test_url "server-http-version" "http://${CONNECT_TO}/server/version" 200 version 'hostname: '
+
+exit $exitcode
