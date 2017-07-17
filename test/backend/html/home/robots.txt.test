@@ -1,0 +1,50 @@
+# Directions for robots.  See this URL:
+# http://info.webcrawler.com/mak/projects/robots/norobots.html
+# for a description of the file format.
+
+#####
+# Allow W3C link Validator for /dev/ and /nisdev/
+# skipping other dynamic content or private areas
+# 2004-08-27 gaudette
+#
+User-agent: W3C-checklink
+Disallow: /cms/
+Disallow: /cgi-bin/
+Disallow: /htbin/
+Disallow: /htbin.ph/
+Disallow: /BUbin/
+Disallow: /bubin/
+Disallow: /testing/
+Disallow: /TESTING/
+Disallow: /IT/SoftwareDist/
+Disallow: /it/SoftwareDist/
+Disallow: /software/
+Disallow: /SOFTWARE/
+Disallow: /IT/new/
+Disallow: /it/new/
+Disallow: /nis/
+Disallow: /nishd/
+Disallow: /library/working/
+Disallow: /library/WORKING/
+Disallow: /reports/
+Disallow: /bulletins/work/
+Disallow: /admissions/test/
+Disallow: /cas/oldsite/
+Disallow: /MPA/
+Disallow: /finaid/test/
+Disallow: /naitest/
+Disallow: /newswire/
+Disallow: /practice/
+Disallow: /providers/
+Disallow: /stats/
+Disallow: /usc/test/
+Disallow: /webcentral/output/
+Disallow: /webmail/
+Disallow: /alumni/portfolio/
+Disallow: /dev/
+
+#####
+# This disallows all robots on test and development servers
+#
+User-agent: *
+Disallow: /

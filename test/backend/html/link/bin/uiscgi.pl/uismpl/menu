@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+ 
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>The Links</title>
+	<link rel="stylesheet" type="text/css" media="screen" href="http://www-test.bu.edu/link/system/themes/wordpress/bu-tech/reset.1.css" />
+	<link rel="stylesheet" type="text/css" media="print" href="http://www-test.bu.edu/link/system/themes/wordpress/bu-tech/print.1.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="http://www-test.bu.edu/link/system/themes/wordpress/bu-tech/style.2.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="http://www-test.bu.edu/link/system/styles/main_menu.css" />
+	<link rel="alternate" type="application/rss+xml" title="TechWeb RSS Feed" href="http://www-test.bu.edu/tech/feed/" />
+	<link rel="pingback" href="http://www-test.bu.edu/tech/xmlrpc.php" />
+	<link rel="alternate" type="application/rss+xml" title="TechWeb &raquo; IS&amp;T Homepage Comments Feed" href="http://www-test.bu.edu/tech/feed/" />
+</head>
+
+<body id="application" class="signature">
+
+<div id="wrapper">
+
+    <div id="header-wrapper">
+        <div id="header">
+            <a id="logotype" href="/tech/"><img src="http://www-test.bu.edu/link/system/images/bu-ist-white-logo.gif" alt="Boston University Information Services & Technology"/></a>
+        </div>
+        <!-- end #header -->
+    </div>
+    <!-- end #header-wrapper -->
+
+    <div id="content">
+        <div id="left-column">
+            <div id="contentnav" class="widget">
+                <ul id="contentnavlist">
+                    <li class="page_item infoicon_item">
+                        <a href="/tech/apps/enterprise-applications/the-links/" class="active">About the Links</a>
+                    </li>
+                    <li class="last_item lockicon_item">
+                        <a href="http://www-test.bu.edu/link/bin/uiscgi.pl/login/1500058935" class="active">Logon</a>
+
+                    </li>
+<li class="last_item go_to_icon_item"><a href="http://www.bu.edu/link/bin/uiscgi.pl">Go to Production</a></li>
+
+
+
+
+                </ul>
+            </div>
+        </div>
+
+        <div id="right-column">
+
+            <h1>The Links</h1>
+
+<!--- System Messages --->
+
+
+
+
+
+
+<!--- Notification Messages --->
+
+
+
+
+
+
+<!--- Applications Available --->
+<div id="thelinks">
+<div>
+  <ul>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_finance.pl">Account Status</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_admissions_reception_rsvp.pl">Admissions Reception RSVP</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_admissions_senior_visit_rsvp.pl">Admissions Senior Visit RSVP</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_affiliates.pl">Affiliates Campus Emergency</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_alias_id.pl">Alias ID</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_alumni_directory.pl">Alumni Directory</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_applicant_address.pl">Applicant Address</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_application_credential_status.pl">Application Credential Status</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_article_submission_status.pl">Article Submission Status</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_bu_alert_contact_management.pl">BU Alert Contact Management</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_business.pl">Business Link</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_com_career_service.pl">COM Career Service</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_compliance_tracking.pl">Compliance Tracking</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_credit_card_demo.pl">Credit Card Demo</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_doc_e_signature.pl">Document ESignature</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_electronic_authorization.pl">Electronic Authorization</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_employeelink.pl">Employee Link</a></li>
+ </ul>
+</div>
+
+<div>
+  <ul>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_faculty.pl">Faculty</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_faculty_expert.pl">Faculty Expert</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_faculty_salary_review.pl">Faculty Salary Review</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_facstaff.pl">Faculty/Staff</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_fin_aid_application_document_status.pl">Financial Assistance Document Status</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_graduate_admissions_inquiry.pl">Grad Admissions Inq</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_my_grants.pl">My Grants and Contracts</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_onlreq.pl">Online Requisition</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_orientation_registration.pl">Orientation Registration</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_prime.pl">Prime</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_sharelink.pl">ShareLink</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_studentelections.pl">Student Elections</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_studentlink.pl">StudentLink</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_tools_computing_account_query.pl">Tools - Computing Account Query</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_user_request_log.pl">UIS User Requests</a></li>
+<li><a href="http://www-test.bu.edu/link/bin/uiscgi_wbur.pl">WBUR</a></li>
+  </ul>
+</div>
+</div>
+
+
+        </div>
+        <!-- end #right-column -->
+    </div>
+    <!-- end #content -->
+
+    <div id="footer_overlap">&nbsp;</div>
+</div><!-- end #wrapper -->
+
+<div id="footer">
+	<div>
+		<ul id="footer_links_left">
+            <li class="masterlogo"><a href="/"><img src="http://www-test.bu.edu/link/system/images/bu-logo.gif" alt="Boston University" /></a></li>
+            <li><a href="/tech/">IS&amp;T</a></li>
+            <li><a href="/tech/about/">About</a></li>
+            <li><a href="/tech/projects/">Projects</a></li>
+            <li><a href="/tech/policies/">Policies</a></li>
+			<li><a href="/help/tech/">Contact</a></li>
+			<li class="last"><a href="/help/tech/qa/" target="_blank">Feedback</a></li>
+		</ul>
+        <ul id="footer_links_right">
+			<li>
+			    <a href="http://www.facebook.com/pages/BU-IT-Help-Center/137700853096?ref=ts"
+			        class="footer_icon_facebook">IT Help Center on Facebook</a>
+			</li>
+            <li class="last"><a href="/tech/feed/?cat=0" class="footer_icon_rss">RSS News Feed</a></li>
+        </ul>
+    </div>
+</div><!-- end #footer -->
+
+</body>
+</html>

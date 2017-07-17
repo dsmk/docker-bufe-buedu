@@ -1,0 +1,588 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="image/png" />
+<meta http-equiv="Content-Language" content="en-us" />
+<meta name="ROBOTS" content="ALL" />
+<meta name="Copyright" content="Copyright (c) Trustees of Boston University" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta name="MSSmartTagsPreventParsing" content="true" />
+
+<title>BUniverse: Home</title>
+
+    <style type="text/css" title="defaultStyle">
+      @import "/nis/lib/jquery/jqueryui/1.7.2/themes/base/ui.core.css";
+      @import "/nis/lib/jquery/jqueryui/1.7.2/themes/base/ui.dialog.css";
+      @import "/nis/lib/jquery/jqueryui/1.7.2/themes/base/ui.theme.css";
+      
+
+      @import "/buniverse/interface/css/master.css";
+
+    </style>
+<script type="text/javascript" src="/buniverse/interface/js/modernizr.2.6.2.js"></script>
+<script type="text/javascript" src="/nis/lib/jquery/jquery-1.4.x.js"></script>
+<script type="text/javascript" src="/nis/lib/jquery/jqueryui/1.7.2/ui/ui.core.js"></script>
+<script type="text/javascript" src="/nis/lib/jquery/jqueryui/1.7.2/ui/ui.dialog.js"></script>
+<script type="text/javascript">
+  var dir_app = '/buniverse';
+  var dir_interface = '/buniverse/interface';
+  var CURR_USER = '';
+</script>
+
+
+    <script type="text/javascript" src="/buniverse/interface/js/buniverse.js?3"></script>
+
+    <script type="text/javascript" src="/buniverse/interface/js/home.js"></script>
+
+
+
+<link rel="alternate" type="application/rss+xml" title="BUniverse: Featured Videos (RSS 2.0)" 
+      href="//www.bu.edu/buniverse/search/?special=featured&view=feed" />
+
+<link rel="alternate" type="application/rss+xml" title="BUniverse: Popular Videos (RSS 2.0)" 
+      href="//www.bu.edu/buniverse/search/?special=popular&view=feed" />
+
+<link rel="alternate" type="application/rss+xml" title="BUniverse: Recent Videos (RSS 2.0)" 
+      href="//www.bu.edu/buniverse/search/?special=recent&view=feed" />
+
+<link rel="alternate" type="application/rss+xml" title="BUniverse: BU Today Videos (RSS 2.0)" 
+        href="//www.bu.edu/buniverse/search/?category=4&view=feed" />
+
+<link rel="alternate" type="application/rss+xml" title="BUniverse: Student Videos (RSS 2.0)" 
+        href="//www.bu.edu/buniverse/search/?category=5&view=feed" />
+
+<link rel="alternate" type="application/rss+xml" title="BUniverse: Lecture series Videos (RSS 2.0)" 
+        href="//www.bu.edu/buniverse/search/?category=0&view=feed" />
+
+<link rel="alternate" type="application/rss+xml" title="BUniverse: Faculty Videos (RSS 2.0)" 
+        href="//www.bu.edu/buniverse/search/?category=1&view=feed" />
+
+<link rel="alternate" type="application/rss+xml" title="BUniverse: Alumni Videos (RSS 2.0)" 
+        href="//www.bu.edu/buniverse/search/?category=3&view=feed" />
+
+<link rel="alternate" type="application/rss+xml" title="BUniverse: Staff Videos (RSS 2.0)" 
+        href="//www.bu.edu/buniverse/search/?category=2&view=feed" />
+
+
+<!--[if IE]>
+<link rel="stylesheet" type="text/css" href="/buniverse/interface/css/ie-all.css" media="screen" />
+<script type="text/javascript" src="/buniverse/interface/js/DD_roundiesCore_0.0.2a.js"></script>
+<script type="text/javascript" src="/buniverse/interface/js/DD_roundiesCustomize.js"></script>
+<![endif]-->
+
+</head>
+<body>
+
+<!-- div#UPLOAD-STATUS begin -->
+<div id="upload-status" style="display: none;"></div>
+<!-- div#UPLOAD-STATUS end -->
+
+<!-- div#HEADER begin -->
+<div id="header">
+
+  <h1><a href="/buniverse/" title="BUniverse homepage"><span>BUniverse: Boston University's Video Community</span></a></h1>
+  <ul id="nav">
+    <li><a href="/buniverse/add/" class="upload"><span>Upload</span></a></li>
+    <li class="browse"><a href="/buniverse/browse/" class="browse"><span>Browse</span></a>
+
+      <ul id="nav-modal" class="roundie">
+      </ul>
+
+    </li>
+    <li class="my_stuff">
+      <a href="/buniverse/my-videos/" class="my-videos">My videos</a>
+      
+      
+
+    </li>
+    <li class="search">
+      <form name="Search" id="search_form" action="/buniverse/search/" method="get">
+        <fieldset>
+          <legend>Search BUniverse Videos</legend>
+          <label for="search-entry"><span>By title, author, tag: </span></label>
+          <input name="q" type="text" size="15" id="search-entry" />
+          <button  name="submit" type="submit"><span>Submit</span></button>
+        </fieldset>
+      </form>
+    </li>
+  </ul>
+</div>
+<!-- div#HEADER end -->
+
+
+<div id="contentArea">
+  <!-- div#VIDEO.HOMEPAGE begin -->
+<div id="video" class="homepage">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+<script type="text/javascript">
+//swfobject.switchOffAutoHideShow();
+
+//swfobject.registerObject("player0", "9.0.115", "//www.bu.edu/buniverse/interface/swf/expressinstall.swf");
+
+//swfobject.registerObject("player1", "9.0.115", "//www.bu.edu/buniverse/interface/swf/expressinstall.swf");
+
+//swfobject.registerObject("player2", "9.0.115", "//www.bu.edu/buniverse/interface/swf/expressinstall.swf");
+
+//swfobject.registerObject("player3", "9.0.115", "//www.bu.edu/buniverse/interface/swf/expressinstall.swf");
+
+//swfobject.registerObject("player4", "9.0.115", "//www.bu.edu/buniverse/interface/swf/expressinstall.swf");
+
+</script>
+<!-- .wrapper begin -->
+<div class="wrapper"> 
+
+<!-- div#HP_FEATURE_BLOCK begin -->
+<div id="hp_feature_block">
+
+<!-- div#FEATURE_MOVER begin -->
+	<div id="feature_mover">
+
+
+
+<!-- div.PLAYER begin -->
+		<div class="player">
+			<iframe src="//www.bu.edu/buniverse/interface/embed/embed.html?v=R9KKN0&loc=2" width="550" height="310" frameborder="0"></iframe>	
+		</div> -->
+<!-- div.PLAYER end -->
+	
+
+
+<!-- div.PLAYER begin -->
+		<div class="player">
+			<iframe src="//www.bu.edu/buniverse/interface/embed/embed.html?v=1JThm11rZ&loc=2" width="550" height="310" frameborder="0"></iframe>	
+		</div> -->
+<!-- div.PLAYER end -->
+	
+
+
+<!-- div.PLAYER begin -->
+		<div class="player">
+			<iframe src="//www.bu.edu/buniverse/interface/embed/embed.html?v=1vtTFG1ov&loc=2" width="550" height="310" frameborder="0"></iframe>	
+		</div> -->
+<!-- div.PLAYER end -->
+	
+
+
+<!-- div.PLAYER begin -->
+		<div class="player">
+			<iframe src="//www.bu.edu/buniverse/interface/embed/embed.html?v=CHEko0&loc=2" width="550" height="310" frameborder="0"></iframe>	
+		</div> -->
+<!-- div.PLAYER end -->
+	
+
+
+<!-- div.PLAYER begin -->
+		<div class="player">
+			<iframe src="//www.bu.edu/buniverse/interface/embed/embed.html?v=25aasJ1j2&loc=2" width="550" height="310" frameborder="0"></iframe>	
+		</div> -->
+<!-- div.PLAYER end -->
+	
+
+
+<!-- div#FEATURE_MOVER end -->	
+	</div>
+
+
+
+<!-- div.INFO begin -->
+		<div class="info">
+			<h3><a href="/buniverse/view/?v=R9KKN0">Life as a Zookeeper at the Franklin Park <span> [...]</span></a></h3>
+			<p>By <a href="/buniverse/search/?owner=jk16">jk16 <span>(35)</span></a> in <a href="/buniverse/search/?category=4">BU Today</a></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="toptag">Top Tag:</span> <a href="/buniverse/search/?tag=boston+university">boston university</a></p>
+		</div>
+<!-- div.INFO end -->
+
+
+
+<!-- div.INFO begin -->
+		<div class="info">
+			<h3><a href="/buniverse/view/?v=1JThm11rZ">School of Visual Arts Contemporary <span> [...]</span></a></h3>
+			<p>By <a href="/buniverse/search/?owner=BUniverse">buniverse <span>(1033)</span></a> in <a href="/buniverse/search/?category=0">Lectures</a></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="toptag">Top Tag:</span> <a href="/buniverse/search/?tag=boston+university">boston university</a></p>
+		</div>
+<!-- div.INFO end -->
+
+
+
+<!-- div.INFO begin -->
+		<div class="info">
+			<h3><a href="/buniverse/view/?v=1vtTFG1ov">How to Break Down a Lobster</a></h3>
+			<p>By <a href="/buniverse/search/?owner=alanwong">alanwong <span>(362)</span></a> in <a href="/buniverse/search/?category=2">Staff</a></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="toptag">Top Tag:</span> <a href="/buniverse/search/?tag=boston+university">boston university</a></p>
+		</div>
+<!-- div.INFO end -->
+
+
+
+<!-- div.INFO begin -->
+		<div class="info">
+			<h3><a href="/buniverse/view/?v=CHEko0">Strings at East Newton</a></h3>
+			<p>By <a href="/buniverse/search/?owner=rortega">rortega <span>(28)</span></a> in <a href="/buniverse/search/?category=5">Students</a></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="toptag">Top Tag:</span> <a href="/buniverse/search/?tag=busm">busm</a></p>
+		</div>
+<!-- div.INFO end -->
+
+
+
+<!-- div.INFO begin -->
+		<div class="info">
+			<h3><a href="/buniverse/view/?v=25aasJ1j2">A Day in the Life of the BU BUS</a></h3>
+			<p>By <a href="/buniverse/search/?owner=bpolitis">bpolitis <span>(48)</span></a> in <a href="/buniverse/search/?category=4">BU Today</a></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="toptag">Top Tag:</span> <a href="/buniverse/search/?tag=boston+university">boston university</a></p>
+		</div>
+<!-- div.INFO end -->
+
+
+	
+<!-- div#HP_FEATURE_BLOCK end -->
+</div>
+
+<!-- div#FEATURED-DOTS begin -->
+<div id="featured_dots"><span class="feature_on">&bull;</span><span>&bull;</span><span>&bull;</span><span>&bull;</span><span>&bull;</span></div>
+<!-- div#FEATURED-DOTS end -->
+
+
+<!-- div#NAV begin -->
+<ul class="nav">
+	<li class="previous"><a href="#">Previous video</a></li>
+	<li class="next"><a href="#">Next video</a></li>
+</ul>
+<!-- div#NAV end -->
+
+</div>
+<!-- .wrapper end -->
+</div>
+<!-- div#VIDEO.HOMEPAGE end -->
+
+
+<div class="wrapper">
+  <!-- div#SIDEBAR begin -->
+  <div id="sidebar">
+    <div class="upload roundie">
+      <h4><a href="/buniverse/add/">Upload</a></h4>
+      <p>Share your BU-related videos with the entire community.</p>
+      <a href="/buniverse/add/">Share <span>videos</span></a>
+    </div>
+
+    <div class="browse roundie">
+      <h4><a href="/buniverse/browse/">Browse</a></h4>
+      <p>BU Today videos, lectures, student & faculty shorts, and much more. </p>
+      <a href="/buniverse/browse/">Explore <span>videos</span></a>
+    </div>
+    
+    <div class="rss roundie">
+      <h4><a href="/buniverse/rss/">RSS</a></h4>
+      <p>The easiest way to keep up with what's new on BUniverse. </p>
+      <a href="/buniverse/rss/">View <span>feeds</span></a>
+    </div>
+    
+    <p class="contact">Want to hire BUniverse to record your<br /> next lecture?<br/>
+      <a href="/buniverse/contact/">Contact us<br />
+      for details</a>.
+    </p>
+  </div>
+
+  <!-- div#SIDEBAR end -->
+  
+  
+  <div id="bu_today" class="roundie hp_category_container">
+    <h2><a href="/buniverse/search/?category=4" title="Browse all BU Today videos"><span>BU </span>Today</a></h2>
+    
+    
+    <div class="video-item">
+      <span class="thumbnail"><img src="//www.bu.edu/buniverse/data/thumbs/7456/6ac6337af0344f97a2b7e2fcc311daa084024e87_1255085867/thumb_s.jpg" alt="Watch this video" class="thumbnail_s" /></span>
+      <span class="watch-video"><a href="/buniverse/view/?v=1nUCCj1wG" title="Watch this video"><span>Watch this video</span></a></span>
+      <div class="details">
+        <h3><a href="/buniverse/view/?v=1nUCCj1wG">Animals Are Persons Too</a></h3>
+        <p class="byline"><strong>By</strong> <a href="/buniverse/search/?owner=butoday">butoday <span>(135)</span></a></p>
+        <p class="tags"><strong>Top Tag:</strong> <a href="/buniverse/search/?tag=law">law</a></p>
+      </div>
+    </div>
+    
+    <div class="video-item">
+      <span class="thumbnail"><img src="//www.bu.edu/buniverse/data/thumbs/7378/e456c23b1aa24c4a8c231cae03a1d090b1f1583f_299409327/thumb_s.jpg" alt="Watch this video" class="thumbnail_s" /></span>
+      <span class="watch-video"><a href="/buniverse/view/?v=a8Peb1v0" title="Watch this video"><span>Watch this video</span></a></span>
+      <div class="details">
+        <h3><a href="/buniverse/view/?v=a8Peb1v0">Commencement 2017 Time-lapse</a></h3>
+        <p class="byline"><strong>By</strong> <a href="/buniverse/search/?owner=bup">bup <span>(32)</span></a></p>
+        <p class="tags"><strong>Top Tag:</strong> <a href="/buniverse/search/?tag=bu+commencement">bu commencement</a></p>
+      </div>
+    </div>
+    
+    <div class="video-item">
+      <span class="thumbnail"><img src="//www.bu.edu/buniverse/data/thumbs/7375/8137b0b98f764bd235b06ff288066ac22683d02f_2015846283/thumb_s.jpg" alt="Watch this video" class="thumbnail_s" /></span>
+      <span class="watch-video"><a href="/buniverse/view/?v=1ApyDx1ux" title="Watch this video"><span>Watch this video</span></a></span>
+      <div class="details">
+        <h3><a href="/buniverse/view/?v=1ApyDx1ux">Anthony Fauci: School of <span> [...]</span></a></h3>
+        <p class="byline"><strong>By</strong> <a href="/buniverse/search/?owner=bup">bup <span>(32)</span></a></p>
+        <p class="tags"><strong>Top Tag:</strong> <a href="/buniverse/search/?tag=anthony+fauci">anthony fauci</a></p>
+      </div>
+    </div>
+    
+
+    <p class="browse-all"><a href="/buniverse/search/?category=4">Browse all <strong>BU Today</strong> videos</a></p>
+  </div>
+
+  
+  
+  <div id="student" class="roundie hp_category_container">
+    <h2><a href="/buniverse/search/?category=5" title="Browse all student videos"><span>By </span>Students</a></h2>
+    
+    
+    <div class="video-item">
+      <span class="thumbnail"><img src="https://i.ytimg.com/vi/_m0K20xEwEg/default.jpg" alt="Watch this video" class="thumbnail_s" /></span>
+      <span class="watch-video"><a href="/buniverse/view/?v=C1AQ0" title="Watch this video"><span>Watch this video</span></a></span>
+      <div class="details">
+        <h3><a href="/buniverse/view/?v=C1AQ0">BU Secret 2017</a></h3>
+        <p class="byline"><strong>By</strong> <a href="/buniverse/search/?owner=tercon">tercon <span>(1)</span></a></p>
+        <p class="tags"><strong>Top Tag:</strong> <a href="/buniverse/search/?tag=mental+health">mental health</a></p>
+      </div>
+    </div>
+    
+    <div class="video-item">
+      <span class="thumbnail"><img src="https://i.ytimg.com/vi/moYc-gEUJ9U/default.jpg" alt="Watch this video" class="thumbnail_s" /></span>
+      <span class="watch-video"><a href="/buniverse/view/?v=13p7fu0" title="Watch this video"><span>Watch this video</span></a></span>
+      <div class="details">
+        <h3><a href="/buniverse/view/?v=13p7fu0">In the Classroom: Real Apps <span> [...]</span></a></h3>
+        <p class="byline"><strong>By</strong> <a href="/buniverse/search/?owner=busph">busph <span>(202)</span></a></p>
+        <p class="tags"><strong>Top Tag:</strong> <a href="/buniverse/search/?tag=sph">sph</a></p>
+      </div>
+    </div>
+    
+    <div class="video-item">
+      <span class="thumbnail"><img src="https://i.ytimg.com/vi/LSQniGiHY7Y/default.jpg" alt="Watch this video" class="thumbnail_s" /></span>
+      <span class="watch-video"><a href="/buniverse/view/?v=1xDkxI0" title="Watch this video"><span>Watch this video</span></a></span>
+      <div class="details">
+        <h3><a href="/buniverse/view/?v=1xDkxI0">LGBT Rights and the Medical <span> [...]</span></a></h3>
+        <p class="byline"><strong>By</strong> <a href="/buniverse/search/?owner=rortega">rortega <span>(28)</span></a></p>
+        <p class="tags"><strong>Top Tag:</strong> <a href="/buniverse/search/?tag=busm">busm</a></p>
+      </div>
+    </div>
+    
+
+    <p class="browse-all"><a href="/buniverse/search/?category=5">Browse all <strong>student</strong> videos</a></p>
+  </div>
+
+  <div class="cleaner"></div>
+  
+  <div id="lecture" class="roundie hp_category_container">
+    <h2><a href="/buniverse/search/?category=0" title="Browse all lecture series videos"><span>In </span>Lectures</a></h2>
+    
+    
+    <div class="video-item">
+      <span class="thumbnail"><img src="https://i.ytimg.com/vi/Gr0eUjPWvD0/default.jpg" alt="Watch this video" class="thumbnail_s" /></span>
+      <span class="watch-video"><a href="/buniverse/view/?v=4lScD0" title="Watch this video"><span>Watch this video</span></a></span>
+      <div class="details">
+        <h3><a href="/buniverse/view/?v=4lScD0">Sargent College 2017 <span> [...]</span></a></h3>
+        <p class="byline"><strong>By</strong> <a href="/buniverse/search/?owner=sheehanl">sheehanl <span>(55)</span></a></p>
+        <p class="tags"><strong>Top Tag:</strong> <a href="/buniverse/search/?tag=boston+university">boston university</a></p>
+      </div>
+    </div>
+    
+    <div class="video-item">
+      <span class="thumbnail"><img src="https://i.ytimg.com/vi/nSbsQ8_xHkA/default.jpg" alt="Watch this video" class="thumbnail_s" /></span>
+      <span class="watch-video"><a href="/buniverse/view/?v=jCjyC0" title="Watch this video"><span>Watch this video</span></a></span>
+      <div class="details">
+        <h3><a href="/buniverse/view/?v=jCjyC0">Opening Remarks</a></h3>
+        <p class="byline"><strong>By</strong> <a href="/buniverse/search/?owner=sheehanl">sheehanl <span>(55)</span></a></p>
+        <p class="tags"><strong>Top Tag:</strong> <a href="/buniverse/search/?tag=research">research</a></p>
+      </div>
+    </div>
+    
+    <div class="video-item">
+      <span class="thumbnail"><img src="https://i.ytimg.com/vi/C5Ry7ll5IQw/default.jpg" alt="Watch this video" class="thumbnail_s" /></span>
+      <span class="watch-video"><a href="/buniverse/view/?v=2CUZxo0" title="Watch this video"><span>Watch this video</span></a></span>
+      <div class="details">
+        <h3><a href="/buniverse/view/?v=2CUZxo0">Exploring Intrinsic <span> [...]</span></a></h3>
+        <p class="byline"><strong>By</strong> <a href="/buniverse/search/?owner=sheehanl">sheehanl <span>(55)</span></a></p>
+        <p class="tags"><strong>Top Tag:</strong> <a href="/buniverse/search/?tag=research">research</a></p>
+      </div>
+    </div>
+    
+
+    <p class="browse-all"><a href="/buniverse/search/?category=0">Browse all <strong>lecture series</strong> videos</a></p>
+  </div>
+
+  
+  
+  <div id="faculty" class="roundie hp_category_container">
+    <h2><a href="/buniverse/search/?category=1" title="Browse all faculty videos"><span>By </span>Faculty</a></h2>
+    
+    
+    <div class="video-item">
+      <span class="thumbnail"><img src="https://i.ytimg.com/vi/KGpP3j96_XQ/default.jpg" alt="Watch this video" class="thumbnail_s" /></span>
+      <span class="watch-video"><a href="/buniverse/view/?v=EDSEk0" title="Watch this video"><span>Watch this video</span></a></span>
+      <div class="details">
+        <h3><a href="/buniverse/view/?v=EDSEk0">Yoga as Effective as Physical <span> [...]</span></a></h3>
+        <p class="byline"><strong>By</strong> <a href="/buniverse/search/?owner=busph">busph <span>(202)</span></a></p>
+        <p class="tags"><strong>Top Tag:</strong> <a href="/buniverse/search/?tag=sph">sph</a></p>
+      </div>
+    </div>
+    
+    <div class="video-item">
+      <span class="thumbnail"><img src="https://i.ytimg.com/vi/pogdgtxfU-M/default.jpg" alt="Watch this video" class="thumbnail_s" /></span>
+      <span class="watch-video"><a href="/buniverse/view/?v=y6lct0" title="Watch this video"><span>Watch this video</span></a></span>
+      <div class="details">
+        <h3><a href="/buniverse/view/?v=y6lct0">Assessment Plans: Campus Labs <span> [...]</span></a></h3>
+        <p class="byline"><strong>By</strong> <a href="/buniverse/search/?owner=kconnors">kconnors <span>(25)</span></a></p>
+        <p class="tags"><strong>Top Tag:</strong> <a href="/buniverse/search/?tag=assessment">assessment</a></p>
+      </div>
+    </div>
+    
+    <div class="video-item">
+      <span class="thumbnail"><img src="https://i.ytimg.com/vi/tMaAYx0JAUY/default.jpg" alt="Watch this video" class="thumbnail_s" /></span>
+      <span class="watch-video"><a href="/buniverse/view/?v=1KFygC0" title="Watch this video"><span>Watch this video</span></a></span>
+      <div class="details">
+        <h3><a href="/buniverse/view/?v=1KFygC0">Journalism &amp; the Search for <span> [...]</span></a></h3>
+        <p class="byline"><strong>By</strong> <a href="/buniverse/search/?owner=comvideo">comvideo <span>(313)</span></a></p>
+        <p class="tags"><strong>Top Tag:</strong> <a href="/buniverse/search/?tag=social+media">social media</a></p>
+      </div>
+    </div>
+    
+
+    <p class="browse-all"><a href="/buniverse/search/?category=1">Browse all <strong>faculty</strong> videos</a></p>
+  </div>
+
+  <div class="cleaner"></div>
+  
+  <div id="alumni" class="roundie hp_category_container">
+    <h2><a href="/buniverse/search/?category=3" title="Browse all alumni videos"><span>By </span>Alumni</a></h2>
+    
+    
+    <div class="video-item">
+      <span class="thumbnail"><img src="https://i.ytimg.com/vi/-idSeBC-I8o/default.jpg" alt="Watch this video" class="thumbnail_s" /></span>
+      <span class="watch-video"><a href="/buniverse/view/?v=1JbcZ10" title="Watch this video"><span>Watch this video</span></a></span>
+      <div class="details">
+        <h3><a href="/buniverse/view/?v=1JbcZ10">A Terrier Shoutout to <span> [...]</span></a></h3>
+        <p class="byline"><strong>By</strong> <a href="/buniverse/search/?owner=katcorn">katcorn <span>(14)</span></a></p>
+        <p class="tags"><strong>Top Tag:</strong> <a href="/buniverse/search/?tag=cfa">cfa</a></p>
+      </div>
+    </div>
+    
+    <div class="video-item">
+      <span class="thumbnail"><img src="https://i.ytimg.com/vi/qL85uWMarbk/default.jpg" alt="Watch this video" class="thumbnail_s" /></span>
+      <span class="watch-video"><a href="/buniverse/view/?v=1CVuVu0" title="Watch this video"><span>Watch this video</span></a></span>
+      <div class="details">
+        <h3><a href="/buniverse/view/?v=1CVuVu0">Bonnie Arnold ('78) Talks <span> [...]</span></a></h3>
+        <p class="byline"><strong>By</strong> <a href="/buniverse/search/?owner=comvideo">comvideo <span>(313)</span></a></p>
+        <p class="tags"><strong>Top Tag:</strong> <a href="/buniverse/search/?tag=com">com</a></p>
+      </div>
+    </div>
+    
+    <div class="video-item">
+      <span class="thumbnail"><img src="https://i.ytimg.com/vi/H_CzNZY3XAM/default.jpg" alt="Watch this video" class="thumbnail_s" /></span>
+      <span class="watch-video"><a href="/buniverse/view/?v=1ckXF70" title="Watch this video"><span>Watch this video</span></a></span>
+      <div class="details">
+        <h3><a href="/buniverse/view/?v=1ckXF70">Questrom School of Business: <span> [...]</span></a></h3>
+        <p class="byline"><strong>By</strong> <a href="/buniverse/search/?owner=supriyam">supriyam <span>(15)</span></a></p>
+        <p class="tags"><strong>Top Tag:</strong> <a href="/buniverse/search/?tag=gsm">gsm</a></p>
+      </div>
+    </div>
+    
+
+    <p class="browse-all"><a href="/buniverse/search/?category=3">Browse all <strong>alumni</strong> videos</a></p>
+  </div>
+
+  
+  
+  <div id="staff" class="roundie hp_category_container">
+    <h2><a href="/buniverse/search/?category=2" title="Browse all staff videos"><span>By </span>Staff</a></h2>
+    
+    
+    <div class="video-item">
+      <span class="thumbnail"><img src="https://i.ytimg.com/vi/NkHh_0I3diM/default.jpg" alt="Watch this video" class="thumbnail_s" /></span>
+      <span class="watch-video"><a href="/buniverse/view/?v=1A8Ip50" title="Watch this video"><span>Watch this video</span></a></span>
+      <div class="details">
+        <h3><a href="/buniverse/view/?v=1A8Ip50">Questrom sidewalk 360</a></h3>
+        <p class="byline"><strong>By</strong> <a href="/buniverse/search/?owner=ccushman">ccushman <span>(1)</span></a></p>
+        <p class="tags"><strong>Top Tag:</strong> <a href="/buniverse/search/?tag=dar">dar</a></p>
+      </div>
+    </div>
+    
+    <div class="video-item">
+      <span class="thumbnail"><img src="https://i.ytimg.com/vi/AN91CeFx_f4/default.jpg" alt="Watch this video" class="thumbnail_s" /></span>
+      <span class="watch-video"><a href="/buniverse/view/?v=gBZvL0" title="Watch this video"><span>Watch this video</span></a></span>
+      <div class="details">
+        <h3><a href="/buniverse/view/?v=gBZvL0">Research Support site how-to: <span> [...]</span></a></h3>
+        <p class="byline"><strong>By</strong> <a href="/buniverse/search/?owner=clehr">clehr <span>(1)</span></a></p>
+        <p class="tags"><strong>Top Tag:</strong> <a href="/buniverse/search/?tag=wordpress">wordpress</a></p>
+      </div>
+    </div>
+    
+    <div class="video-item">
+      <span class="thumbnail"><img src="//www.bu.edu/buniverse/data/thumbs/7324/489bda4b0259ca61309d4285add498858e75920c_1986191611/thumb_s.jpg" alt="Watch this video" class="thumbnail_s" /></span>
+      <span class="watch-video"><a href="/buniverse/view/?v=21Jq6y1u8" title="Watch this video"><span>Watch this video</span></a></span>
+      <div class="details">
+        <h3><a href="/buniverse/view/?v=21Jq6y1u8">CReM Broncospheres</a></h3>
+        <p class="byline"><strong>By</strong> <a href="/buniverse/search/?owner=dkeefe">dkeefe <span>(26)</span></a></p>
+        <p class="tags"><strong>Top Tag:</strong> <a href="/buniverse/search/?tag=research">research</a></p>
+      </div>
+    </div>
+    
+
+    <p class="browse-all"><a href="/buniverse/search/?category=2">Browse all <strong>staff</strong> videos</a></p>
+  </div>
+
+  <div class="cleaner"></div>
+  
+  
+</div> <!-- .wrapper -->
+
+  <div id="edit_dialog"></div>
+</div>
+
+<!-- div#FOOTER begin -->
+<div id="footer">
+  <div class="wrapper">
+  </div> <!-- .wrapper -->
+  
+  <div class="nav">
+	<a href="http://www.bu.edu/" class="logo">Boston University Homepage</a>
+    <ul>
+      <li><a href="/buniverse/add/">Upload</a></li>
+      <li><a href="/buniverse/browse/">Browse</a></li>
+      <li><a href="/buniverse/my-videos/">My Videos</a></li>
+      <li><a href="/buniverse/help/">Help</a></li>
+      <li><a href="/buniverse/about/">About Us</a></li>	
+      <li><a href="/buniverse/terms/">Terms of Service</a></li>	  
+      <li><a href="/buniverse/contact/">Contact Us</a></li>
+      <li class="rss"><a href="/buniverse/rss/">RSS Feeds</a></li>
+    </ul>
+    <ul>
+      <li><a href="http://www.bu.edu/today/">BU Today</a></li>
+      <li><a href="http://www.bu.edu/bostonia/">Bostonia Magazine</a></li>
+      <li><a href="http://www.bu.edu/">BU Homepage</a></li>
+
+    </ul>
+  </div>
+</div>
+<!-- div#FOOTER end -->
+
+<div id="delete_dialog" title="Delete video?" style="display: none;">
+	<h1>Are you sure?</h1>
+  <p>You're about to delete: <span class="video_title"></span></p>
+  
+  <div class="">
+    <button class="delete-button" type="button"><strong>Delete video</strong></button>
+    <a href="#" class="cancel-button">No, don't delete</a>
+    <img src="/buniverse/interface/images/loader.gif" class="delete_inprogress" style="display: none;" />
+    
+    <p class="youtube">(This video will not be removed from YouTube, only from BUniverse. <a href="/buniverse/help/#faqs" target="_blank">Why?</a>)</p>
+  </div>
+</div>
+
+<script type="text/javascript">
+	//<![CDATA[
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	//]]>
+	</script>
+	<script type="text/javascript">
+	//<![CDATA[
+	try {
+		var pageTracker = _gat._getTracker("UA-124985-1"	);
+		pageTracker._trackPageview();
+	} catch(err) {}
+	//]]>
+</script>
+
+</body></html>
+
+
+<!-- Served by vsc77.bu.edu in 0.478 seconds -->

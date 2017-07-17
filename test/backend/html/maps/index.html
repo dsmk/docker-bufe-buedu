@@ -1,0 +1,298 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="Search or browse the comprehensive BU Maps.	Get nearest parking
+lot, T stop, and shuttle bus stop.	Map contains University departments,
+offices, residences, and Boston-area entries." />
+<title>Boston University Maps</title>
+
+<link href="common/css.php?v=6" rel="stylesheet" type="text/css" />
+
+<!-- Dynamic data -->
+<script type="text/javascript">var BUMapsVersion = 1;</script>
+<script type="text/javascript" src="ajax/bumaps-init.php?v=1"></script>
+
+<!-- Libraries -->
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyBmNC6kCezVcyvWnlvWg6UCYNTKcjj90Eg"></script>
+
+<script type="text/javascript" src="common/js.php?v=3.0"></script>
+
+
+</head>
+<body>
+<noscript>
+	<meta http-equiv="refresh" content="0; URL=https://www.bu.edu/maps/nojavascript.html"/>
+</noscript>
+
+<div id="header">
+		<div id="blockwrapper"><div id='logo_container'>
+			<div id="logo">
+				<a rel='external' href="http://www.bu.edu" onmouseout="changeImage('buheader','images/header-bu2.gif')" onmouseover="changeImage('buheader','images/header-bu2-o.gif')"><img src="images/header-bu2.gif" alt="Boston University" width="273" height="56" id="buheader" /></a>
+				<a href="./" onmouseout="changeImage('Maps','images/header-maps2.gif')" onmouseover="changeImage('Maps','images/header-maps2-o.gif')" onclick='resetEverything(); return false'><img src="images/header-maps2.gif" alt="Maps" width="93" height="56" id="Maps" /></a>
+			</div>
+			<div id="search">
+				<form id="searchForm" method="get" action="#">
+					<div>
+						<input name="search" id='search_input' type="text" class="inputbox" size="30" maxlength="100"/>
+						<select id="campusSelect" name="campus" style="width: 110px">
+							<option value="all">All</option>
+							<option value="allbu">All BU</option>
+							<option value="charles river">Charles River</option>
+							<option value="medical">Medical</option>
+							<option value="other">Other</option>
+						</select>
+						<input type="submit" value="Search" />
+					</div>
+				</form>
+			</div>
+			<div id="nav">
+				<ul id="primary-nav">
+					<li id="menu0"><a href="index.php?campus=all">All Campuses</a></li>
+					<li id="menu1"><a href="index.php?campus=charles%20river">Charles River Campus</a></li>
+					<li id="menu2"><a href="index.php?campus=medical">Medical Campus</a></li>
+					<li id="menu3"><a href="index.php?campus=other">Other</a></li>
+					<li id="item8"><a href="." onclick='this.href += "?" + getThisLink() + "&amp;log=" + ((loggedin) ? "out": "in")'>Login</a></li>
+					<li id="item4"><a href="outside/about.html?KeepThis=true&amp;TB_iframe=true&amp;height=400&amp;width=430" class="thickbox">About</a></li>
+					<li id="item5"><a href="outside/legend.html?v=4&amp;KeepThis=true&amp;TB_iframe=true&amp;height=400&amp;width=430&amp;" class="thickbox">Legend</a></li>
+					<li id="item6"><a href="outside/help.html?KeepThis=true&amp;TB_iframe=true&amp;height=400&amp;width=430" class="thickbox">Help</a></li>
+					<li id="item7"><a href="outside/contact.html?KeepThis=true&amp;TB_iframe=true&amp;height=400&amp;width=430" class="thickbox">Contact</a></li>
+				</ul>
+			</div>
+		</div>
+			<div id="outsidelinks">
+				<ul id='outsidelinks_ul1'>
+					<li><a href="http://www.bu.edu/admissions/visit-us/" rel="external">Plan a Visit</a></li>
+				</ul>
+				<ul id='outsidelinks_ul2'>
+					<li><a href="http://www.bu.edu/calendar/" rel="external">Calendar</a></li>
+					<li><a href="http://www.bu.edu/directory/" rel="external">Directory</a></li>
+					<li><a href="http://www.bu.edu/index/" rel="external">Site Index</a></li>
+				</ul>
+				<div style='clear: both'></div>
+			</div>
+	</div>
+<div id="optionbar">
+		<div id="hideshow"> <span class="displayTitle"><b>DISPLAY:</b></span>
+			<input type="checkbox" id="parking_box" onclick="toggleDisplayItem('parking')"/>
+			<label class="first" for='parking_box'>Parking Lots</label>
+			
+			<input type="checkbox" id="train_box" onclick="toggleDisplayItem('train')"/>
+			<label class="first" for='train_box'>T Stops</label>
+
+			<input type="checkbox" id="bus_widget_box" onclick="toggleBusWidget()"/>
+			<label class="first" for='bus_widget_box'>BU Shuttle Bus</label>
+			
+			<input type="checkbox" id="bicycle_box" onclick='toggleDisplayItem("bicycle")' />
+			<label class='first' for='bicycle_box'>Bike Racks</label>
+
+			<!-- <label class="first"><input type="checkbox" name="bus_commencement_box" id="bus_commencement_box" value="on" onclick="toggleDisplayItem('bus_commencement')" {!bus_commencement_checked!}/> BU Commencement Shuttle Stops</label> -->
+
+			<!-- <input type="checkbox" id="emergency_box" onclick="toggleEmergency()"/>
+			<label class="first" for="emergency_box">Safety</label> -->
+
+			<input type="checkbox" id="access_box" onclick="toggleAccess()" />
+			<label class="first" for='access_box'>Accessibility</label>
+
+			<input type="checkbox" id="blue_box" onclick="toggleDisplayItem('blue')"/>
+			<label class="first" for='blue_box'>Emergency Call Boxes</label>
+
+			<input type="checkbox" id="mail_box" onclick="toggleDisplayItem('mail')"/>
+			<label class="first" for='mail_box'>Mail Delivery</label>
+
+			<input type="checkbox" id="wireless_box" onclick="toggleDisplayItem('wireless')"/>
+			<label class="last" for='wireless_box'>Wi-Fi</label>
+
+			<input type="checkbox" id="aed_box" onclick="toggleDisplayItem('aed')"/>
+			<label class="first aed" for='aed_box'>AEDs</label>
+
+		</div>
+		<div id="userfunctions">
+			<div><a title='Print this page' href="#" onclick="printPopup();return false;"><img src="images/uf-print.gif" alt='Print'/></a></div>
+			<div><a title='E-mail a link to this page' href="#" onclick="emailLink();return false;"><img src="images/uf-email.gif" alt='E-mail'/></a></div>
+			<div><a title='Link to this page' href="#" class='location_link' ><img src="images/uf-link.gif" alt='Link'/></a></div>
+		</div>
+		<div style='clear: both'></div>
+	</div>
+</div>
+<!--<div id="container">-->
+	<div id="page">
+		<div id="map">Loading...</div>
+		<div id="side">
+		<div id="tabs">
+			<a href='./' id='openSearchResultsLink' style='width: 100px; height: 27px; background-image: url(images/tab-search-on.gif); position: relative; top: 3px; display: block;' title='Search Results'></a>
+			<a href='./?show=mymap' class='rollover' id='openMyMapsLink' style='width: 100px; height: 27px; background-image: url(images/tab-mymaps.gif); position: absolute; top: 3px; left: 108px; display: block;' title='MyMaps'></a>
+		</div>
+		<div id='sideContainer'>
+			<div id="welcome" class="noresults">
+				<b>Welcome to Boston University Maps</b><br />
+				<br />
+				You can <b>search</b> the map using the search box above.
+				Here are some popular searches. <br />
+				<div style="padding-left:10px;">
+					<a href="?search=admissions" class='search_link'>admissions</a><br />
+					<a href="index.php?search=cas" class='search_link'>cas</a><br />
+					<a href="index.php?search=715%20albany%20st" class='search_link'>715 albany st</a><br />
+					<a href="index.php?search=books" class='search_link'>books</a><br />
+					<a href="index.php?search=pizza" class='search_link'>pizza</a><br />
+					<a href="index.php?search=atms" class='search_link'>atms</a><br />
+					<a href="index.php?search=museums" class='search_link'>museums</a><br />
+					<a href="index.php?search=genetics" class='search_link'>genetics</a><br />
+					<a href="index.php?search=parking" class='search_link'>parking</a><br />
+					<a href="index.php?search=law%20auditorium" class='search_link'>law auditorium</a><br />
+					<a href="index.php?search=zipcars" class='search_link'>zipcars</a><br />
+					<a href="index.php?search=danielsen%20hall" class='search_link'>danielsen hall</a><br /><br />
+				</div>
+				You can <b>browse</b> the map by campus and category 
+				using the menu bar above. Here are some examples.<br />
+				<div style='padding-left: 10px;'>
+					<a href="index.php?campus=all">All</a> -&gt; 
+					<a class='category_link' href="index.php?category=area_businesses">Area Businesses</a> -&gt; 
+					<a href="index.php?category=restaurants">Restaurants</a><br />
+					<a href="index.php?campus=charles%20river">Charles River Campus</a> -&gt; 
+					<a href="index.php?category=libraries&amp;campus=charles%20river">Libraries</a><br />
+					<a href="index.php?campus=medical">Medical Campus</a> -&gt; 
+					<a href="index.php?category=academics&amp;campus=medical">Academics</a><br />
+					<a href="index.php?campus=other">Other</a> -&gt; 
+					<a href="index.php?campus=other&amp;category=international">International</a>
+				</div>
+
+				<div id="iphone-ad">
+					<a href="/tech/comm/mobile/bu-mobile/" rel="external"><img src="images/iphone-banner.jpg" alt="Now on iPhone" /></a>
+				</div>
+			</div>
+			<div id="nonemy" class="noresults"> <b>MyMaps listing</b><br />
+				<br />
+				You can add any item from BU Maps to &quot;MyMaps.&quot; Just open the
+				info window for any search result - building, T stop, parking
+				lot, anything! - and click &quot;Save to My Maps.&quot;
+				<br /><br />
+				<a href='#' onclick='myMapsNewSlideToggle(); return false;'>Create a new MyMap</a>
+				</div>
+			<div id="noresults" class="noresults"> 
+				<span id="didYou"></span><br />
+				
+				Your search in our map did not match any locations. <br />
+				<br />
+				Suggestions:
+				<ul>
+					<li>Make sure all words are spelled correctly.</li>
+					<li>Try different keywords.</li>
+					<li>Try more general keywords.</li>
+				</ul>
+			</div>
+			
+			<div id='mymaps_controls' style='display: none; margin-bottom: 1em;'>
+				<span class='bold'>Your maps</span>
+				<select id='mymaps_select' ></select>
+			</div>
+			
+			<div id='mymaps_new_slideout' class='nodisplay'>
+			<div id='mymaps_new_input' class='grey_highlight'>
+				<a style='position: absolute; top: 4px; right: 4px; _left: 238px;' href='#' onclick='$("#mymaps_new_slideout").slideUp("fast"); return false;' class='x-icon' title='Close'></a>
+				<span>Name of New MyMap: </span><br />
+				<input type='text' maxlength='30' style='width: 180px;' value='Main' />
+				<button class='submit' onclick='createMyMap($(this).parent().find("input").val());'>ADD</button>
+			</div>
+			</div>
+
+			<div id='mymaps_current_title' class='nodisplay'>
+				<span>Main</span>
+				<a href='#' id='mymaps_delete_map' onclick='return removeMyMap();' class='x-icon' title='Delete this MyMap'></a>
+				<div style='clear: both'></div>
+			</div>
+
+				
+			<div id='empty_mymap' class='noresults' style='display: none;'>
+				This MyMap has nothing in it. You can add items to this MyMap from the info window of any search result.
+			</div>
+			<div id="resultcount">
+				Results per page: 
+				<span id='results_10'><span>10</span><a style='display: none' onclick='return newPageSize(10)' href='#'>10</a></span>
+				<span id='results_15'><span style='display: none'>15</span><a onclick='return newPageSize(15)' href='#'>15</a></span>
+				<span id='results_20'><span style='display: none'>20</span><a onclick='return newPageSize(20)' href='#'>20</a></span>
+				<br /><br />
+				<span id='result_summary'></span><br />
+			</div>
+			
+			<div class="resultnav" id="resultnavt">
+				<ul class="pagesListt pageslist"><li></li></ul>
+			</div>
+			<ul id="results"><li></li></ul>
+			<div class="resultnav" id="resultnavb">
+				<ul class="pagesListb pageslist"><li></li></ul>
+			</div><br />
+			</div>
+			<div id="arrowhs"><a id="slideLink" href='#' style="height:100%; width:100%; display:block; outline: none;"></a></div>
+		</div> <!-- side -->
+
+		<div id="control-widget-wrapper">
+			<div class="control-widget" id="bus_container">
+				<h1>BU Shuttle</h1>
+				
+				<div id="bus_schedule_options">
+					<div id="bus_schedule_options_overlay"></div>
+					<ul>
+						<li id="weekday_box_container"><input type="radio" name="bus_schedule" id="bus_schedule_weekday" checked="checked" onclick="toggleSchedule()" value="weekday" /><label for="bus_schedule_weekday">Weekday</label></li>
+						<li id="night_box_container"><input type="radio" name="bus_schedule" id="bus_schedule_night" onclick="toggleSchedule();" value="night"/><label for="bus_schedule_night">Night/Weekend</label></li>
+					</ul>
+				</div>
+
+				<ul>
+					<li id="livebus_box_container"><input id="livebus_box" type="checkbox" /><label for="livebus_box">Live Position</label></li>
+					<li id="route_box_container"><input id="route_box" type="checkbox" onclick="toggleBusRoute()" checked='checked' /><label for="route_box">Bus Route</label></li>
+					<li id="bus_box_container"><input id="bus_box" type="checkbox"  onclick="toggleBusStops()" checked='checked' /><label for="bus_box">Bus Stops</label></li>
+				</ul>
+
+				<p>Buses may be up to two blocks away from the shown position. Click <a class="thickbox" href="outside/help-bus.html?v=5KeepThis=true&amp;amp;TB_iframe=true&amp;amp;height=400&amp;amp;width=400">help</a> for more info.</p>
+				<a class="widget-help thickbox rollover" href="outside/help-bus.html?v=5&amp;KeepThis=true&amp;amp;TB_iframe=true&amp;amp;height=400&amp;amp;width=400"></a>
+			</div>
+
+			<div class="control-widget" id="acc_container">
+				<h1>Accessibility</h1>
+				<ul>
+					<li id="door_box_container"><input id="door_box" class='access_checkbox' type="checkbox" onclick="toggleDisplayItem('door')" checked='checked' /><label for="door_box">Wheelchair Accessible Entrance</label></li>
+					<li id="tty_box_container"><input id="tty_box" class='access_checkbox' type="checkbox" onclick="toggleDisplayItem('tty')" checked='checked' /><label for="tty_box">TTY/TDD Payphone</label></li>
+					<li id="audible_box_container"><input id="audible_box" class='access_checkbox' type="checkbox" onclick="toggleDisplayItem('audible')" checked='checked' /><label for="audible_box">Audible Crosswalk Signal</label></li>
+					<li id="curb_box_container"><input id="curb_box" class='access_checkbox' type="checkbox" onclick="toggleDisplayItem('curb')" /><label for="curb_box">Curb Cut</label></li>
+				</ul>
+
+				<a class="widget-help thickbox rollover" href="outside/help-acc.html?KeepThis=true&amp;amp;TB_iframe=true&amp;amp;height=400&amp;amp;width=400"></a>
+			</div>
+		</div>
+
+		<div class="control-widget" id="emergency_container">
+				<h1>Safety</h1>
+        <ul>
+          <li id="blue_box_container"><input id="blue_box" class="emergency_checkbox" type="checkbox" onclick="toggleDisplayItem('blue')" checked="checked" /><label for="blue_box">Emergency Call Boxes</label></li>
+          <li id="aed_box_container"><input id="aed_box" class="emergency_checkbox" type="checkbox" onclick="toggleDisplayItem('aed')" checked="checked" /><label for="aed_box">AEDs (Partial List)</label></li>
+        </ul>
+      </div>
+			</div>
+
+	<div id='pageLinkDisplay'>
+		<a href='#' id='pageLinkDisplayClose' onclick='$(this).parent().fadeOut("fast"); return false' class='x-icon' title='Close'></a>
+
+		<div id='defaultLink'>
+			Bookmark, e-mail or IM this link<br />
+			<input type='text' value=''/><br />
+		</div>
+
+		<div id='privateLink' class='no_display'>
+			Bookmark this link<br />
+			<input type='text' value=''/><br />
+		</div>
+	
+		<div id='publicLink' class='no_display'>
+			E-mail or IM this link<br />
+			<input type='text' value=''/><br />
+		</div>
+	</div> <!-- page -->
+</div>
+
+	<iframe id='BU_HideSelect'></iframe> 
+	<div id='BU_overlay'></div>
+	<div id='BU_load'><img src='images/loadingAnimation.gif' alt='Loading...'/></div> 
+
+</body>
+</html>
