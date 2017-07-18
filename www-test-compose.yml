@@ -1,5 +1,6 @@
 bufe-buedu-test:
-  image: docker.io/dsmk/bufe-buedu:latest
+  #image: docker.io/dsmk/bufe-buedu:latest
+  build: .
   volumes:
     - /home/dsmk/docker-bufe-buedu/logs/test:/var/log/nginx
   ports:
