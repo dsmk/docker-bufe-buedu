@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+	generated in 0.178 seconds
+	19548 bytes batcached for 360 seconds
+-->
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><script type="text/javascript">window.NREUM||(NREUM={}),__nr_require=function(e,n,t){function r(t){if(!n[t]){var o=n[t]={exports:{}};e[t][0].call(o.exports,function(n){var o=e[t][1][n];return r(o||n)},o,o.exports)}return n[t].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<t.length;o++)r(t[o]);return r}({1:[function(e,n,t){function r(){}function o(e,n,t){return function(){return i(e,[c.now()].concat(u(arguments)),n?null:this,t),n?void 0:this}}var i=e("handle"),a=e(2),u=e(3),f=e("ee").get("tracer"),c=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,n){s[n]=o(d+n,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),n.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,n){var t={},r=this,o="function"==typeof n;return i(l+"tracer",[c.now(),e,t],r),function(){if(f.emit((o?"":"no-")+"fn-start",[c.now(),r,o],t),o)try{return n.apply(this,arguments)}finally{f.emit("fn-end",[c.now()],t)}}}};a("setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,n){m[n]=o(l+n)}),newrelic.noticeError=function(e){"string"==typeof e&&(e=new Error(e)),i("err",[e,c.now()])}},{}],2:[function(e,n,t){function r(e,n){var t=[],r="",i=0;for(r in e)o.call(e,r)&&(t[i]=n(r,e[r]),i+=1);return t}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],3:[function(e,n,t){function r(e,n,t){n||(n=0),"undefined"==typeof t&&(t=e?e.length:0);for(var r=-1,o=t-n||0,i=Array(o<0?0:o);++r<o;)i[r]=e[n+r];return i}n.exports=r},{}],4:[function(e,n,t){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,n,t){function r(){}function o(e){function n(e){return e&&e instanceof r?e:e?f(e,u,i):i()}function t(t,r,o,i){if(!d.aborted||i){e&&e(t,r,o);for(var a=n(o),u=m(t),f=u.length,c=0;c<f;c++)u[c].apply(a,r);var p=s[y[t]];return p&&p.push([b,t,r,a]),a}}function l(e,n){v[e]=m(e).concat(n)}function m(e){return v[e]||[]}function w(e){return p[e]=p[e]||o(t)}function g(e,n){c(e,function(e,t){n=n||"feature",y[t]=n,n in s||(s[n]=[])})}var v={},y={},b={on:l,emit:t,get:w,listeners:m,context:n,buffer:g,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",f=e("gos"),c=e(2),s={},p={},d=n.exports=o();d.backlog=s},{}],gos:[function(e,n,t){function r(e,n,t){if(o.call(e,n))return e[n];var r=t();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(e,n,t){function r(e,n,t,r){o.buffer([e],r),o.emit(e,n,t)}var o=e("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(e,n,t){function r(e){var n=typeof e;return!e||"object"!==n&&"function"!==n?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");n.exports=r},{}],loader:[function(e,n,t){function r(){if(!x++){var e=h.info=NREUM.info,n=d.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&n))return s.abort();c(y,function(n,t){e[n]||(e[n]=t)}),f("mark",["onload",a()+h.offset],null,"api");var t=d.createElement("script");t.src="https://"+e.agent,n.parentNode.insertBefore(t,n)}}function o(){"complete"===d.readyState&&i()}function i(){f("mark",["domContent",a()+h.offset],null,"api")}function a(){return E.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-h.offset}var u=(new Date).getTime(),f=e("handle"),c=e(2),s=e("ee"),p=window,d=p.document,l="addEventListener",m="attachEvent",w=p.XMLHttpRequest,g=w&&w.prototype;NREUM.o={ST:setTimeout,CT:clearTimeout,XHR:w,REQ:p.Request,EV:p.Event,PR:p.Promise,MO:p.MutationObserver};var v=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1026.min.js"},b=w&&g&&g[l]&&!/CriOS/.test(navigator.userAgent),h=n.exports={offset:u,now:a,origin:v,features:{},xhrWrappable:b};e(1),d[l]?(d[l]("DOMContentLoaded",i,!1),p[l]("load",r,!1)):(d[m]("onreadystatechange",o),p[m]("onload",r)),f("mark",["firstbyte",u],null,"api");var x=0,E=e(4)},{}]},{},["loader"]);</script>
+
+	<title> Student Central  | Boston University</title>
+
+	<!--meta cluster-->
+	<meta name="copyright" content="&copy; 2017 Boston University">		
+	<link rel="alternate" type="application/rss+xml" title="Student Central RSS Feed" href="http://www-test.bu.edu/students/feed/">
+
+	<!--css-->
+	<link rel="stylesheet" media="screen" href="http://www-test.bu.edu/students/wp-content/themes/flexi-framework/css/reset.css">
+	<link rel="stylesheet" media="screen" href="http://www-test.bu.edu/students/wp-content/themes/flexi-red/style.css">
+	<link rel="stylesheet" media="print" href="http://www-test.bu.edu/students/wp-content/themes/flexi-framework/css/print.css">
+
+	<script>
+		document.documentElement.className += 'has-js';
+	</script>
+
+	<link rel='dns-prefetch' href='//s.w.org' />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/www-test.bu.edu\/students\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.6.6"}};
+			!function(a,b,c){function d(a){var c,d,e,f,g,h=b.createElement("canvas"),i=h.getContext&&h.getContext("2d"),j=String.fromCharCode;if(!i||!i.fillText)return!1;switch(i.textBaseline="top",i.font="600 32px Arial",a){case"flag":return i.fillText(j(55356,56806,55356,56826),0,0),!(h.toDataURL().length<3e3)&&(i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,65039,8205,55356,57096),0,0),c=h.toDataURL(),i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,55356,57096),0,0),d=h.toDataURL(),c!==d);case"diversity":return i.fillText(j(55356,57221),0,0),e=i.getImageData(16,16,1,1).data,f=e[0]+","+e[1]+","+e[2]+","+e[3],i.fillText(j(55356,57221,55356,57343),0,0),e=i.getImageData(16,16,1,1).data,g=e[0]+","+e[1]+","+e[2]+","+e[3],f!==g;case"simple":return i.fillText(j(55357,56835),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode8":return i.fillText(j(55356,57135),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode9":return i.fillText(j(55358,56631),0,0),0!==i.getImageData(16,16,1,1).data[0]}return!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i;for(i=Array("simple","flag","unicode8","diversity","unicode9"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<script type='text/javascript' src='http://www-test.bu.edu/students/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='http://www-test.bu.edu/students/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<link rel='https://api.w.org/' href='http://www-test.bu.edu/students/wp-json/' />
+<link rel="canonical" href="http://www-test.bu.edu/students/" />
+<link rel='shortlink' href='http://www-test.bu.edu/students/' />
+<link rel="alternate" type="application/json+oembed" href="http://www-test.bu.edu/students/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fwww-test.bu.edu%2Fstudents%2F" />
+<link rel="alternate" type="text/xml+oembed" href="http://www-test.bu.edu/students/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fwww-test.bu.edu%2Fstudents%2F&#038;format=xml" />
+<meta name='last-updated' content='2016-08-24T07:03:49-04:00' />
+
+		<script type="text/javascript">
+			//<![CDATA[
+		function bu_ga_track_pageview(e){var a,t=bu_ga_get_trackers();for(e||(e=void 0),_gaq.push(["_trackPageview",e]),a=0;a<t.length;a++)_gaq.push([t[a]+"._trackPageview",e])}function bu_ga_track_event(e){("undefined"==typeof e.value||null===e.value||isNaN(e.value))&&(e.value=0),"undefined"!=typeof e.delay&&null!==e.delay||(e.delay=0),"undefined"!=typeof e.noninteract&&null!==e.noninteract||(e.noninteract=!0),e.value=parseFloat(e.value);var a,t=bu_ga_get_trackers();for(_gaq.push(["_trackEvent",e.category,e.action,e.label,e.value,e.noninteract]),a=0;a<t.length;a++)_gaq.push([t[a]+"._trackEvent",e.category,e.action,e.label,e.value,e.noninteract]);e.delay&&setTimeout(function(){return!0},100)}function bu_ga_track_social(e){"undefined"!=typeof e.target&&"null"!=typeof e.target||(e.target=void 0),"undefined"!=typeof e.path&&"null"!=typeof e.path||(e.path=void 0);var a,t=bu_ga_get_trackers();for(_gaq.push(["_trackSocial",e.network,e.action,e.target,e.path]),a=0;a<t.length;a++)_gaq.push([t[a]+"._trackSocial",e.network,e.action,e.target,e.path])}function bu_ga_get_trackers(){return"undefined"==typeof buGa||"undefined"==typeof buGa.trackerNames?[]:buGa.trackerNames}function bu_ga_get_tracker(e){if("undefined"==typeof buGa||"undefined"==typeof buGa.trackerIds)return null;if("undefined"==typeof e||"null"==typeof e)return"";var a=buGa.trackerIds;for(var t in a)if(a[t]===e)return"a"===t?"":t;return null}var buGa = {"trackerNames":[],"trackerIds":{"a":"UA-36737920-5"}};
+
+			var _gaq = _gaq || [];
+
+						_gaq.push(['_setAccount', 'UA-36737920-5']);
+			_gaq.push(['_trackPageview']);
+						/* begin other trackers */
+			
+			
+			(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+			//]]>
+		</script>
+
+		<link rel="stylesheet" id="custom-css-css"  type="text/css" href="http://www-test.bu.edu/students/files/custom.min.css?" />	
+	<!--[if lt IE 7]>
+		<style>body {behavior: url(http://www-test.bu.edu/students/wp-content/themes/flexi-framework/css/csshover3.htc);}</style>
+		<script src="http://www-test.bu.edu/students/wp-content/themes/flexi-framework/scripts/ie6pngfix.js"></script>
+		<script>DD_belatedPNG.fix('img, #quicksearch, *');</script>
+	<![endif]-->
+
+</head>
+<body class="med_2col_right med default home">
+	<div id="wrapper">
+		<div id="header" class="signature" role="banner">
+			<div class="container">
+				<div id="masthead">
+    <h1><a href="http://www-test.bu.edu/students"><img src="http://www-test.bu.edu/students/files/signature-all-white.png" alt="Student Central" /></a></h1>
+    <p></p>
+</div><!--/#masthead-->
+
+<form role="search" method="get" action="/phpbin/search/cms.php" id="quicksearch"><fieldset><input type="hidden" name="site" value="http://www-test.bu.edu/students" ><select name="context" id="qs_search_scope"><option value="site">This Site</option><option value="bumc">BU Medical</option><option value="all_of_bu">All BU</option><option value="maps">BU Maps</option><option value="directory">BU Directory</option><option value="google">Google</option></select><input name="q" type="text" aria-label="Search" class="search-field" id="q"  title="Search for:" /><input class="button search-submit" type="submit" name="do_search" value="Search" /></fieldset></form>
+<div id="pnb" role="navigation">
+	<ul id="nav" class=" "><li class="page_item page-item-8">
+<a class="level_1" href="http://www-test.bu.edu/students/life/">Campus Life</a>
+ 
+<ul>
+<li class="page_item page-item-45">
+<a class="level_2" href="http://www-test.bu.edu/students/life/housing/">Housing &amp; Residences</a>
+ </li>
+<li class="page_item page-item-47">
+<a class="level_2" href="http://www-test.bu.edu/students/life/dining-vending/">Dining &#038; Vending</a>
+ </li>
+<li class="page_item page-item-96">
+<a class="level_2" href="http://www-test.bu.edu/students/life/phone/">Telephone Services</a>
+ </li>
+<li class="page_item page-item-49">
+<a class="level_2" href="http://www-test.bu.edu/students/life/safety/">Safety</a>
+ </li>
+<li class="page_item page-item-51">
+<a class="level_2" href="http://www-test.bu.edu/students/life/transportation/">Parking &#038; Transportation</a>
+ </li>
+<li class="page_item page-item-53">
+<a class="level_2" href="http://www-test.bu.edu/students/life/activities/">Organizations &amp; Activities</a>
+ </li>
+
+</ul>
+</li>
+<li class="page_item page-item-6">
+<a class="level_1" href="http://www-test.bu.edu/students/academics/">Academics</a>
+ 
+<ul>
+<li class="page_item page-item-28">
+<a class="level_2" href="http://www-test.bu.edu/students/academics/link/">Student Link</a>
+ </li>
+<li class="page_item page-item-108">
+<a class="level_2" href="http://www.bu.edu/academics/" target="_blank">Schools &amp; Colleges</a>
+ </li>
+<li class="page_item page-item-30">
+<a class="level_2" href="http://www-test.bu.edu/students/academics/admissions/">Admissions</a>
+ </li>
+<li class="page_item page-item-32">
+<a class="level_2" href="http://www-test.bu.edu/students/academics/registration/">Registration</a>
+ </li>
+<li class="page_item page-item-34">
+<a class="level_2" href="http://www-test.bu.edu/students/academics/advising/">Advising</a>
+ </li>
+<li class="page_item page-item-36">
+<a class="level_2" href="http://www-test.bu.edu/students/academics/grades/">Books, Grades, Classes, Transcripts</a>
+ </li>
+<li class="page_item page-item-38">
+<a class="level_2" href="http://www-test.bu.edu/students/academics/services/">Disability Services</a>
+ </li>
+<li class="page_item page-item-40">
+<a class="level_2" href="http://www-test.bu.edu/students/academics/support/">Support Services</a>
+ </li>
+
+</ul>
+</li>
+<li class="page_item page-item-11">
+<a class="level_1" href="http://www-test.bu.edu/students/health/">Health &#038; Fitness</a>
+ 
+<ul>
+<li class="page_item page-item-56">
+<a class="level_2" href="http://www-test.bu.edu/students/health/services/">Health Services</a>
+ </li>
+<li class="page_item page-item-58">
+<a class="level_2" href="http://www-test.bu.edu/students/health/counseling/">Counseling</a>
+ </li>
+<li class="page_item page-item-60">
+<a class="level_2" href="http://www-test.bu.edu/students/health/facilities/">Sports Facilities</a>
+ </li>
+<li class="page_item page-item-62">
+<a class="level_2" href="http://www-test.bu.edu/students/health/clubsports/">Club &amp; Intramural Sports</a>
+ </li>
+<li class="page_item page-item-64">
+<a class="level_2" href="http://www-test.bu.edu/students/health/varsitysports/">Varsity Sports</a>
+ </li>
+
+</ul>
+</li>
+<li class="page_item page-item-71">
+<a class="level_1" href="http://www-test.bu.edu/students/finances/">Finances</a>
+ 
+<ul>
+<li class="page_item page-item-66">
+<a class="level_2" href="http://www-test.bu.edu/students/finances/aid/">Financial Aid</a>
+ </li>
+<li class="page_item page-item-69">
+<a class="level_2" href="http://www-test.bu.edu/students/finances/accounts-banking/">Accounts &amp; Banking</a>
+ </li>
+
+</ul>
+</li>
+<li class="page_item page-item-20">
+<a class="level_1" href="http://www-test.bu.edu/students/reference/">Libraries</a>
+ 
+<ul>
+<li class="page_item page-item-82">
+<a class="level_2" href="http://www-test.bu.edu/students/reference/campus/">Campus &#038; Area</a>
+ </li>
+<li class="page_item page-item-84">
+<a class="level_2" href="http://www-test.bu.edu/students/reference/resources/">Reference Resources</a>
+ </li>
+
+</ul>
+</li>
+<li class="page_item page-item-18">
+<a class="level_1" href="http://www-test.bu.edu/students/careers/">Jobs &#038; Careers</a>
+ 
+<ul>
+<li class="page_item page-item-74">
+<a class="level_2" href="http://www-test.bu.edu/students/careers/employment/">Student Employment</a>
+ </li>
+<li class="page_item page-item-76">
+<a class="level_2" href="http://www-test.bu.edu/students/careers/jobs/">Job Listings</a>
+ </li>
+<li class="page_item page-item-78">
+<a class="level_2" href="http://www-test.bu.edu/students/careers/internships/">Internships &#038; Research</a>
+ </li>
+<li class="page_item page-item-80">
+<a class="level_2" href="http://www-test.bu.edu/students/careers/services/">Career Services</a>
+ </li>
+
+</ul>
+</li>
+<li class="page_item page-item-24">
+<a class="level_1" href="http://www-test.bu.edu/students/policies/">Policies</a>
+ 
+<ul>
+<li class="page_item page-item-109">
+<a class="level_2" href="http://www.bu.edu/dos/policies/lifebook/" target="_blank">Lifebook</a>
+ </li>
+<li class="page_item page-item-98">
+<a class="level_2" href="http://www-test.bu.edu/students/policies/handbooks/">Student Handbooks</a>
+ </li>
+<li class="page_item page-item-100">
+<a class="level_2" href="http://www-test.bu.edu/students/policies/general/">General Policies</a>
+ </li>
+<li class="page_item page-item-102">
+<a class="level_2" href="http://www-test.bu.edu/students/policies/academic/">Academic Policies</a>
+ </li>
+
+</ul>
+</li>
+
+</ul>
+</div><!--/#pnb-->
+
+
+			</div><!--/.container-->
+		</div><!--/#header-->
+
+		<div id="content" role="main">
+<div class="container">
+			
+	<div id="col1" class="main">
+		<div class="container">
+						<div class="banner-container"><img src="/students/files/2009/05/student-bike.jpg" width="550" height="253" class="banner" alt="Welcome to Student Central"/></div>        <div class="content-panel" id="post-3">
+                        <h1>Welcome to Student Central</h1>
+            <p>Welcome to Student Central! It is our hope that this site will be a great community resource for you as you navigate your way around Boston University. The University is a vibrant, exciting, and opportunity-filled place. It is an chance for you to self-advocate and make your own way, and hopefully, this site will help you in your quest to do so. Here, there are links to the various departments and services that can help you academically and in your life on campus.</p>
+<div class="icon-grid">
+<div>
+<div class="icon-button"><a href="http://www.bu.edu/academics/"><img src="/students/files/2009/05/academic-bulletins.png" alt="" />
+<p>Academic Bulletins</p>
+<p></a></div>
+<div class="icon-button"><a href="http://www.bu.edu/phpbin/course-search/"><img src="/students/files/2009/05/course-description-search.png" alt="" />
+<p>Search Course Descriptions</p>
+<p></a></div>
+<div class="icon-button"><a href="http://www-test.bu.edu/students/academics/registration/"><img src="/students/files/2009/05/registration.png" alt="" />
+<p>Registration Information</p>
+<p></a></div>
+<div class="icon-button"><a href="http://www.bu.edu/shs/"><img src="/students/files/2009/05/student-health-services.png" alt="" />
+<p>Student Health Services</p>
+<p></a></div>
+<div class="icon-button"><a href="http://www.bu.edu/admissions/visit-us/"><img src="/students/files/2009/05/admissions-visitor-center.png" alt="" />
+<p>Admissions Visitor Center</p>
+<p></a></div>
+<div class="icon-button"><a href="http://www.bu.edu/library"><img src="/students/files/2009/05/libraries.png" alt="" />
+<p>Libraries</p>
+<p></a></div>
+<div class="icon-button"><a href="http://www.bu.edu/webmail/"><img src="/students/files/2009/05/webmail.png" alt="" />
+<p>Web Mail</p>
+<p></a></div>
+<div class="icon-button"><a href="http://www.bu.edu/studentlink"><img src="/students/files/2009/05/student-link.png" alt="" />
+<p>Student Link</p>
+<p></a></div>
+<div class="icon-button"><a href="https://learn.bu.edu/"><img src="/students/files/2009/05/blackboard.png" alt="" />
+<p>Blackboard</p>
+<p></a></div>
+<div class="icon-button"><a href="http://www.bu.edu/thebus/"><img src="/students/files/2009/05/bu-bus.png" alt="" />
+<p>BU Bus</p>
+<p></a></div>
+<div class="icon-button"><a href="http://www.bu.edu/maps"><img src="/students/files/2009/05/bu-maps.png" alt="" />
+<p>BU Maps</p>
+<p></a></div>
+<div class="icon-button"><a href="http://bu.bncollege.com/"><img src="/students/files/2009/05/bu-bookstore.png" alt="" />
+<p>BU Bookstore</p>
+<p></a></div>
+<div class="icon-button"><a href="http://www.bu.edu/reg/dates/"><img src="/students/files/2009/05/important-dates.png" alt="" />
+<p>Important Dates</p>
+<p></a></div>
+<div class="icon-button"><a href="https://laundry-web.bu.edu/student/laundry/welcome.php"><img src="/students/files/2012/12/laundry.png" alt="" />
+<p>LaundryWeb</p>
+<p></a></div>
+<div class="icon-button"><a href="https://laundry-web.bu.edu/student/welcome.php"><img src="/students/files/2012/12/terrier-card.png" alt="" />
+<p>Terrier Card Center</p>
+<p></a></div>
+</div>
+</div>
+
+            
+        </div>
+				
+		    		</div><!-- /.container -->
+	</div><!--  /.main -->
+			<div id="col2" class="sub" role="complementary">
+					
+					<div id="sidebar2">
+			<div class="widget widget_text" id="text-4">			<div class="textwidget"><p><a href="http://itunes.apple.com/us/app/bu-mobile/id365198769"><img src="/students/files/2009/05/widget-bumobile.jpg"></a></p>
+<p><a href="http://www.bu.edu/tech"><img src="/students/files/2009/05/widget-techweb.jpg"></a></p>
+<p><a href="http://www.bu.edu/today"><img src="/students/files/2009/05/widget-butoday.jpg"></a></p>
+<p><a href="http://www.bu.edu/buniverse"><img src="/students/files/2009/05/widget-buniverse.jpg"></a></p>
+<p><img src="/students/files/2011/02/QR-ad.jpg"></p></div>
+		</div>			</div>
+		
+				</div><!-- /.sub -->
+	
+</div><!-- /.container -->
+
+    </div><!--/#content-->
+</div><!--/#wrapper-->
+
+<div id="footer" role="contentinfo">
+	<div class="container ">
+    	    	    	<ul>
+<li><a href="http://www.bu.edu" rel="external">BU</a></li><li><a href="http://www.bu.edu/search/" rel="external">Search &#038; Directory</a></li><li><a class="internal" href="http://www-test.bu.edu/students/contact-form/">Contact</a></li><li class="butoday"><a href="http://www.bu.edu/today/">BU Today</a></li></ul>
+    
+		    	<ul>
+			<li><div class="bu_switch_version"><a rel="nofollow" href="/students/?wantsMobile=true">Mobile Version</a></div></li>    		    	</ul>
+			</div><!--/.container-->
+</div><!--/#footer-->
+
+ 
+		<script type="text/javascript">
+		(function($) {
+
+			var ajaxurl = "http://www-test.bu.edu/students/wp-admin/admin-ajax.php";
+
+			if (jQuery('.sortable').length) {
+				
+				var data = {
+					action: 'sortable_scripts'
+				};
+				$.post(ajaxurl, data, function(scripts) {
+					var s = document.getElementsByTagName('script')[0];
+					$(s).before(scripts);
+				}); 
+				
+			}
+		})(jQuery);
+		</script>
+
+		<script type='text/javascript' src='http://www-test.bu.edu/students/wp-includes/js/wp-embed.min.js?ver=4.6.6'></script>
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"25dd709c31","applicationID":"6851391,6711430","transactionName":"YQFbYhFQWUsAVBZRWFhLeFUXWFhWTkcDX1I=","queueTime":0,"applicationTime":182,"atts":"TUZMFFlKShRDVkACTEsZ","errorBeacon":"bam.nr-data.net","agent":""}</script></body>
+</html>

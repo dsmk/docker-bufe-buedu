@@ -203,3 +203,5 @@ fi
 echo "" 
 echo "Testing system urls"
 test_url "server-http-version" "http://${CONNECT_TO}/server/version" 200 version 'hostname: '
+
+test_url "http-students" "http://${CONNECT_TO}/students/" 200 wpapp "generated in"

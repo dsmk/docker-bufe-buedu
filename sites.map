@@ -464,7 +464,8 @@ i3e-ac content ;
 ## SYSTEMS: redirect to lowercase
 ## SYSTEMS-SUPPORT: redirect to lowercase
 ## SYSTEMS-PROGRAMMING: redirect to lowercase
-students content ;
+# This should be WordPress -dsmk 2017/07/18
+#students content ;
 ## ISSO: redirect to lowercase
 ## ISCIP: redirect to lowercase
 ## IST: redirect to lowercase
