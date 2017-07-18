@@ -33,6 +33,10 @@ upstream phpbin {
   server <%= ENV['BACKEND_PHPBIN'] || "phpbin-#{ENV['LANDSCAPE']}.bu.edu"  %> ;
 }
 
+upstream degree-advice {
+  server <%= ENV['BACKEND_DEGREE_ADVICE'] || "degree-advice-#{ENV['LANDSCAPE']}.bu.edu" %> ;
+}
+
 upstream django {
   server <%= ENV['BACKEND_DJANGO'] || "django-#{ENV['LANDSCAPE']}.bu.edu" %> ;
 <% if ENV['BACKEND_DJANGO2'] %>

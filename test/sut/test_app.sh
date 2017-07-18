@@ -254,4 +254,8 @@ fi
 
 test_url "http-students" "http://${CONNECT_TO}/students/" 200 wpapp 'generated in'
 
+test_url "http-degree-advice-root" "http://${CONNECT_TO}/degree-advice/" 301 degree-advice "http://$HOST/degree-advice/IRISLink.cgi"
+test_url "http-degree-advice-cgi" "http://${CONNECT_TO}/degree-advice/IRISLink.cgi" 302 degree-advice "idp/profile/SAML2/Redirect/SSO"
+test_url "https-degree-advice-cgi" "https://${CONNECT_TO}/degree-advice/IRISLink.cgi" 302 degree-advice "idp/profile/SAML2/Redirect/SSO"
+
 exit $exitcode

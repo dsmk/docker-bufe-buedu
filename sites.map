@@ -2454,8 +2454,8 @@ degreecomplete content ;
 devbio content ;
 derm content ;
 ## dental-research: wordpress
-degree-audit vsc08.bu.edu ;
-degree-advice vsc08.bu.edu ;
+degree-audit degree-advice ;
+degree-advice degree-advice ;
 dermatology-associates content ;
 ## deafautism: wordpress
 dentures content ;

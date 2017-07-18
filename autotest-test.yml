@@ -29,4 +29,5 @@ services:
       - BACKEND_DJANGO2=test-backend
       - BACKEND_UISCGI_APP=test-backend
       - BACKEND_UISCGI_CONTENT=test-backend
+      - BACKEND_DEGREE_ADVICE=test-backend
 

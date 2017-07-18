@@ -18,3 +18,4 @@ bufe-buedu-test:
     - BACKEND_DBIN=dbin-test.bu.edu:181
     - BACKEND_DJANGO=vsc66.bu.edu:197
     - BACKEND_DJANGO2=vsc67.bu.edu:197
+    - BACKEND_DEGREE_ADVICE=vsc08.bu.edu
