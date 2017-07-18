@@ -8,6 +8,7 @@ export https_proxy
 https_proxy=
 
 julog=/bin/false
+do_upstream=/bin/true
 exitcode=0
 
 host=www-devl.bu.edu
@@ -95,14 +96,19 @@ test_url () {
     fi
 
     # look for the upstream provider field
-    t_upstream=$(grep '^X-Upstream: ' "$tmp_file" | tr -d '\r' | awk '{print $2}' )
-    #echo "upstream=$upstream t_upstream=$t_upstream"
-    if [ "x$t_upstream" = "x$upstream" ] ; then
-      /bin/true; #echo "PASS $label upstream=$upstream"
+    if $do_upstream ; then
+      t_upstream=$(grep '^X-Upstream: ' "$tmp_file" | tr -d '\r' | awk '{print $2}' )
+      #echo "upstream=$upstream t_upstream=$t_upstream"
+      if [ "x$t_upstream" = "x$upstream" ] ; then
+        /bin/true; #echo "PASS $label upstream=$upstream"
+      else
+        test_log "$label" /bin/false "upstream=$t_upstream instead of $upstream"
+        pass_ret_and_upstream=/bin/false
+      fi
     else
-      test_log "$label" /bin/false "upstream=$t_upstream instead of $upstream"
-      pass_ret_and_upstream=/bin/false
+      upstream="(skipped)"
     fi
+
     if $pass_ret_and_upstream ; then
       test_log "$label" /bin/true "retcode=$retcode upstream=$upstream"
     fi
@@ -129,6 +135,10 @@ test_url () {
 }
 
 limit="all"
+if [ "x$1" = "x-S" ]; then
+  do_upstream=/bin/false
+  shift
+fi
 if [ "x$1" = "x-j" ]; then
   source /sh2ju.sh
   juLogClean
@@ -238,9 +248,9 @@ test_url "redirect-http-law-foo" "http://${CONNECT_TO}/LAW" 301 redirect 'Locati
 test_url "redirect-http-law-foo" "http://${CONNECT_TO}/LAW/foo/bar" 301 redirect 'Location: http://www.bu.edu/law/foo/bar'
 fi
 
-echo "" 
-echo "Testing system urls"
-test_url "server-http-version" "http://${CONNECT_TO}/server/version" 200 version 'hostname: '
+#echo "" 
+#echo "Testing system urls"
+#test_url "server-http-version" "http://${CONNECT_TO}/server/version" 200 version 'hostname: '
 
 test_url "http-students" "http://${CONNECT_TO}/students/" 200 wpapp 'generated in'
 
