@@ -11,7 +11,10 @@ RUN yum install -y nginx ruby && yum clean all
 
 ADD run-nginx.sh /usr/sbin/run-nginx.sh
 
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf && chmod 755 /usr/sbin/run-nginx.sh
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf \
+  && chmod 755 /usr/sbin/run-nginx.sh \
+  && ln -sf /dev/stderr /var/log/nginx/error.log \
+  && ln -sf /dev/stdout /var/log/nginx/access.log 
 
 EXPOSE 80
 EXPOSE 443
@@ -26,5 +29,4 @@ ADD conf.d-ssl.conf.erb /etc/nginx/conf.d/ssl.conf.erb
 ADD conf.d-default.conf.erb /etc/nginx/conf.d/default.conf.erb
 ADD default.d-www.conf.erb /etc/nginx/default.d/www.conf.erb
 ADD sites.map /etc/nginx/sites.map
-
 
