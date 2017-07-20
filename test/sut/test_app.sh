@@ -258,4 +258,7 @@ test_url "http-degree-advice-root" "http://${CONNECT_TO}/degree-advice/" 301 deg
 test_url "http-degree-advice-cgi" "http://${CONNECT_TO}/degree-advice/IRISLink.cgi" 302 degree-advice "idp/profile/SAML2/Redirect/SSO"
 test_url "https-degree-advice-cgi" "https://${CONNECT_TO}/degree-advice/IRISLink.cgi" 302 degree-advice "idp/profile/SAML2/Redirect/SSO"
 
+test_url "http-healthcheck" "http://${CONNECT_TO}/server/healthcheck" 200  healthcheck OK
+test_url "https-healthcheck" "https://${CONNECT_TO}/server/healthcheck" 200  healthcheck OK
+
 exit $exitcode

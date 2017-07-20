@@ -41,6 +41,20 @@ location ~^/server/(?P<toplevel>version)$ {
   return 200 "hostname: $hostname\nsites: $backend\n";
 }
 
+# ####
+# We don't want to log the healthcheck traffic
+#
+location = /server/healthcheck {
+  add_header X-Upstream "healthcheck" always ;
+  add_header Content-Type text/plain always;
+  access_log off;
+  return 200 "OK\n";
+}
+
+# ####
+# The following two rules are for doing the default action of looking in the map file (sites.map)
+# for the type of backend.  The default is WordPress if that fails.
+#
 location ~^/+(?P<microsite>(?P<toplevel>[a-zA-Z0-9_\.\-]+)(?P<second>/[a-zA-Z0-9_\-]+)) {
   add_header X-URI $uri always;
   add_header X-Top-Level $toplevel always;
