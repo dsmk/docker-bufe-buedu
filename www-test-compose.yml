@@ -8,6 +8,7 @@ bufe-buedu-test:
     - 443:443
   restart: always
   environment:
+    - IS_FRONT_END=yes
     - LANDSCAPE=test
     - ROBOTS_TXT=/home/robots.txt.test
     - BACKEND_W3_CONTENT=ist-w3-content-test.bu.edu:381

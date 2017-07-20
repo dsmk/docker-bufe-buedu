@@ -8,11 +8,16 @@ server {
     server_name  _;
     root         /usr/share/nginx/html;
 
+<% if ENV['IS_FRONT_END'] %>
     # make certain that we set the appropriate host headers for proxying
     # this is only if we are the front-end system - otherwise we should comment these out
     #
     proxy_set_header X-Forwarded-For $remote_addr;
     proxy_set_header X-Real-IP $remote_addr ;
+<% else %>
+    set_real_ip_from 10.0.0.0/8 ;
+    real_ip_header X-Forwarded-For ;
+<% end %>
 
     # these should be set no matter what
     proxy_http_version 1.1;
