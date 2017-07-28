@@ -172,11 +172,54 @@ Resources:
         PortMappings:
           - ContainerPort: 80
           - ContainerPort: 443
+  CloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Condition: SslCertificate
+    Properties:
+      DistributionConfig:
+        Aliases:
+          - www-devl.bu.edu
+        DefaultCacheBehavior:
+          TargetOriginId: buedu
+          ViewerProtocolPolicy: allow-all
+          AllowedMethods:
+            - GET
+            - HEAD
+            - POST
+            - PUT
+            - OPTIONS
+            - DELETE
+          ForwardedValues:
+            QueryString: true
+            Headers:
+              - Host
+              - Referer
+              - X-Upstream
+            Cookies:
+              Forward: all
+        Comment: BUEDUALB
+        Enabled: true
+        Origins:
+          - DomainName: !GetAtt [ BUEDUALB, DNSName ]
+            Id: buedu
+            CustomOriginConfig:
+              HTTPPort: '80'
+              HTTPSPort: '443'
+              OriginProtocolPolicy: match-viewer
+              OriginSslProtocols:
+                - TLSv1
+                - TLSv1.1
+                - TLSv1.2
+        PriceClass: PriceClass_100
+        ViewerCertificate:
+          AcmCertificateArn: !Ref PublicAlbAcmCertificate
+          SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1
   BUEDUALB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
-      Name: !Join [ "-", [ !Ref 'AWS::StackName', "BUEDU" ] ]
-      Scheme: internet-facing
+      Name: !Join [ "-", [ !Ref 'AWS::StackName', "BUEDUint" ] ]
+      Scheme: internal
       LoadBalancerAttributes:
       - Key: idle_timeout.timeout_seconds
         Value: '30'
