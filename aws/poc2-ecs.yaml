@@ -178,17 +178,18 @@ Resources:
     Properties:
       DistributionConfig:
         Aliases:
-          - www-devl.bu.edu
+          - www-test.bu.edu
         DefaultCacheBehavior:
           TargetOriginId: buedu
           ViewerProtocolPolicy: allow-all
           AllowedMethods:
+            - DELETE
             - GET
             - HEAD
+            - OPTIONS
+            - PATCH
             - POST
             - PUT
-            - OPTIONS
-            - DELETE
           ForwardedValues:
             QueryString: true
             Headers:
@@ -206,7 +207,7 @@ Resources:
               HTTPPort: '80'
               HTTPSPort: '443'
               OriginProtocolPolicy: match-viewer
-              OriginSslProtocols:
+              OriginSSLProtocols:
                 - TLSv1
                 - TLSv1.1
                 - TLSv1.2
@@ -218,8 +219,8 @@ Resources:
   BUEDUALB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
-      Name: !Join [ "-", [ !Ref 'AWS::StackName', "BUEDUint" ] ]
-      Scheme: internal
+      Name: !Join [ "-", [ !Ref 'AWS::StackName', "BUEDU" ] ]
+      Scheme: internet-facing
       LoadBalancerAttributes:
       - Key: idle_timeout.timeout_seconds
         Value: '30'
