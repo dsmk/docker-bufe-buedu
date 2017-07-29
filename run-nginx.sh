@@ -7,6 +7,9 @@ if [ "x$LANDSCAPE" = "x" ]; then
   export LANDSCAPE
 fi
 
+# update the cloudfront_ips.conf file used for getting the client IP when using cloudfront
+/usr/sbin/get-cloudfront-ip.rb >/etc/nginx/cloudfront_ips.conf
+
 # generate self-signed SSL certificates if they do not actually exist
 if [ ! -f /etc/pki/nginx/cert.key ]; then
   set -x 

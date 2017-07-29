@@ -23,6 +23,7 @@ VOLUME /var/log/nginx
 VOLUME /etc/pki/nginx
 
 CMD /usr/sbin/run-nginx.sh
+ADD get-cloudfront-ip.rb /usr/sbin/get-cloudfront-ip.rb
 ADD nginx.conf.erb /etc/nginx/nginx.conf.erb
 ADD conf.d-map-def.conf.erb /etc/nginx/conf.d/map-def.conf.erb
 ADD conf.d-ssl.conf.erb /etc/nginx/conf.d/ssl.conf.erb
