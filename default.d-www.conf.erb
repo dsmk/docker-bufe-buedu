@@ -42,6 +42,16 @@ location ~^/server/(?P<toplevel>version)$ {
   return 200 "hostname: $hostname\nsites: $backend\n";
 }
 
+location ~^/server/cloudfront_ips$ {
+  add_header X-Upstream "cloudfront_ips" always ;
+  alias /etc/nginx/cloudfront_ips.conf ;
+
+  # this should be relay7 plus ad-admin VPN (but we need to deal with local docker - commented for now)
+  #allow 128.197.0.0/16;
+  #allow 168.122.0.0/16;
+  #deny all ;
+}
+
 # ####
 # We don't want to log the healthcheck traffic
 #
