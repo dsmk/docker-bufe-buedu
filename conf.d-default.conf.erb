@@ -15,11 +15,6 @@ server {
     proxy_set_header X-Forwarded-For $remote_addr;
     proxy_set_header X-Real-IP $remote_addr ;
 <% else %>
-    real_ip_header X-Forwarded-For ;
-  
-    # Ignore trusted IPs
-    real_ip_recursive on;
- 
     # Set VPC subnet as trusted
     set_real_ip_from 10.0.0.0/8;
 
@@ -27,6 +22,12 @@ server {
     # now included from an external file
     include /etc/nginx/cloudfront_ips.conf ;
 
+    # these are now at the end to see if they help
+    real_ip_header X-Forwarded-For ;
+  
+    # Ignore trusted IPs
+    real_ip_recursive on;
+ 
 <% end %>
 
     # these should be set no matter what
