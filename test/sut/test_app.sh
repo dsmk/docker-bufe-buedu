@@ -211,6 +211,7 @@ test_url "uiscgi-http-link-menu" http://${CONNECT_TO}/link/bin/uiscgi.pl/uismpl/
 # next test commented out until test backend handles SSL TODO:
 #test_url "uiscgi-https-link-menu" https://${CONNECT_TO}/link/bin/uiscgi.pl/uismpl/menu 200 uiscgi_app "/link/system/images/bu-logo.gif"
 test_url "uiscgi-http-link-args" http://${CONNECT_TO}/link/bin/args.pl 200 uiscgi_app
+test_url "uiscgi-https-link-args" https://${CONNECT_TO}/link/bin/args.pl 200 uiscgi_app "Cache-control: no-cache"
 #test_url https://localhost/link/bin/uiscgi.pl  200 uiscgi "/link/system/images/bu-logo.gif"
 
 # test mainframe CUSSP call
