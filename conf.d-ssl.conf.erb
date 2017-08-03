@@ -15,12 +15,15 @@ server {
     ssl_ciphers HIGH:!aNULL:!MD5;
     ssl_prefer_server_ciphers on;
 
-<% if ENV['IS_FRONT_END'] %>
     # make certain that we set the appropriate host headers for proxying
-    # this is only if we are the front-end system - otherwise we should comment these out
+    # we need to do this no matter what because the ALB will not clean up 
+    # it's headers.
     #
     proxy_set_header X-Forwarded-For $remote_addr;
     proxy_set_header X-Real-IP $remote_addr ;
+
+<% if ENV['IS_FRONT_END'] %>
+    #
 <% else %>
     # All options related to getting the real IP from the front-end headers can be found in the
     # external file
