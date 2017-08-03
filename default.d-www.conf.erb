@@ -42,6 +42,12 @@ location ~^/server/(?P<toplevel>version)$ {
   return 200 "hostname: $hostname\nsites: $backend\n";
 }
 
+location ~^/server/source_ip$ {
+  add_header X-Upstream "source_ip" always;
+  add_header Content-Type text/plain/always;
+  return 200 "remote_addr: $remote_addr\nreal-ip: $realip_remote_addr\nx-forwarded-for: $http_x_forwarded_for\n" ;
+}
+
 location ~^/server/cloudfront_ips$ {
   add_header X-Upstream "cloudfront_ips" always ;
   alias /etc/nginx/cloudfront_ips.conf ;
