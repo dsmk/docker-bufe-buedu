@@ -50,6 +50,7 @@ location ~^/server/source_ip$ {
 
 location ~^/server/cloudfront_ips$ {
   add_header X-Upstream "cloudfront_ips" always ;
+  add_header Content-Type text/plain/always;
   alias /etc/nginx/cloudfront_ips.conf ;
 
   # this should be relay7 plus ad-admin VPN (but we need to deal with local docker - commented for now)
