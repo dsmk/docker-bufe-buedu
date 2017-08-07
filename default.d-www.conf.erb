@@ -101,7 +101,7 @@ location ~^/+(?P<microsite>(?P<toplevel>[a-zA-Z0-9_\.\-]+)(?P<second>/[a-zA-Z0-9
 
   # the rest of this is WordPress app servers
   add_header X-Upstream "wpapp" always;
-  proxy_pass http://<%= ENV['BACKEND_WP_APP'] || "ist-uiscgi-app-#{ENV['LANDSCAPE']}.bu.edu"  %> ;
+  proxy_pass http://wpapp ;
 
 }
 
@@ -127,6 +127,6 @@ location  ~^/+(?P<toplevel>[a-zA-Z0-9\.\-]+) {
 
   # the rest of this is WordPress app servers
   add_header X-Upstream "wpapp" always;
-  proxy_pass http://<%= ENV['BACKEND_WP_APP'] || "ist-uiscgi-app-#{ENV['LANDSCAPE']}.bu.edu"  %> ;
+  proxy_pass http://wpapp ;
 }
 
