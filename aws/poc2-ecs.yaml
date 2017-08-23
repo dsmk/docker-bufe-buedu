@@ -143,6 +143,8 @@ Resources:
         Environment:
           - Name: LANDSCAPE
             Value: test
+          - Name: LOG_LEVEL
+            Value: warn
           - Name: ROBOTS_TXT
             Value: /home/robots.txt.test
           - Name: BACKEND_W3_CONTENT
@@ -168,7 +170,7 @@ Resources:
           - Name: BACKEND_DEGREE_ADVICE
             Value: vsc08.bu.edu
           - Name: RELEASE
-            Value: 20170724        
+            Value: 20170803c
         PortMappings:
           - ContainerPort: 80
           - ContainerPort: 443
@@ -195,6 +197,7 @@ Resources:
             Headers:
               - Host
               - Referer
+              - User-Agent
               - X-Upstream
             Cookies:
               Forward: all
