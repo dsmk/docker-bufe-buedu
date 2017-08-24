@@ -7,6 +7,10 @@ if [ "x$LANDSCAPE" = "x" ]; then
   export LANDSCAPE
 fi
 
+# get a nameserver from the system for nginx resolver lines
+NAMESERVER=`/bin/grep ^nameserver /etc/resolv.conf | /bin/awk '{print $2}' | head -1 `
+export NAMESERVER
+
 # update the cloudfront_ips.conf file used for getting the client IP when using cloudfront
 /usr/sbin/get-cloudfront-ip.rb >/etc/nginx/cloudfront_ips.conf
 
