@@ -10,37 +10,50 @@ map $toplevel $backend {
 # These are upstream so we don't need to adjust the configuration
 #
 upstream media {
-  server <%= ENV['BACKEND_MEDIA'] || "ist-w3-media-#{ENV['LANDSCAPE']}.bu.edu:481" %> ;
+<% elems = ENV['BACKEND_MEDIA'] || "ist-w3-media-#{ENV['LANDSCAPE']}.bu.edu:481" %>
+<% elems.split(' ').each do |elem| %>
+  server <%= elem %> ; <% end %>
 }
 
 upstream content {
-  server <%= ENV['BACKEND_CONTENT'] || "ist-w3-content-#{ENV['LANDSCAPE']}.bu.edu:381" %> ;
+<% elems = ENV['BACKEND_CONTENT'] || "ist-w3-content-#{ENV['LANDSCAPE']}.bu.edu:381" %>
+<% elems.split(' ').each do |elem| %>
+  server <%= elem %> ; <% end %>
 }
 
 upstream wpassets {
-  server <%= ENV['BACKEND_WP_CONTENT'] || "ist-wp-assets-#{ENV['LANDSCAPE']}.bu.edu"  %> ;
+<% elems = ENV['BACKEND_WP_CONTENT'] || "ist-wp-assets-#{ENV['LANDSCAPE']}.bu.edu" %>
+<% elems.split(' ').each do |elem| %>
+  server <%= elem %> ; <% end %>
 }
 
 upstream wpapp {
-  server <%= ENV['BACKEND_WP_APP'] || "ist-wp-app-#{ENV['LANDSCAPE']}.bu.edu"  %> ;
+<% elems = ENV['BACKEND_WP_APP'] || "ist-wp-app-#{ENV['LANDSCAPE']}.bu.edu" %>
+<% elems.split(' ').each do |elem| %>
+  server <%= elem %> ; <% end %>
 }
 
 upstream dbin {
-  server <%= ENV['BACKEND_DBIN'] || "dbin-#{ENV['LANDSCAPE']}.bu.edu"  %> ;
+<% elems = ENV['BACKEND_DBIN'] || "dbin-#{ENV['LANDSCAPE']}.bu.edu" %>
+<% elems.split(' ').each do |elem| %>
+  server <%= elem %> ; <% end %>
 }
 
 upstream phpbin {
-  server <%= ENV['BACKEND_PHPBIN'] || "phpbin-#{ENV['LANDSCAPE']}.bu.edu"  %> ;
+<% elems = ENV['BACKEND_PHPBIN'] || "phpbin-#{ENV['LANDSCAPE']}.bu.edu" %>
+<% elems.split(' ').each do |elem| %>
+  server <%= elem %> ; <% end %>
 }
 
 upstream degree-advice {
-  server <%= ENV['BACKEND_DEGREE_ADVICE'] || "degree-advice-#{ENV['LANDSCAPE']}.bu.edu" %> ;
+<% elems = ENV['BACKEND_DEGREE_ADVICE'] || "degree-advice-#{ENV['LANDSCAPE']}.bu.edu" %>
+<% elems.split(' ').each do |elem| %>
+  server <%= elem %> ; <% end %>
 }
 
 upstream django {
-  server <%= ENV['BACKEND_DJANGO'] || "django-#{ENV['LANDSCAPE']}.bu.edu" %> ;
-<% if ENV['BACKEND_DJANGO2'] %>
-  server <%= ENV['BACKEND_DJANGO2'] %> ;
-<% end %>
+<% elems = ENV['BACKEND_DJANGO'] || "django-#{ENV['LANDSCAPE']}.bu.edu" %>
+<% elems.split(' ').each do |elem| %>
+  server <%= elem %> ; <% end %>
 }
 

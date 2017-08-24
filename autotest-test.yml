@@ -21,7 +21,7 @@ services:
       - ROBOTS_TXT=/home/robots.txt.test
       - BACKEND_CONTENT=test-backend
       - BACKEND_MEDIA=test-backend
-      - BACKEND_WP_APP=test-backend
+      - "BACKEND_WP_APP=test-backend"
       - BACKEND_WP_CONTENT=test-backend
       - BACKEND_PHPBIN=test-backend
       - BACKEND_DBIN=test-backend
