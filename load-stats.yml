@@ -1,0 +1,33 @@
+version: "2"
+services:
+  test-backend:
+    build: test/backend/
+  loadtatsb:
+    build: test/loadstats/
+    links:
+      - bufe-load-test
+    volumes:
+      - ./test/results:/results
+  bufe-load-test:
+    build: .
+    ports:
+      - 80
+      - 443
+    #restart: always
+    links:
+      - test-backend
+    environment:
+      - LANDSCAPE=test
+      - ROBOTS_TXT=/home/robots.txt.test
+      - BACKEND_CONTENT=test-backend
+      - BACKEND_MEDIA=test-backend
+      - "BACKEND_WP_APP=test-backend"
+      - BACKEND_WP_CONTENT=test-backend
+      - BACKEND_PHPBIN=test-backend
+      - BACKEND_DBIN=test-backend
+      - BACKEND_DJANGO=test-backend
+      - BACKEND_DJANGO2=test-backend
+      - BACKEND_UISCGI_APP=test-backend
+      - BACKEND_UISCGI_CONTENT=test-backend
+      - BACKEND_DEGREE_ADVICE=test-backend
+
