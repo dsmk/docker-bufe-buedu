@@ -6,8 +6,8 @@ services:
     build: test/loadstats/
     links:
       - bufe-load-test
-    volumes:
-      - ./test/results:/results
+#    volumes:
+#      - ./test/results:/results
   bufe-load-test:
     build: nginx/
     ports:
