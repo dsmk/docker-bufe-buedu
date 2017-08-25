@@ -11,7 +11,7 @@ services:
   bufe-load-test:
     build: apache/
     ports:
-      - 80
+      - 8088:80
       - 443
     #restart: always
     links:
