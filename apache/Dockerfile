@@ -12,11 +12,18 @@ CMD /usr/sbin/run-httpd.sh
 EXPOSE 80
 EXPOSE 443
 
-RUN mkdir /var/www/html/server 
+RUN mkdir /var/www/html/server \
+  && chmod 755 /usr/sbin/run-httpd.sh \
+  && ln -sf /dev/stderr /var/log/httpd/error_log \
+  && rm /etc/httpd/conf.d/userdir.conf /etc/httpd/conf.d/welcome.conf /etc/httpd/conf.d/autoindex.conf
+
+VOLUME /var/log/httpd
+VOLUME /etc/pki/httpd
 
 ADD healthcheck /var/www/html/server/healthcheck
 
 ADD httpd.conf /etc/httpd/conf/httpd.conf
+ADD sitemap.txt /etc/httpd/sitemap.txt
 
 COPY conf.modules.d/ /etc/httpd/conf.modules.d
 
