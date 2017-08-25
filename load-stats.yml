@@ -9,7 +9,7 @@ services:
 #    volumes:
 #      - ./test/results:/results
   bufe-load-test:
-    build: nginx/
+    build: apache/
     ports:
       - 80
       - 443
