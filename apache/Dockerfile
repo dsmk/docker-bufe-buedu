@@ -12,7 +12,8 @@ CMD /usr/sbin/run-httpd.sh
 EXPOSE 80
 EXPOSE 443
 
-RUN mkdir /var/www/html/server 
+RUN mkdir /var/www/html/server && \
+  rm /etc/httpd/conf.modules.d/00-dav.conf /etc/httpd/conf.modules.d/00-lua.conf
 
 ADD healthcheck /var/www/html/server/healthcheck
 
