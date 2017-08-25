@@ -9,10 +9,10 @@ services:
     volumes:
       - ./test/results:/results
   bufe-autotest-test:
-    build: .
+    build: nginx/
     ports:
-      - 80:80
-      - 443:443
+      - 80
+      - 443
     #restart: always
     links:
       - test-backend
