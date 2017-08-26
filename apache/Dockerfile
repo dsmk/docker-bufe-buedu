@@ -3,7 +3,7 @@ FROM amazonlinux:latest
 ENV PATCHDATE 20170712
 RUN yum -y update && yum clean all
 
-RUN yum install -y httpd24 ruby && yum clean all
+RUN yum install -y httpd24 mod24_ssl ruby && yum clean all
 
 ADD run-httpd.sh /usr/sbin/run-httpd.sh
 
