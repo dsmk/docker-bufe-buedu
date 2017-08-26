@@ -19,6 +19,7 @@ services:
     environment:
       - LANDSCAPE=test
       - ROBOTS_TXT=/home/robots.txt.test
+      - BACKEND_W3_CONTENT=test-backend
       - BACKEND_CONTENT=test-backend
       - BACKEND_MEDIA=test-backend
       - "BACKEND_WP_APP=test-backend"
