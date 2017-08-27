@@ -27,6 +27,7 @@ VOLUME /etc/pki/httpd
 ADD healthcheck /var/www/html/server/healthcheck
 
 ADD get-cloudfront-ip.rb /usr/sbin/get-cloudfront-ip.rb
+ADD ip-ranges.json /etc/httpd/ip-ranges.json
 ADD httpd.conf /etc/httpd/conf/httpd.conf
 
 ADD sitemap.txt /etc/httpd/sitemap.txt
