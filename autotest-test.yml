@@ -10,6 +10,7 @@ services:
       - ./test/results:/results
   bufe-autotest-test:
     build: apache/
+    read_only: true
     ports:
       - 80
       - 443

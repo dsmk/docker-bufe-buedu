@@ -3,6 +3,7 @@ bufe-buedu-test:
   build: apache/
   #volumes:
   #  - /home/dsmk/docker-bufe-buedu/logs/test:/var/log/nginx
+  read_only: true
   ports:
     - 8080:80
     - 8443:443

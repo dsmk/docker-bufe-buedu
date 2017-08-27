@@ -10,6 +10,7 @@ services:
 #      - ./test/results:/results
   bufe-load-test:
     build: apache/
+    read_only: true
     ports:
       - 8088:80
       - 443
