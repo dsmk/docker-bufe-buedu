@@ -43,6 +43,7 @@ fi
 ulimit -n 2048
 
 if ./wait-for-it.sh "$URLHOST" ; then
+  sleep 5
   ab -c "$THREADS" -n "$TIMES" $ARGS "$SCHEME://${URLHOST}$URI"
 else
   echo "The remote port $URLHOST is not responding"
