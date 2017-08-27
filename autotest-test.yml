@@ -9,7 +9,8 @@ services:
     volumes:
       - ./test/results:/results
   bufe-autotest-test:
-    build: apache/
+    build: ./
+    #build: apache/
     read_only: true
     ports:
       - 80
