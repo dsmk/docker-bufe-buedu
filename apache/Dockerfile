@@ -17,13 +17,18 @@ RUN mkdir /var/www/html/server \
   && rm /etc/httpd/conf.modules.d/00-dav.conf /etc/httpd/conf.modules.d/00-lua.conf \
   && rm /etc/httpd/conf.d/userdir.conf /etc/httpd/conf.d/welcome.conf /etc/httpd/conf.d/autoindex.conf
 
+# the following two volumes are so we can do a handful of read-write things in controled situations
+VOLUME /tmp
 VOLUME /var/run/httpd
+
 VOLUME /var/log/httpd
 VOLUME /etc/pki/httpd
 
 ADD healthcheck /var/www/html/server/healthcheck
 
+ADD get-cloudfront-ip.rb /usr/sbin/get-cloudfront-ip.rb
 ADD httpd.conf /etc/httpd/conf/httpd.conf
+
 ADD sitemap.txt /etc/httpd/sitemap.txt
 
 COPY conf.modules.d/ /etc/httpd/conf.modules.d
@@ -33,7 +38,6 @@ COPY conf.d/ /etc/httpd/conf.d
 #VOLUME /var/log/nginx
 #VOLUME /etc/pki/nginx
 
-#ADD get-cloudfront-ip.rb /usr/sbin/get-cloudfront-ip.rb
 #ADD nginx.conf.erb /etc/nginx/nginx.conf.erb
 #ADD conf.d-map-def.conf.erb /etc/nginx/conf.d/map-def.conf.erb
 #ADD conf.d-ssl.conf.erb /etc/nginx/conf.d/ssl.conf.erb
