@@ -9,16 +9,20 @@ services:
     volumes:
       - ./test/results:/results
   bufe-autotest-test:
-    build: .
+    build: ./
+    #build: apache/
+    read_only: true
     ports:
-      - 80:80
-      - 443:443
+      - 80
+      - 443
     #restart: always
     links:
       - test-backend
     environment:
       - LANDSCAPE=test
       - ROBOTS_TXT=/home/robots.txt.test
+      - BACKEND_W3_CONTENT=test-backend
+      - BACKEND_REDIRECT=test-backend
       - BACKEND_CONTENT=test-backend
       - BACKEND_MEDIA=test-backend
       - "BACKEND_WP_APP=test-backend"

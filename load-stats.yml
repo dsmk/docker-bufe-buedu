@@ -6,12 +6,13 @@ services:
     build: test/loadstats/
     links:
       - bufe-load-test
-    volumes:
-      - ./test/results:/results
+#    volumes:
+#      - ./test/results:/results
   bufe-load-test:
-    build: .
+    build: apache/
+    read_only: true
     ports:
-      - 80
+      - 8088:80
       - 443
     #restart: always
     links:

@@ -218,7 +218,7 @@ test_url "uiscgi-http-link-args" http://${CONNECT_TO}/link/bin/args.pl 200 uiscg
 # test mainframe CUSSP call
 echo ""
 echo "### Test studentlink and mainframe CUSSP call"
-test_url "uiscgi-http-studentlink" "http://${CONNECT_TO}/studentlink/" 302 redirect "Location: http://$HOST/link/bin/uiscgi_studentlink.pl/uismpl/?ModuleName=menu.pl&NewMenu=Home"
+test_url "uiscgi-http-studentlink-redirect" "http://${CONNECT_TO}/studentlink/" 302 redirect "Location: http://$HOST/link/bin/uiscgi_studentlink.pl/uismpl/?ModuleName=menu.pl&NewMenu=Home"
 test_url "uiscgi-http-studentlink-menu" "http://${CONNECT_TO}/link/bin/uiscgi_studentlink.pl/1486741068?ModuleName=univschr.pl&SearchOptionDesc=Distance+Education&SearchOptionCd=D&KeySem=20183&ViewSem=Fall+2017" 200 uiscgi_app '<TH>Search by:</TH>'
 
 echo ""
@@ -253,7 +253,7 @@ fi
 #echo "" 
 #echo "Testing system urls"
 #test_url "server-http-version" "http://${CONNECT_TO}/server/version" 200 version 'hostname: '
-test_url "server-http-cloudfrontips" "http://${CONNECT_TO}/server/cloudfront_ips" 200 cloudfront_ips 
+#test_url "server-http-cloudfrontips" "http://${CONNECT_TO}/server/cloudfront_ips" 200 cloudfront_ips 
 
 test_url "http-students" "http://${CONNECT_TO}/students/" 200 wpapp 'generated in'
 
