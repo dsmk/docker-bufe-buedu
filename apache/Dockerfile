@@ -5,7 +5,7 @@ RUN yum -y update && yum clean all
 
 RUN yum install -y httpd24 mod24_ssl ruby && yum clean all
 
-ADD run-httpd.sh /usr/sbin/run-httpd.sh
+ADD files/run-httpd.sh /usr/sbin/run-httpd.sh
 
 CMD /usr/sbin/run-httpd.sh
 
@@ -24,13 +24,13 @@ VOLUME /var/run/httpd
 VOLUME /var/log/httpd
 VOLUME /etc/pki/httpd
 
-ADD healthcheck /var/www/html/server/healthcheck
+ADD files/healthcheck /var/www/html/server/healthcheck
 
-ADD get-cloudfront-ip.rb /usr/sbin/get-cloudfront-ip.rb
-ADD ip-ranges.json /etc/httpd/ip-ranges.json
-ADD httpd.conf /etc/httpd/conf/httpd.conf
+ADD files/get-cloudfront-ip.rb /usr/sbin/get-cloudfront-ip.rb
+ADD files/ip-ranges.json /etc/httpd/ip-ranges.json
+ADD files/httpd.conf /etc/httpd/conf/httpd.conf
 
-ADD sitemap.txt /etc/httpd/sitemap.txt
+ADD files/sitemap.txt /etc/httpd/sitemap.txt
 
 COPY conf.modules.d/ /etc/httpd/conf.modules.d
 
