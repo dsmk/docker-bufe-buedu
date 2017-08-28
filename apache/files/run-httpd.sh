@@ -7,12 +7,12 @@ echo "starting"
 # get the CloudFront IP addresses
 TMPCONFDIR=/tmp
 export TMPCONFDIR
-#if curl -o "${TMPCONFDIR}/ip-ranges.json" "https://ip-ranges.amazonaws.com/ip-ranges.json" ; then
-#  echo "bootstrap-cloudfront: got the URL for the latest ips"
-#else
+if curl -o "${TMPCONFDIR}/ip-ranges.json" "https://ip-ranges.amazonaws.com/ip-ranges.json" ; then
+  echo "bootstrap-cloudfront: got the URL for the latest ips"
+else
   echo "bootstrap-cloudfront: did not get the URL, using backup ips"
   cp /etc/httpd/ip-ranges.json "$TMPCONFDIR"
-#fi
+fi
 /usr/sbin/get-cloudfront-ip.rb "${TMPCONFDIR}/ip-ranges.json" >"${TMPCONFDIR}/ip-ranges.conf"
 
 
