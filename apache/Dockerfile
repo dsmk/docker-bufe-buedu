@@ -32,9 +32,9 @@ ADD files/httpd.conf /etc/httpd/conf/httpd.conf
 
 ADD files/sitemap.txt /etc/httpd/sitemap.txt
 
-COPY conf.modules.d/ /etc/httpd/conf.modules.d
+COPY files/conf.modules.d/ /etc/httpd/conf.modules.d
 
-COPY conf.d/ /etc/httpd/conf.d
+COPY files/conf.d/ /etc/httpd/conf.d
 
 #VOLUME /var/log/nginx
 #VOLUME /etc/pki/nginx
