@@ -1,5 +1,8 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
+  Prefix:
+    Type: String
+    Default: "web2cloud-test"
   PublicAlbAcmCertificate:
     AllowedPattern: ^$|(arn:aws:acm:)([a-z0-9/:-])*([a-z0-9])$
     Description: '[ Optional ] The AWS Certification Manager certificate ARN for the ALB certificate - this certificate should be created in the region you wish to run the ALB and must reference the WordPress domain name you use below.'
@@ -61,64 +64,6 @@ Mappings:
 Resources:
   ECSCluster:
     Type: AWS::ECS::Cluster
-  ALBSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: ALB Security Group
-      VpcId: !Ref 'VpcId'
-  ALBSecurityGroupHTTPSinbound:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref 'ALBSecurityGroup'
-      IpProtocol: tcp
-      FromPort: '443'
-      ToPort: '443'
-      CidrIp: 0.0.0.0/0
-  ALBSecurityGroupHTTPinbound:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref 'ALBSecurityGroup'
-      IpProtocol: tcp
-      FromPort: '80'
-      ToPort: '80'
-      CidrIp: 0.0.0.0/0
-  EcsSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: ECS Security Group
-      VpcId: !Ref 'VpcId'
-  EcsSecurityGroupHTTPSinbound:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref 'EcsSecurityGroup'
-      IpProtocol: tcp
-      FromPort: '443'
-      ToPort: '443'
-      CidrIp: 0.0.0.0/0
-  EcsSecurityGroupHTTPinbound:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref 'EcsSecurityGroup'
-      IpProtocol: tcp
-      FromPort: '80'
-      ToPort: '80'
-      CidrIp: 0.0.0.0/0
-  EcsSecurityGroupSSHinbound:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref 'EcsSecurityGroup'
-      IpProtocol: tcp
-      FromPort: '22'
-      ToPort: '22'
-      CidrIp: 0.0.0.0/0
-  EcsSecurityGroupALBports:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref 'EcsSecurityGroup'
-      IpProtocol: tcp
-      FromPort: '31000'
-      ToPort: '61000'
-      SourceSecurityGroupId: !Ref 'ALBSecurityGroup'
   CloudwatchLogsGroup:
     Type: AWS::Logs::LogGroup
     Properties:
@@ -170,7 +115,7 @@ Resources:
           - Name: BACKEND_DEGREE_ADVICE
             Value: vsc08.bu.edu
           - Name: RELEASE
-            Value: 20170803c
+            Value: 20170821a
         PortMappings:
           - ContainerPort: 80
           - ContainerPort: 443
@@ -222,13 +167,14 @@ Resources:
   BUEDUALB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
-      Name: !Join [ "-", [ !Ref 'AWS::StackName', "BUEDU" ] ]
+      Name: !Join [ "-", [ !Ref 'AWS::StackName', "buedu" ] ]
       Scheme: internet-facing
       LoadBalancerAttributes:
       - Key: idle_timeout.timeout_seconds
         Value: '30'
       Subnets: !Ref 'ELBSubnetId'
-      SecurityGroups: [!Ref 'ALBSecurityGroup']
+      SecurityGroups: 
+      - "Fn::ImportValue": !Sub "${Prefix}-iam-loadbalancer-sg"  
   BUEDUListener443:
     Condition: SslCertificate
     Type : AWS::ElasticLoadBalancingV2::Listener
@@ -255,7 +201,6 @@ Resources:
       Priority: 1
   BUEDUListener80:
     Type: AWS::ElasticLoadBalancingV2::Listener
-    DependsOn: ECSServiceRole
     Properties:
       DefaultActions:
       - Type: forward
@@ -321,9 +266,11 @@ Resources:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
       ImageId: !FindInMap [AWSRegionToAMI, !Ref 'AWS::Region', AMIID]
-      SecurityGroups: [!Ref 'EcsSecurityGroup']
+      SecurityGroups: 
+      - "Fn::ImportValue":  !Sub "${Prefix}-iam-containers-sg" 
       InstanceType: !Ref 'InstanceType'
-      IamInstanceProfile: !Ref 'EC2InstanceProfile'
+      IamInstanceProfile: 
+        "Fn::ImportValue":  !Sub "${Prefix}-iam-instance-profile" 
       KeyName: !Ref 'KeyName'
       UserData:
         Fn::Base64: !Sub |
@@ -341,7 +288,8 @@ Resources:
       - ContainerName: "bufe-buedu"
         ContainerPort: '443'
         TargetGroupArn: !Ref 'ECSTG443'
-      Role: !Ref 'ECSServiceRole'
+      Role: 
+        "Fn::ImportValue": !Sub "${Prefix}-iam-container-role"
       TaskDefinition: !Ref 'taskdefinition'
   service:
     Type: AWS::ECS::Service
@@ -353,27 +301,9 @@ Resources:
       - ContainerName: "bufe-buedu"
         ContainerPort: '80'
         TargetGroupArn: !Ref 'ECSTG'
-      Role: !Ref 'ECSServiceRole'
+      Role:
+        "Fn::ImportValue": !Sub "${Prefix}-iam-container-role"
       TaskDefinition: !Ref 'taskdefinition'
-  ECSServiceRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Statement:
-        - Effect: Allow
-          Principal:
-            Service: [ecs.amazonaws.com]
-          Action: ['sts:AssumeRole']
-      Path: /
-      Policies:
-      - PolicyName: ecs-service
-        PolicyDocument:
-          Statement:
-          - Effect: Allow
-            Action: ['elasticloadbalancing:DeregisterInstancesFromLoadBalancer', 'elasticloadbalancing:DeregisterTargets',
-              'elasticloadbalancing:Describe*', 'elasticloadbalancing:RegisterInstancesWithLoadBalancer',
-              'elasticloadbalancing:RegisterTargets', 'ec2:Describe*', 'ec2:AuthorizeSecurityGroupIngress']
-            Resource: '*'
   ServiceScalingTarget:
     Type: AWS::ApplicationAutoScaling::ScalableTarget
     DependsOn: service
@@ -381,7 +311,8 @@ Resources:
       MaxCapacity: 2
       MinCapacity: 1
       ResourceId: !Join ['', [service/, !Ref 'ECSCluster', /, !GetAtt [service, Name]]]
-      RoleARN: !GetAtt [AutoscalingRole, Arn]
+      RoleARN: 
+        "Fn::ImportValue": !Sub "${Prefix}-iam-autoscaling-role-arn" 
       ScalableDimension: ecs:service:DesiredCount
       ServiceNamespace: ecs
   ServiceScalingPolicy:
@@ -412,48 +343,6 @@ Resources:
         Value: !Ref 'service'
       ComparisonOperator: GreaterThanThreshold
       MetricName: HTTPCode_ELB_5XX_Count
-  EC2Role:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Statement:
-        - Effect: Allow
-          Principal:
-            Service: [ec2.amazonaws.com]
-          Action: ['sts:AssumeRole']
-      Path: /
-      Policies:
-      - PolicyName: ecs-service
-        PolicyDocument:
-          Statement:
-          - Effect: Allow
-            Action: ['ecs:CreateCluster', 'ecs:DeregisterContainerInstance', 'ecs:DiscoverPollEndpoint',
-              'ecs:Poll', 'ecs:RegisterContainerInstance', 'ecs:StartTelemetrySession',
-              'ecs:Submit*', 'logs:CreateLogStream', 'logs:PutLogEvents']
-            Resource: '*'
-  AutoscalingRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Statement:
-        - Effect: Allow
-          Principal:
-            Service: [application-autoscaling.amazonaws.com]
-          Action: ['sts:AssumeRole']
-      Path: /
-      Policies:
-      - PolicyName: service-autoscaling
-        PolicyDocument:
-          Statement:
-          - Effect: Allow
-            Action: ['application-autoscaling:*', 'cloudwatch:DescribeAlarms', 'cloudwatch:PutMetricAlarm',
-              'ecs:DescribeServices', 'ecs:UpdateService']
-            Resource: '*'
-  EC2InstanceProfile:
-    Type: AWS::IAM::InstanceProfile
-    Properties:
-      Path: /
-      Roles: [!Ref 'EC2Role']
 Outputs:
   ecsservice:
     Value: !Ref 'service'

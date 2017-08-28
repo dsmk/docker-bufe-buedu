@@ -134,11 +134,26 @@ Outputs:
     Value: !Ref 'ECSSecurityGroup'
     Export: 
       Name: !Sub "${AWS::StackName}-containers-sg"
+  AutoscalingRole:
+    Description: "IAM Role for autoscaling containers"
+    Value: !Ref 'AutoscalingRole'
+    Export: 
+      Name: !Sub "${AWS::StackName}-autoscaling-role"
+  AutoscalingRoleARN:
+    Description: "ARN for IAM Role for autoscaling containers"
+    Value: !GetAtt [ 'AutoscalingRole', 'Arn' ]
+    Export: 
+      Name: !Sub "${AWS::StackName}-autoscaling-role-arn"
   ECSServiceRole:
     Description: "IAM Role for Container management/instance"
     Value: !Ref 'ECSServiceRole'
     Export: 
       Name: !Sub "${AWS::StackName}-container-role"
+  ECSServiceRoleARN:
+    Description: "ARN for IAM Role for Container management/instance"
+    Value: !GetAtt [ 'ECSServiceRole', 'Arn' ]
+    Export: 
+      Name: !Sub "${AWS::StackName}-container-role-arn"
   ECSInstanceProfile:
     Description: "IAM Instance Profile with permissions for EC2 systems created as part of ECS cluster"
     Value: !Ref 'EC2InstanceProfile'
