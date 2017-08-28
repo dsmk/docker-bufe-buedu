@@ -1,0 +1,49 @@
+Parameters:
+  Prefix:
+    Type: String
+    Default: "web2cloud-test"
+
+Resources:
+  Repository:
+    Type: AWS::ECR::Repository
+    DeletionPolicy: Retain
+
+  TemplateBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+
+  ArtifactBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+
+
+Outputs:
+  Repository:
+    Value: !Ref Repository
+    Export:
+      Name: !Sub "${Prefix}-container-repository"
+
+  RepositoryARN:
+    Value: !Sub "arn:aws:ecr:${AWS::Region}:${AWS::AccountId}:repository/${Repository}"
+    Export:
+      Name: !Sub "${Prefix}-container-repository-arn"
+
+  ArtifactBucketARN:
+    Value: !Sub "arn:aws:s3:::${ArtifactBucket}"
+    Export:
+      Name: !Sub "${Prefix}-artifact-bucket-arn"
+
+  ArtifactBucketResource:
+    Value: !Sub "arn:aws:s3:::${ArtifactBucket}/*"
+    Export:
+      Name: !Sub "${Prefix}-artifact-bucket-resource"
+
+  TemplateBucketARN:
+    Value: !Sub "arn:aws:s3:::${TemplateBucket}"
+    Export:
+      Name: !Sub "${Prefix}-template-bucket-arn"
+
+  TemplateBucketResource:
+    Value: !Sub "arn:aws:s3:::${TemplateBucket}/*"
+    Export:
+      Name: !Sub "${Prefix}-template-bucket-resource"

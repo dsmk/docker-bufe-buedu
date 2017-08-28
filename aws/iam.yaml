@@ -1,5 +1,8 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
+  Prefix:
+    Type: String
+    Default: "web2cloud-test"
   VpcId:
     Type: AWS::EC2::VPC::Id
     Description: Select a VPC that allows instances access to the Internet.
@@ -123,6 +126,114 @@ Resources:
     Properties:
       Path: /
       Roles: [!Ref 'EC2Role']
+# #########
+# Now we do the roles for the development pipeline
+#
+# #########
+  CloudFormationExecutionRole:
+    Type: AWS::IAM::Role
+    DeletionPolicy: Retain
+    Properties:
+      Path: /
+      AssumeRolePolicyDocument: |
+        {
+            "Statement": [{
+                "Effect": "Allow",
+                "Principal": { "Service": [ "cloudformation.amazonaws.com" ]},
+                "Action": [ "sts:AssumeRole" ]
+            }]
+        }
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Resource: "*"
+                Effect: Allow
+                Action:
+                  - ecs:*
+                  - ecr:*
+                  - iam:*
+
+  CodeBuildServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /
+      AssumeRolePolicyDocument: |
+        {
+            "Statement": [{
+                "Effect": "Allow",
+                "Principal": { "Service": [ "codebuild.amazonaws.com" ]},
+                "Action": [ "sts:AssumeRole" ]
+            }]
+        }
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Resource: "*"
+                Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                  - ecr:GetAuthorizationToken
+              - Resource: 
+                  "Fn::ImportValue": !Sub "${Prefix}-artifact-bucket-resource"
+                Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:GetObjectVersion
+              - Resource: 
+                  "Fn::ImportValue": !Sub "${Prefix}-container-repository-arn"
+                Effect: Allow
+                Action:
+                  - ecr:GetDownloadUrlForLayer
+                  - ecr:BatchGetImage
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:PutImage
+                  - ecr:InitiateLayerUpload
+                  - ecr:UploadLayerPart
+                  - ecr:CompleteLayerUpload
+
+  CodePipelineServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /
+      AssumeRolePolicyDocument: |
+        {
+            "Statement": [{
+                "Effect": "Allow",
+                "Principal": { "Service": [ "codepipeline.amazonaws.com" ]},
+                "Action": [ "sts:AssumeRole" ]
+            }]
+        }
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Resource:
+                  - "Fn::ImportValue": !Sub "${Prefix}-artifact-bucket-resource"
+                  - "Fn::ImportValue": !Sub "${Prefix}-template-bucket-arn"
+                  - "Fn::ImportValue": !Sub "${Prefix}-template-bucket-resource"
+                Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:GetObject
+                  - s3:GetObjectVersion
+                  - s3:GetBucketVersioning
+              - Resource: "*"
+                Effect: Allow
+                Action:
+                  - codebuild:StartBuild
+                  - codebuild:BatchGetBuilds
+                  - cloudformation:*
+                  - iam:PassRole
+
+
 Outputs:
   ALBSecurityGroup:
     Description: "Security Group for load balancers"
@@ -159,3 +270,27 @@ Outputs:
     Value: !Ref 'EC2InstanceProfile'
     Export: 
       Name: !Sub "${AWS::StackName}-instance-profile"
+  CloudFormationExecutionRole:
+    Value: !Ref 'CloudFormationExecutionRole'
+    Export: 
+      Name: !Sub "${AWS::StackName}-cloudformation-execution-role"
+  CloudFormationExecutionRoleARN:
+    Value: !GetAtt CloudFormationExecutionRole.Arn
+    Export: 
+      Name: !Sub "${AWS::StackName}-cloudformation-execution-role-arn"
+  CodeBuildServiceRole:
+    Value: !Ref 'CodeBuildServiceRole'
+    Export: 
+      Name: !Sub "${AWS::StackName}-codebuild-service-role"
+  CodeBuildServiceRoleARN:
+    Value: !GetAtt CodeBuildServiceRole.Arn
+    Export: 
+      Name: !Sub "${AWS::StackName}-codebuild-service-role-arn"
+  CodePipelineServiceRole:
+    Value: !Ref 'CodePipelineServiceRole'
+    Export: 
+      Name: !Sub "${AWS::StackName}-codepipeline-service-role"
+  CodePipelineServiceRoleARN:
+    Value: !GetAtt CodePipelineServiceRole.Arn
+    Export: 
+      Name: !Sub "${AWS::StackName}-codepipeline-service-role-arn"
