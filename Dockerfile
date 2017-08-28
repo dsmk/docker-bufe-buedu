@@ -1,1 +1,1 @@
-apache/Dockerfile
+nginx/Dockerfile
