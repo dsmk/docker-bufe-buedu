@@ -92,6 +92,8 @@ Resources:
             Value: warn
           - Name: ROBOTS_TXT
             Value: /home/robots.txt.test
+          - Name: BACKEND_REDIRECT
+            Value: "www-test.bu.edu"
           - Name: BACKEND_W3_CONTENT
             Value: "ist-w3-content-test.bu.edu:381"
           - Name: BACKEND_WP_APP
@@ -115,7 +117,7 @@ Resources:
           - Name: BACKEND_DEGREE_ADVICE
             Value: vsc08.bu.edu
           - Name: RELEASE
-            Value: 20170821a
+            Value: 20170828
         PortMappings:
           - ContainerPort: 80
           - ContainerPort: 443
