@@ -9,7 +9,7 @@ RUN yum -y update && yum clean all
 
 RUN yum install -y nginx ruby && yum clean all
 
-ADD run-nginx.sh /usr/sbin/run-nginx.sh
+ADD files/run-nginx.sh /usr/sbin/run-nginx.sh
 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf \
   && chmod 755 /usr/sbin/run-nginx.sh \
@@ -23,11 +23,11 @@ VOLUME /var/log/nginx
 VOLUME /etc/pki/nginx
 
 CMD /usr/sbin/run-nginx.sh
-ADD get-cloudfront-ip.rb /usr/sbin/get-cloudfront-ip.rb
-ADD nginx.conf.erb /etc/nginx/nginx.conf.erb
-ADD conf.d-map-def.conf.erb /etc/nginx/conf.d/map-def.conf.erb
-ADD conf.d-ssl.conf.erb /etc/nginx/conf.d/ssl.conf.erb
-ADD conf.d-default.conf.erb /etc/nginx/conf.d/default.conf.erb
-ADD default.d-www.conf.erb /etc/nginx/default.d/www.conf.erb
-ADD sites.map /etc/nginx/sites.map
+ADD files/get-cloudfront-ip.rb /usr/sbin/get-cloudfront-ip.rb
+ADD files/nginx.conf.erb /etc/nginx/nginx.conf.erb
+ADD files/conf.d-map-def.conf.erb /etc/nginx/conf.d/map-def.conf.erb
+ADD files/conf.d-ssl.conf.erb /etc/nginx/conf.d/ssl.conf.erb
+ADD files/conf.d-default.conf.erb /etc/nginx/conf.d/default.conf.erb
+ADD files/default.d-www.conf.erb /etc/nginx/default.d/www.conf.erb
+ADD files/sites.map /etc/nginx/sites.map
 
