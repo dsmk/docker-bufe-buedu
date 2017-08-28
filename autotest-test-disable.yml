@@ -11,7 +11,8 @@ services:
   bufe-autotest-test:
     build: ./
     #build: apache/
-    read_only: true
+    #build: nginx/
+    #read_only: true
     ports:
       - 80
       - 443

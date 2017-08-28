@@ -6,9 +6,12 @@ services:
     build: test/loadstats/
     links:
       - bufe-load-test
+    environment:
+      - URI=/studentlink
 #    volumes:
 #      - ./test/results:/results
   bufe-load-test:
+    #build: nginx/
     build: apache/
     read_only: true
     ports:
@@ -20,6 +23,7 @@ services:
     environment:
       - LANDSCAPE=test
       - ROBOTS_TXT=/home/robots.txt.test
+      - BACKEND_REDIRECT=test-backend
       - BACKEND_CONTENT=test-backend
       - BACKEND_MEDIA=test-backend
       - "BACKEND_WP_APP=test-backend"

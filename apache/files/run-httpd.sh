@@ -1,6 +1,8 @@
-#!/bin/sh
+#!/bin/sh -x
 
-set -e
+echo "starting"
+
+#set -e
 
 # get the CloudFront IP addresses
 TMPCONFDIR=/tmp

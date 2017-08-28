@@ -191,7 +191,7 @@ else
 fi
 
 if $julog ; then
-  /wait-for-it.sh "$CONNECT_TO:80"
+  /wait-for-it.sh -t 60 "$CONNECT_TO:80"
 fi
 
 echo ""
