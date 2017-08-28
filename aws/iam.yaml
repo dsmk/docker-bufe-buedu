@@ -30,22 +30,6 @@ Resources:
     Properties:
       GroupDescription: ECS Security Group
       VpcId: !Ref 'VpcId'
-#  ECSSecurityGroupHTTPSinbound:
-#    Type: AWS::EC2::SecurityGroupIngress
-#    Properties:
-#      GroupId: !Ref 'ECSSecurityGroup'
-#      IpProtocol: tcp
-#      FromPort: '443'
-#      ToPort: '443'
-#      CidrIp: 0.0.0.0/0
-#  ECSSecurityGroupHTTPinbound:
-#    Type: AWS::EC2::SecurityGroupIngress
-#    Properties:
-#      GroupId: !Ref 'ECSSecurityGroup'
-#      IpProtocol: tcp
-#      FromPort: '80'
-#      ToPort: '80'
-#      CidrIp: 0.0.0.0/0
   ECSSecurityGroupSSHinboundVPN1:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
