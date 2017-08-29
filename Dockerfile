@@ -30,19 +30,11 @@ ADD files/get-cloudfront-ip.rb /usr/sbin/get-cloudfront-ip.rb
 ADD files/ip-ranges.json /etc/httpd/ip-ranges.json
 ADD files/httpd.conf /etc/httpd/conf/httpd.conf
 
-ADD files/sitemap.txt /etc/httpd/sitemap.txt
-
 COPY files/conf.modules.d/ /etc/httpd/conf.modules.d
 
 COPY files/conf.d/ /etc/httpd/conf.d
 
-#VOLUME /var/log/nginx
-#VOLUME /etc/pki/nginx
+ADD files/sitemap.txt /etc/httpd/sitemap.txt
 
-#ADD nginx.conf.erb /etc/nginx/nginx.conf.erb
-#ADD conf.d-map-def.conf.erb /etc/nginx/conf.d/map-def.conf.erb
-#ADD conf.d-ssl.conf.erb /etc/nginx/conf.d/ssl.conf.erb
-#ADD conf.d-default.conf.erb /etc/nginx/conf.d/default.conf.erb
-#ADD default.d-www.conf.erb /etc/nginx/default.d/www.conf.erb
-#ADD sites.map /etc/nginx/sites.map
+RUN /usr/bin/httxt2dbm -f db -i /etc/httpd/sitemap.txt -o /etc/httpd/sitemap.db
 
