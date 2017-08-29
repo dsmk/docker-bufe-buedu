@@ -28,6 +28,11 @@ Outputs:
     Export:
       Name: !Sub "${Prefix}-container-repository-arn"
 
+  ArtifactBucketName:
+    Value: !Sub "${ArtifactBucket}"
+    Export:
+      Name: !Sub "${Prefix}-artifact-bucket-name"
+
   ArtifactBucketARN:
     Value: !Sub "arn:aws:s3:::${ArtifactBucket}"
     Export:
@@ -37,6 +42,11 @@ Outputs:
     Value: !Sub "arn:aws:s3:::${ArtifactBucket}/*"
     Export:
       Name: !Sub "${Prefix}-artifact-bucket-resource"
+
+  TemplateBucketName:
+    Value: !Sub "${TemplateBucket}"
+    Export:
+      Name: !Sub "${Prefix}-template-bucket-name"
 
   TemplateBucketARN:
     Value: !Sub "arn:aws:s3:::${TemplateBucket}"
