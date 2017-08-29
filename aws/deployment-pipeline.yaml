@@ -71,7 +71,7 @@ Resources:
             Value: !Ref AWS::Region
           - Name: REPOSITORY_URI
             Value: 
-              "Fn::ImportValue": !Sub "${Prefix}-container-repository-arn"
+              "Fn::ImportValue": !Sub "${Prefix}-container-repository-uri"
       Name: !Ref AWS::StackName
       ServiceRole: 
         "Fn::ImportValue": !Sub "${Prefix}-iam-codebuild-service-role"
@@ -102,19 +102,19 @@ Resources:
               OutputArtifacts:
                 - Name: App
               RunOrder: 1
-            - Name: Template
-              ActionTypeId:
-                Category: Source
-                Owner: AWS
-                Version: 1
-                Provider: S3
-              OutputArtifacts:
-                - Name: Template
-              RunOrder: 1
-              Configuration:
-                S3Bucket: 
-                  "Fn::ImportValue": !Sub "${Prefix}-template-bucket-name"
-                S3ObjectKey: templates.zip
+      #     - Name: Template
+      #        ActionTypeId:
+      #          Category: Source
+      #          Owner: AWS
+      #          Version: 1
+      #          Provider: S3
+      #        OutputArtifacts:
+      #          - Name: Template
+      #        RunOrder: 1
+      #        Configuration:
+      #          S3Bucket: 
+      #            "Fn::ImportValue": !Sub "${Prefix}-template-bucket-name"
+      #          S3ObjectKey: templates.zip
         - Name: Build
           Actions:
             - Name: Build
@@ -130,34 +130,34 @@ Resources:
               OutputArtifacts:
                 - Name: BuildOutput
               RunOrder: 1
-        - Name: Deploy
-          Actions:
-            - Name: Deploy
-              ActionTypeId:
-                Category: Deploy
-                Owner: AWS
-                Version: 1
-                Provider: CloudFormation
-              Configuration:
-                ChangeSetName: Deploy
-                ActionMode: CREATE_UPDATE
-                StackName: !Sub "${AWS::StackName}-Service"
-                Capabilities: CAPABILITY_NAMED_IAM
-                TemplatePath: Template::templates/service.yaml
-                RoleArn: 
-                  "Fn::ImportValue": !Sub "${Prefix}-iam-cloudformation-execution-role-arn"
-                ParameterOverrides: !Sub |
-                  {
-                    "Tag" : { "Fn::GetParam" : [ "BuildOutput", "build.json", "tag" ] },
-                    "DesiredCount": "1",
-                    "Cluster": "${Cluster}",
-                    "TargetGroup": "${TargetGroup}",
-                    "Repository": "Repository}"
-                  }
-              InputArtifacts:
-                - Name: Template
-                - Name: BuildOutput
-              RunOrder: 1
+      #  - Name: Deploy
+      #    Actions:
+      #      - Name: Deploy
+      #        ActionTypeId:
+      #          Category: Deploy
+      #          Owner: AWS
+      #          Version: 1
+      #          Provider: CloudFormation
+      #        Configuration:
+      #          ChangeSetName: Deploy
+      #          ActionMode: CREATE_UPDATE
+      #          StackName: !Sub "${AWS::StackName}-Service"
+      #          Capabilities: CAPABILITY_NAMED_IAM
+      #          TemplatePath: Template::templates/service.yaml
+      #          RoleArn: 
+      #            "Fn::ImportValue": !Sub "${Prefix}-iam-cloudformation-execution-role-arn"
+      #          ParameterOverrides: !Sub |
+      #            {
+      #              "Tag" : { "Fn::GetParam" : [ "BuildOutput", "build.json", "tag" ] },
+      #              "DesiredCount": "1",
+      #              "Cluster": "${Cluster}",
+      #              "TargetGroup": "${TargetGroup}",
+      #              "Repository": "Repository}"
+      #            }
+      #        InputArtifacts:
+      #          - Name: Template
+      #          - Name: BuildOutput
+      #        RunOrder: 1
 
 
 Outputs:

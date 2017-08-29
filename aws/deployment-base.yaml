@@ -28,6 +28,11 @@ Outputs:
     Export:
       Name: !Sub "${Prefix}-container-repository-arn"
 
+  RepositoryURI:
+    Value: !Sub "${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${Repository}"
+    Export:
+      Name: !Sub "${Prefix}-container-repository-uri"
+
   ArtifactBucketName:
     Value: !Sub "${ArtifactBucket}"
     Export:
