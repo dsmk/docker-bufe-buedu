@@ -103,6 +103,12 @@ Resources:
               'ecs:Poll', 'ecs:RegisterContainerInstance', 'ecs:StartTelemetrySession',
               'ecs:Submit*', 'logs:CreateLogStream', 'logs:PutLogEvents']
             Resource: '*'
+          - Resource: 
+              "Fn::ImportValue": !Sub "${Prefix}-container-repository-arn"
+            Effect: Allow
+            Action: [ "ecr:GetAuthorizationToken", "ecr:BatchCheckLayerAvailability", 
+              "ecr:GetDownloadUrlForLayer", "ecr:GetRepositoryPolicy", "ecr:DescribeRepositories",
+              "ecr:ListImages", "ecr:DescribeImages", "ecr:BatchGetImage" ]
   AutoscalingRole:
     Type: AWS::IAM::Role
     Properties:
