@@ -3,6 +3,12 @@ Parameters:
   Prefix:
     Type: String
     Default: "web2cloud-test"
+  Tag:
+    Type: String
+    Default: "latest"
+  DockerImage:
+    Type: String
+    Default: "bufe-buedu"
   PublicAlbAcmCertificate:
     AllowedPattern: ^$|(arn:aws:acm:)([a-z0-9/:-])*([a-z0-9])$
     Description: '[ Optional ] The AWS Certification Manager certificate ARN for the ALB certificate - this certificate should be created in the region you wish to run the ALB and must reference the WordPress domain name you use below.'
@@ -77,7 +83,12 @@ Resources:
       - Name: bufe-buedu
         Cpu: '10'
         Essential: 'true'
-        Image: 'docker.io/dsmk/bufe-buedu:latest'
+        Image: 
+          "Fn::Join": 
+            - ':' 
+            -
+              - "Fn::ImportValue": !Sub "${Prefix}-container-repository-uri"
+              - !Ref 'Tag'
         Memory: '300'
         LogConfiguration:
           LogDriver: awslogs
@@ -117,7 +128,7 @@ Resources:
           - Name: BACKEND_DEGREE_ADVICE
             Value: vsc08.bu.edu
           - Name: RELEASE
-            Value: 20170828
+            Value: 20170829a
         PortMappings:
           - ContainerPort: 80
           - ContainerPort: 443
