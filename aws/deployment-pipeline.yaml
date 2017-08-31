@@ -143,16 +143,20 @@ Resources:
                 ActionMode: CREATE_UPDATE
                 StackName: !Sub "${AWS::StackName}-Service"
                 #Capabilities: CAPABILITY_NAMED_IAM
-                #TemplatePath: Template::templates/service.yaml
-                TemplatePath: Template::ecs-buedu.yaml
+                TemplatePath: Template::templates/ecs-buedu.yaml
+                #TemplatePath: Template::ecs-buedu.yaml
                 RoleArn: 
                   "Fn::ImportValue": !Sub "${Prefix}-iam-cloudformation-execution-role-arn"
+                #ParameterOverrides: !Sub |
+                #  {
+                #    "Tag" : { "Fn::GetParam" : [ "BuildOutput", "build.json", "tag" ] }
+                #    #"Cluster": "${Cluster}",
+                #    #"TargetGroup": "${TargetGroup}",
+                #    #"Repository": "Repository}"
+                #  }
                 ParameterOverrides: !Sub |
                   {
-                    "Tag" : { "Fn::GetParam" : [ "BuildOutput", "build.json", "tag" ] },
-                    #"Cluster": "${Cluster}",
-                    #"TargetGroup": "${TargetGroup}",
-                    #"Repository": "Repository}"
+                    "Tag" : { "Fn::GetParam" : [ "BuildOutput", "build.json", "tag" ] }
                   }
               InputArtifacts:
                 - Name: Template
