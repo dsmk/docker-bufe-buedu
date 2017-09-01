@@ -1,0 +1,115 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  Prefix:
+    Type: String
+    Default: "web2cloud-test"
+  Stage:
+    Type: String
+    Default: "test"
+  Tag:
+    Type: String
+    Default: "9035b0c7"
+    #Default: "latest"
+  DesiredCapacity:
+    Type: Number
+    Default: '1'
+    Description: Number of instances to launch in your ECS cluster.
+  MaxSize:
+    Type: Number
+    Default: '1'
+    Description: Maximum number of instances that can be launched in your ECS cluster.
+Resources:
+  taskdefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Join ['', [!Ref 'AWS::StackName', -bufe]]
+      ContainerDefinitions:
+      - Name: bufe-buedu
+        Cpu: '10'
+        Essential: 'true'
+        #Image: !Sub "${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${Repository}:${Tag}"
+        Image: 
+          "Fn::Join": 
+            - ':' 
+            -
+              - "Fn::ImportValue": !Sub "${Prefix}-container-repository-uri"
+              - !Ref 'Tag'
+        Memory: '300'
+        LogConfiguration:
+          LogDriver: awslogs
+          Options:
+            awslogs-group: 
+              "Fn::ImportValue": !Sub "${Prefix}-${Stage}-logs-group"
+            awslogs-region: !Ref 'AWS::Region'
+            awslogs-stream-prefix: bufe-buedu
+        Environment:
+          - Name: LANDSCAPE
+            Value: test
+          - Name: LOG_LEVEL
+            Value: warn
+          - Name: ROBOTS_TXT
+            Value: /home/robots.txt.test
+          - Name: BACKEND_REDIRECT
+            Value: "www-test.bu.edu"
+          - Name: BACKEND_W3_CONTENT
+            Value: "ist-w3-content-test.bu.edu:381"
+          - Name: BACKEND_WP_APP
+            Value: "ist-wp-app-test101.bu.edu"
+          - Name: BACKEND_WP_CONTENT
+            Value: "ist-wp-assets-test101.bu.edu"
+          - Name: BACKEND_WP_APP2
+            Value: "ist-wp-app-test102.bu.edu"
+          - Name: BACKEND_WP_CONTENT2
+            Value: "ist-wp-assets-test102.bu.edu"
+          - Name: BACKEND_PHPBIN
+            Value: phpbin-test.bu.edu:181
+          - Name: BACKEND_DBIN
+            Value: dbin-test.bu.edu:181
+          - Name: BACKEND_MEDIA
+            Value: ist-w3-media-test.bu.edu:481
+          - Name: BACKEND_DJANGO
+            Value: vsc66.bu.edu:197
+          - Name: BACKEND_DJANGO2
+            Value: vsc67.bu.edu:197
+          - Name: BACKEND_DEGREE_ADVICE
+            Value: vsc08.bu.edu
+          - Name: RELEASE
+            Value: 20170829a
+        PortMappings:
+          - ContainerPort: 80
+          - ContainerPort: 443
+  service443:
+    Type: AWS::ECS::Service
+    Properties:
+      Cluster: 
+        "Fn::ImportValue": !Sub "${Prefix}-ecscluster-ref"
+      DesiredCount: !Ref 'DesiredCapacity'
+      LoadBalancers:
+      - ContainerName: "bufe-buedu"
+        ContainerPort: '443'
+        TargetGroupArn: 
+          "Fn::ImportValue": !Sub "${Prefix}-targetgroup443-arn"
+      Role: 
+        "Fn::ImportValue": !Sub "${Prefix}-iam-container-role"
+      TaskDefinition: !Ref 'taskdefinition'
+  service:
+    Type: AWS::ECS::Service
+    Properties:
+      Cluster: 
+        "Fn::ImportValue": !Sub "${Prefix}-ecscluster-ref"
+      DesiredCount: !Ref 'DesiredCapacity'
+      LoadBalancers:
+      - ContainerName: "bufe-buedu"
+        ContainerPort: '80'
+        TargetGroupArn: 
+          "Fn::ImportValue": !Sub "${Prefix}-targetgroup80-arn"
+      Role:
+        "Fn::ImportValue": !Sub "${Prefix}-iam-container-role"
+      TaskDefinition: !Ref 'taskdefinition'
+Outputs:
+  ecsservice:
+    Value: !Ref 'service'
+  ecsservice443:
+    Value: !Ref 'service443'
+  taskdef:
+    Value: !Ref 'taskdefinition'

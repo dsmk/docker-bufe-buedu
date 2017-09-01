@@ -76,63 +76,6 @@ Resources:
     Properties:
       LogGroupName: !Join ['-', [ECSLogGroup, !Ref 'AWS::StackName']]
       RetentionInDays: 14
-  taskdefinition:
-    Type: AWS::ECS::TaskDefinition
-    Properties:
-      Family: !Join ['', [!Ref 'AWS::StackName', -bufe]]
-      ContainerDefinitions:
-      - Name: bufe-buedu
-        Cpu: '10'
-        Essential: 'true'
-        Image: 
-          "Fn::Join": 
-            - ':' 
-            -
-              - "Fn::ImportValue": !Sub "${Prefix}-container-repository-uri"
-              - !Ref 'Tag'
-        Memory: '300'
-        LogConfiguration:
-          LogDriver: awslogs
-          Options:
-            awslogs-group: !Ref 'CloudwatchLogsGroup'
-            awslogs-region: !Ref 'AWS::Region'
-            awslogs-stream-prefix: bufe-buedu
-        Environment:
-          - Name: LANDSCAPE
-            Value: test
-          - Name: LOG_LEVEL
-            Value: warn
-          - Name: ROBOTS_TXT
-            Value: /home/robots.txt.test
-          - Name: BACKEND_REDIRECT
-            Value: "www-test.bu.edu"
-          - Name: BACKEND_W3_CONTENT
-            Value: "ist-w3-content-test.bu.edu:381"
-          - Name: BACKEND_WP_APP
-            Value: "ist-wp-app-test101.bu.edu"
-          - Name: BACKEND_WP_CONTENT
-            Value: "ist-wp-assets-test101.bu.edu"
-          - Name: BACKEND_WP_APP2
-            Value: "ist-wp-app-test102.bu.edu"
-          - Name: BACKEND_WP_CONTENT2
-            Value: "ist-wp-assets-test102.bu.edu"
-          - Name: BACKEND_PHPBIN
-            Value: phpbin-test.bu.edu:181
-          - Name: BACKEND_DBIN
-            Value: dbin-test.bu.edu:181
-          - Name: BACKEND_MEDIA
-            Value: ist-w3-media-test.bu.edu:481
-          - Name: BACKEND_DJANGO
-            Value: vsc66.bu.edu:197
-          - Name: BACKEND_DJANGO2
-            Value: vsc67.bu.edu:197
-          - Name: BACKEND_DEGREE_ADVICE
-            Value: vsc08.bu.edu
-          - Name: RELEASE
-            Value: 20170829a
-        PortMappings:
-          - ContainerPort: 80
-          - ContainerPort: 443
   BUEDUALB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
@@ -247,81 +190,62 @@ Resources:
           echo ECS_CLUSTER=${ECSCluster} >> /etc/ecs/ecs.config
           yum install -y aws-cfn-bootstrap
           /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource ECSAutoScalingGroup --region ${AWS::Region}
-  service443:
-    Type: AWS::ECS::Service
-    DependsOn: BUEDUListener443
-    Properties:
-      Cluster: !Ref 'ECSCluster'
-      DesiredCount: '1'
-      LoadBalancers:
-      - ContainerName: "bufe-buedu"
-        ContainerPort: '443'
-        TargetGroupArn: !Ref 'ECSTG443'
-      Role: 
-        "Fn::ImportValue": !Sub "${Prefix}-iam-container-role"
-      TaskDefinition: !Ref 'taskdefinition'
-  service:
-    Type: AWS::ECS::Service
-    DependsOn: BUEDUListener80
-    Properties:
-      Cluster: !Ref 'ECSCluster'
-      DesiredCount: '1'
-      LoadBalancers:
-      - ContainerName: "bufe-buedu"
-        ContainerPort: '80'
-        TargetGroupArn: !Ref 'ECSTG'
-      Role:
-        "Fn::ImportValue": !Sub "${Prefix}-iam-container-role"
-      TaskDefinition: !Ref 'taskdefinition'
-  ServiceScalingTarget:
-    Type: AWS::ApplicationAutoScaling::ScalableTarget
-    DependsOn: service
-    Properties:
-      MaxCapacity: 2
-      MinCapacity: 1
-      ResourceId: !Join ['', [service/, !Ref 'ECSCluster', /, !GetAtt [service, Name]]]
-      RoleARN: 
-        "Fn::ImportValue": !Sub "${Prefix}-iam-autoscaling-role-arn" 
-      ScalableDimension: ecs:service:DesiredCount
-      ServiceNamespace: ecs
-  ServiceScalingPolicy:
-    Type: AWS::ApplicationAutoScaling::ScalingPolicy
-    Properties:
-      PolicyName: AStepPolicy
-      PolicyType: StepScaling
-      ScalingTargetId: !Ref 'ServiceScalingTarget'
-      StepScalingPolicyConfiguration:
-        AdjustmentType: PercentChangeInCapacity
-        Cooldown: 60
-        MetricAggregationType: Average
-        StepAdjustments:
-        - MetricIntervalLowerBound: 0
-          ScalingAdjustment: 200
-  ALB500sAlarmScaleUp:
-    Type: AWS::CloudWatch::Alarm
-    Properties:
-      EvaluationPeriods: '1'
-      Statistic: Average
-      Threshold: '10'
-      AlarmDescription: Alarm if our ALB generates too many HTTP 500s.
-      Period: '60'
-      AlarmActions: [!Ref 'ServiceScalingPolicy']
-      Namespace: AWS/ApplicationELB
-      Dimensions:
-      - Name: ECSService
-        Value: !Ref 'service'
-      ComparisonOperator: GreaterThanThreshold
-      MetricName: HTTPCode_ELB_5XX_Count
+ # ServiceScalingTarget:
+ #   Type: AWS::ApplicationAutoScaling::ScalableTarget
+ #   Properties:
+ #     MaxCapacity: 2
+ #     MinCapacity: 1
+ #     ResourceId: !Join ['', [service/, !Ref 'ECSCluster', /, !GetAtt [service, Name]]]
+ #     RoleARN: 
+ #       "Fn::ImportValue": !Sub "${Prefix}-iam-autoscaling-role-arn" 
+ #     ScalableDimension: ecs:service:DesiredCount
+ #     ServiceNamespace: ecs
+ # ServiceScalingPolicy:
+ #   Type: AWS::ApplicationAutoScaling::ScalingPolicy
+ #   Properties:
+ #     PolicyName: AStepPolicy
+ #     PolicyType: StepScaling
+ #     ScalingTargetId: !Ref 'ServiceScalingTarget'
+ #     StepScalingPolicyConfiguration:
+ #       AdjustmentType: PercentChangeInCapacity
+ #       Cooldown: 60
+ #       MetricAggregationType: Average
+ #       StepAdjustments:
+ #       - MetricIntervalLowerBound: 0
+ #         ScalingAdjustment: 200
+  #ALB500sAlarmScaleUp:
+  #  Type: AWS::CloudWatch::Alarm
+  #  Properties:
+  #    EvaluationPeriods: '1'
+  #    Statistic: Average
+  #    Threshold: '10'
+  #    AlarmDescription: Alarm if our ALB generates too many HTTP 500s.
+  #    Period: '60'
+  #    AlarmActions: [!Ref 'ServiceScalingPolicy']
+  #    Namespace: AWS/ApplicationELB
+  #    Dimensions:
+  #    - Name: ECSService
+  #      Value: !Ref 'service'
+  #    ComparisonOperator: GreaterThanThreshold
+  #    MetricName: HTTPCode_ELB_5XX_Count
 Outputs:
-  ecsservice:
-    Value: !Ref 'service'
   ecscluster:
     Value: !Ref 'ECSCluster'
     Export:
       Name: !Sub "${Prefix}-ecscluster-ref"
+  CloudwatchLogsGroup:
+    Value: !Ref 'CloudwatchLogsGroup'
+    Export:
+      Name: !Sub "${Prefix}-test-logs-group"
+  ECSTG443:
+    Value: !Ref ECSTG443
+    Export:
+      Name: !Sub "${Prefix}-targetgroup443-arn"
+  ECSTG:
+    Value: !Ref ECSTG
+    Export:
+      Name: !Sub "${Prefix}-targetgroup80-arn"
   BUEDUALBDNS:
     Value: !GetAtt [ BUEDUALB, DNSName]
     Export:
       Name: !Sub "${Prefix}-buedu-alb-dnsname"
-  taskdef:
-    Value: !Ref 'taskdefinition'
