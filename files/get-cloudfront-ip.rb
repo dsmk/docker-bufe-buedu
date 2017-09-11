@@ -5,7 +5,7 @@
 require 'json'
 
 #url = 'https://ip-ranges.amazonaws.com/ip-ranges.json'
-fname = "/tmp/ip-ranges.json"
+fname = ARGV[0]
 buffer = open(fname).read
 result = JSON.parse(buffer)
 
