@@ -5,7 +5,8 @@ echo "starting"
 #set -e
 
 # get the CloudFront IP addresses
-TMPCONFDIR=/tmp
+#TMPCONFDIR=/tmp
+TMPCONFDIR=/var/lib/httpd
 export TMPCONFDIR
 if curl -o "${TMPCONFDIR}/ip-ranges.json" "https://ip-ranges.amazonaws.com/ip-ranges.json" ; then
   echo "bootstrap-cloudfront: got the URL for the latest ips"
