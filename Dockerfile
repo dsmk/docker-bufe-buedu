@@ -18,8 +18,7 @@ RUN mkdir /var/www/html/server \
   && rm /etc/httpd/conf.d/userdir.conf /etc/httpd/conf.d/welcome.conf /etc/httpd/conf.d/autoindex.conf
 
 # the following two volumes are so we can do a handful of read-write things in controled situations
-VOLUME /tmp
-VOLUME /var/run/httpd
+VOLUME [ /tmp, /var/run/httpd, /var/cache/httpd ]
 
 VOLUME /var/log/httpd
 VOLUME /etc/pki/httpd
