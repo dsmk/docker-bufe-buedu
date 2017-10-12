@@ -1,0 +1,49 @@
+#!/bin/bash -x
+# 
+# Bin script to prepare the service CloudFormation template to be used for CodePipeline.
+#
+# Based on the script in:
+#    https://github.com/awslabs/ecs-refarch-continuous-deployment
+#
+
+aws_profile=webpoc
+
+bucket="web2cloud-deployment-base-templatebucket-ioiud8q84rff"
+
+set -o errexit -o xtrace
+
+regions=(
+  us-east-1
+)
+
+awscmd=aws
+if [ "x$aws_profile" != x ]; then
+  awscmd="$awscmd --profile $aws_profile"
+fi
+
+zip ./templates.zip templates/*
+
+for region in "${regions[@]}"
+do
+  #$awscmd s3api head-bucket --bucket "${bucket}-${region}" --region "$region" ||
+  #  $awscmd s3 mb "s3://${bucket}-${region}" --region "$region"
+
+  # I think that the next two items are done by the CloudFormation - if not then we'll add them back to the script
+  #$awscmd s3api put-bucket-policy \
+  #  --bucket "${bucket}-${region}" \
+  #  --policy "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":[\"s3:GetObject\",\"s3:GetObjectVersion\"],\"Resource\":\"arn:aws:s3:::ecs-refarch-continuous-deployment-${region}/*\"},{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":[\"s3:ListBucket\",\"s3:GetBucketVersioning\"],\"Resource\":\"arn:aws:s3:::ecs-refarch-continuous-deployment-${region}\"}]}" \
+  #  --region "$region"
+
+  #$awscmd s3api put-bucket-versioning \
+  #  --bucket "${bucket}-${region}" \
+  #  --versioning-configuration Status=Enabled \
+  #  --region "$region"
+
+  $awscmd s3 cp ./templates.zip "s3://${bucket}" --region "$region"
+
+  #$awscmd s3 cp ecs-refarch-continuous-deployment.yaml "s3://${bucket}-${region}" \
+  #  --region "$region"
+
+  #$awscmd s3 cp --recursive templates/ "s3://${bucket}-${region}/templates" \
+  #  --region "$region"
+done
