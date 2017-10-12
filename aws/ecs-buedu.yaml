@@ -170,6 +170,13 @@ Resources:
       MinSize: '1'
       MaxSize: !Ref 'MaxSize'
       DesiredCapacity: !Ref 'DesiredCapacity'
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName} - ECS Host"
+          PropagateAtLaunch: true
+        - Key: PatchLandscape
+          Value: "test"
+          PropagateAtLaunch: true
     CreationPolicy:
       ResourceSignal:
         Timeout: PT15M
