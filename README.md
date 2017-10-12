@@ -37,3 +37,10 @@ The general workflow while we are building the system is to:
    This will take a while to run because ECS will create a new container, add it to the ELB/ALB, and wait for the 
    old one to drain completely before being done.  This will be replaced later.
 
+URLs for this process:
+- https://sanderknape.com/2016/06/getting-ssl-labs-rating-nginx/
+- https://sanderknape.com/2017/08/custom-cloudformation-resource-example-codedeploy/?__s=1qw3d4dssvntsxck5tuk
+- https://aws.amazon.com/blogs/compute/managing-secrets-for-amazon-ecs-applications-using-parameter-store-and-iam-roles-for-tasks/
+
+- http://blog.xebia.com/docker-container-secrets-aws-ecs/
+
