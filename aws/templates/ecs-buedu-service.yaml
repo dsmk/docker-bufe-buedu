@@ -28,7 +28,7 @@ Resources:
         Cpu: '10'
         Essential: 'true'
         # uncomment the following if we can make the root file system read-only
-        readonlyRootFilesystem: 'true'
+        ReadonlyRootFilesystem: 'true'
         #Image: !Sub "${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${Repository}:${Tag}"
         Image: 
           "Fn::Join": 
