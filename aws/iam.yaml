@@ -57,6 +57,14 @@ Resources:
       FromPort: '22'
       ToPort: '22'
       CidrIp: 128.197.229.78/32
+  ECSSecurityGroupSSHinboundBastion:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !Ref 'ECSSecurityGroup'
+      IpProtocol: tcp
+      FromPort: '22'
+      ToPort: '22'
+      CidrIp: 10.57.239.20/32
   ECSSecurityGroupALBports:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
@@ -130,7 +138,7 @@ Resources:
     Type: AWS::IAM::InstanceProfile
     Properties:
       Path: /
-      Roles: [!Ref 'EC2Role']
+      Roles: [ !Ref 'EC2Role' ]
 # #########
 # Now we do the roles for the development pipeline
 #
