@@ -47,3 +47,6 @@ do
   #$awscmd s3 cp --recursive templates/ "s3://${bucket}-${region}/templates" \
   #  --region "$region"
 done
+
+# now that we are done remove the zip file
+rm ./templates.zip
