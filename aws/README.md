@@ -32,4 +32,8 @@ Various methods to test with CodePipeline:
 How to do this with an external continuous integration other than CodePipeline (CircleCI):
 - https://circleci.com/docs/1.0/continuous-deployment-with-aws-ec2-container-service/
 
+Here are some documents used for how to handle redirection:
+
+https://aws.amazon.com/blogs/compute/build-a-serverless-private-url-shortener/ (S3 redirect single URLs)
+
 aws --profile webpoc cloudformation validate-template --template-body file:///home/dsmk/projects/docker-bufe-buedu/aws/iam.yaml
