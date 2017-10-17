@@ -1,13 +1,18 @@
+The CloudFormation templates in this directory set up www-test.bu.edu infrastructure - the test landscape for the 
+core bu.edu web service.  It is split into multiple templates for two reasons: 1) because they are various quick
+starts, examples, and reference architectures stiched together; and 2) I wanted to start separating by role
+(3-iam.yaml has everything that InfoSec would manage).
+
 The templates should be run in the following order:
 
 - (vpc) - still needs to be done as the POC VPC was hand-built.  Once this is done we need to convert
           the other templates to importvalues from this template
-- deployment-base - creates the basic ECR and S3 buckets - needs to be done before iam so the S3 buckbets can be referenced
-- iam - all security groups and IAM roles 
-- ecs-buedu (rename) - application load balancer and ECS cluster
-- (need to put the ecs-buedu-service.yaml in a zip file to be referenced by the pipeline.
-- deployment-pipeline - The CodeBuild, CodePipeline, and CodeDeploy definitions which does the automatic release when the GitHub repo is updated.  The pipelines uses the zipped ecs-buedu-service to manage release.
-- cloudfront.yaml - sample CloudFront distribution to be used as an example.
+- 2-deployment-base - creates the basic ECR and S3 buckets - needs to be done before iam so the S3 buckbets can be referenced
+- 3-iam - all security groups and IAM roles 
+- 4-ecs-buedu (rename) - application load balancer and ECS cluster
+- Run 5-deploy-buedu to store ecs-buedu-service.yaml in a Zip and upload to the S3 bucket (this still needs to be made generic - has a hardcoded bucket name)
+- 6-deployment-pipeline - The CodeBuild, CodePipeline, and CodeDeploy definitions which does the automatic release when the GitHub repo is updated.  The pipelines uses the zipped ecs-buedu-service to manage release.
+- 7-cloudfront.yaml - sample CloudFront distribution to be used as an example.
 
 The templates in this directory are based on the following sources:
 
@@ -35,5 +40,6 @@ How to do this with an external continuous integration other than CodePipeline (
 Here are some documents used for how to handle redirection:
 
 https://aws.amazon.com/blogs/compute/build-a-serverless-private-url-shortener/ (S3 redirect single URLs)
+
 
 aws --profile webpoc cloudformation validate-template --template-body file:///home/dsmk/projects/docker-bufe-buedu/aws/iam.yaml
