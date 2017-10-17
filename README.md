@@ -1,3 +1,33 @@
+This repo has all the data for the BU AWS web front-end proof of concept.  The architecture sets up a fairly 
+standard AWS Elastic Container Service (ECS) environment with CloudFront in front of it.  The CloudFormation 
+templates are in the aws/ subdirectory but eventually should be in a separate location.
+
+This is still a work in progress and we still need to address the following issues:
+
+- Patching model for ECS EC2 instances: ECS does not seem to handle this by default.  Is the correct approach
+  to use EC2 Systems Manager?
+
+- Method of updating route configuration: This version bakes the routing into the Docker image and relies upon
+  building a new Docker image when we change the configuration.  The CodePipeline makes that more straightforward
+  but a nice to have would be a simple interface to adjust the change as long as it does not add much complexity 
+  to the solution.  
+
+- Release mechanism for multiple landscapes: This POC code only handles one landscape (test).  I have seen a
+  different approaches to multiple landscapes:  1) Have a single CodePipeline for multiple landscapes with a 
+  manual approval step prior to production; 2) Have multiple CodePipelines like the POC based on different 
+  repos and/or tags.  
+
+- Approach for handling redirection of both entire subdirectories and singleton URLs: Redirection ideally 
+  should be managed by Help Center folks.  I have seen a few references to lambda/API gateway and S3 bucket 
+  based approaches.  If we use those solutions then hopefully the routing table could just have a "redirect" 
+  backend that points to the solution.
+
+- Internal load balancers for backends: Our existing front-ends handle load balancing for the WordPress and 
+  Django backends (mod_proxy_balancer Apache 2.2).  One refinement would be to have internal application load
+  balancers so all load balancing is handled (and monitored/tracked) by AWS load balancing services.  In 
+  addition, the WordPress ALB could potentially handle selecting between Application and Asset servers which 
+  would simplify this NGINX/HTTPD configuration even more. 
+
 The general workflow while we are building the system is to:
 
 1) Update the test/sut/test_app.sh script to test the new functionality with the current Solaris.  This involves 
