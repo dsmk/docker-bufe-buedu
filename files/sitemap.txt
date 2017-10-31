@@ -1,5 +1,7 @@
 #admissions wordpress
 
+gshock redirect
+
 # This version string is used to make certain we are on the latest version
 version 2017-04-12 
 
