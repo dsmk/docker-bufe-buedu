@@ -53,7 +53,8 @@ Mappings:
     us-east-1:
       #AMIID: ami-9eb4b1e5
       # 2017.03 Image ID
-      AMIID: ami-0e297018
+      #AMIID: ami-0e297018
+      AMIID: ami-fad25980
     us-east-2:
       AMIID: ami-446f3521
     us-west-1:
@@ -197,7 +198,8 @@ Resources:
         Fn::Base64: !Sub |
           #!/bin/bash -xe
           echo ECS_CLUSTER=${ECSCluster} >> /etc/ecs/ecs.config
-          yum install -y aws-cfn-bootstrap
+          yum install -y aws-cfn-bootstrap amazon-ssm-agent
+          start amazon-ssm-agent
           /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource ECSAutoScalingGroup --region ${AWS::Region}
  # ServiceScalingTarget:
  #   Type: AWS::ApplicationAutoScaling::ScalableTarget
