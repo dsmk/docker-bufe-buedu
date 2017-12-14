@@ -3,37 +3,32 @@ FROM amazonlinux:latest
 ENV PATCHDATE 20170712
 RUN yum -y update && yum clean all
 
-RUN yum install -y httpd24 mod24_ssl ruby && yum clean all
+#RUN rpm -Uvh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
 
-ADD files/run-httpd.sh /usr/sbin/run-httpd.sh
+#RUN yum -y install --setopt=tsflags=nodocs epel-release && yum clean all
 
-RUN mkdir /var/www/html/server /var/lib/httpd  \
-  && chmod 755 /usr/sbin/run-httpd.sh \
-  && rm /etc/httpd/conf.modules.d/00-dav.conf /etc/httpd/conf.modules.d/00-lua.conf \
-  && rm /etc/httpd/conf.d/userdir.conf /etc/httpd/conf.d/welcome.conf /etc/httpd/conf.d/autoindex.conf
+RUN yum install -y nginx ruby && yum clean all
 
-ADD files/healthcheck /var/www/html/server/healthcheck
+ADD files/run-nginx.sh /usr/sbin/run-nginx.sh
 
-ADD files/get-cloudfront-ip.rb /usr/sbin/get-cloudfront-ip.rb
-ADD files/ip-ranges.json /etc/httpd/ip-ranges.json
-ADD files/httpd.conf /etc/httpd/conf/httpd.conf
-
-COPY files/conf.modules.d/ /etc/httpd/conf.modules.d
-
-COPY files/conf.d/ /etc/httpd/conf.d
-
-ADD files/sitemap.txt /etc/httpd/sitemap.txt
-
-RUN /usr/bin/httxt2dbm -f db -i /etc/httpd/sitemap.txt -o /etc/httpd/sitemap.db
-
-# These now should be at the bottom of the Dockerfile
-
-CMD /usr/sbin/run-httpd.sh
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf \
+  && chmod 755 /usr/sbin/run-nginx.sh \
+  && mkdir -p /etc/erb/nginx/conf.d /etc/erb/nginx/default.d \
+  && ln -sf /dev/stderr /var/log/nginx/error.log \
+  && ln -sf /dev/stdout /var/log/nginx/access.log 
 
 EXPOSE 80 443
 
-# the following volumes are so we can do a handful of read-write things in controled situations
-# and to keep the pki files (if necessary) outside our image
-#
-VOLUME [ "/tmp", "/var/lib/httpd", "/var/run/httpd", "/var/log/httpd", "/etc/pki/httpd" ]
+VOLUME [ "/var/log/nginx", "/etc/pki/nginx" ]
+# these are so we can run nginx read-only
+VOLUME [ "/var/lib/nginx", "/tmp", "/var/run", "/var/log/nginx", "/etc/nginx" ]
+
+CMD /usr/sbin/run-nginx.sh
+ADD files/get-cloudfront-ip.rb /usr/sbin/get-cloudfront-ip.rb
+ADD files/nginx.conf.erb /etc/erb/nginx/nginx.conf.erb
+ADD files/conf.d-map-def.conf.erb /etc/erb/nginx/conf.d/map-def.conf.erb
+ADD files/conf.d-ssl.conf.erb /etc/erb/nginx/conf.d/ssl.conf.erb
+ADD files/conf.d-default.conf.erb /etc/erb/nginx/conf.d/default.conf.erb
+ADD files/default.d-www.conf.erb /etc/erb/nginx/default.d/www.conf.erb
+ADD files/sites.map /etc/nginx/sites.map
 

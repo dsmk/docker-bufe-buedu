@@ -12,7 +12,8 @@ NAMESERVER=`/bin/grep ^nameserver /etc/resolv.conf | /bin/awk '{print $2}' | hea
 export NAMESERVER
 
 # update the cloudfront_ips.conf file used for getting the client IP when using cloudfront
-/usr/sbin/get-cloudfront-ip.rb >/etc/nginx/cloudfront_ips.conf
+mkdir -p /tmp/run-nginx
+TMPDIR=/tmp/run-nginx /usr/sbin/get-cloudfront-ip.rb >/etc/nginx/cloudfront_ips.conf
 
 # generate self-signed SSL certificates if they do not actually exist
 if [ ! -f /etc/pki/nginx/cert.key ]; then
@@ -29,9 +30,10 @@ FILES="nginx.conf conf.d/map-def.conf conf.d/ssl.conf conf.d/default.conf defaul
 
 for file in $FILES ; do
   fullfile="/etc/nginx/$file"
-  if [ -e "${fullfile}.erb" ]; then
+  erbfile="/etc/erb/nginx/${file}.erb"
+  if [ -e "${erbfile}" ]; then
     echo "erb substitutions for $fullfile"
-    /usr/bin/erb "${fullfile}.erb" >$fullfile
+    /usr/bin/erb "${erbfile}" >$fullfile
   fi
 done
 
