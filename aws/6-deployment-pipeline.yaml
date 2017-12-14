@@ -1,3 +1,5 @@
+# https://dzone.com/articles/automate-codecommit-and-codepipeline-in-aws-cloudf
+#
 Parameters:
   Prefix:
     Type: String
@@ -102,19 +104,6 @@ Resources:
               OutputArtifacts:
                 - Name: App
               RunOrder: 1
-            - Name: Template
-              ActionTypeId:
-                Category: Source
-                Owner: AWS
-                Version: 1
-                Provider: S3
-              OutputArtifacts:
-                - Name: Template
-              RunOrder: 1
-              Configuration:
-                S3Bucket: 
-                  "Fn::ImportValue": !Sub "${Prefix}-template-bucket-name"
-                S3ObjectKey: ecs-buedu.yaml
         - Name: Build
           Actions:
             - Name: Build
@@ -143,7 +132,8 @@ Resources:
                 ActionMode: CREATE_UPDATE
                 StackName: !Sub "${AWS::StackName}-Service"
                 #Capabilities: CAPABILITY_NAMED_IAM
-                TemplatePath: Template::templates/ecs-buedu-service.yaml
+                #TemplatePath: Template::templates/ecs-buedu-service.yaml
+                TemplatePath: App::aws/templates/ecs-buedu-service.yaml
                 #TemplatePath: Template::ecs-buedu.yaml
                 RoleArn: 
                   "Fn::ImportValue": !Sub "${Prefix}-iam-cloudformation-execution-role-arn"
@@ -154,7 +144,7 @@ Resources:
                     "DesiredCapacity" : "1"
                   }
               InputArtifacts:
-                - Name: Template
+                - Name: App
                 - Name: BuildOutput
               RunOrder: 1
 
