@@ -349,6 +349,9 @@ Resources:
             - .compute.internal
       DomainNameServers:
         - AmazonProvidedDNS
+      Tags:
+        - Key: Name
+          Value: !Ref 'AWS::Region'
   VPC:
     Type: 'AWS::EC2::VPC'
     Properties:
@@ -359,8 +362,6 @@ Resources:
       Tags:
         - Key: Name
           Value: !Ref 'AWS::StackName'
-        - Key: Project
-          Value: "web2cloud"
   VPCDHCPOptionsAssociation:
     Type: 'AWS::EC2::VPCDHCPOptionsAssociation'
     Properties:
@@ -374,8 +375,6 @@ Resources:
           Value: !Ref 'AWS::StackName'
         - Key: Network
           Value: Public
-        - Key: Project
-          Value: "web2cloud"
   VPCGatewayAttachment:
     Type: 'AWS::EC2::VPCGatewayAttachment'
     Properties:
