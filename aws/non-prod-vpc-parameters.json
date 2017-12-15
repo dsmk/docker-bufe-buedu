@@ -16,6 +16,10 @@
             "ParameterKey": "NumberOfAZs"
         },
         {
+            "ParameterValue": "true",
+            "ParameterKey": "CreateVPNConnection"
+        },
+        {
             "ParameterValue": "false",
             "ParameterKey": "UseNATGateway"
         },
