@@ -1,5 +1,10 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
+  This template adapts the AWS VPC Quickstart for the Web to Cloud Phase 1 project.
+  It has the following differences from the QuickStart.  The Private A subnet has
+  been renamed FrontEnd and the default IPs for 2 zones public and front-end reflect
+  the non-production network layout.
+
   This template creates a Multi-AZ, multi-subnet VPC infrastructure with managed
   NAT gateways in the public subnet for each Availability Zone. You can also
   create additional private subnets with dedicated custom network access control
@@ -23,11 +28,11 @@ Metadata:
           - PublicSubnet2CIDR
           - PublicSubnet3CIDR
           - PublicSubnet4CIDR
-          - CreatePrivateSubnets
-          - PrivateSubnet1ACIDR
-          - PrivateSubnet2ACIDR
-          - PrivateSubnet3ACIDR
-          - PrivateSubnet4ACIDR
+          - CreateFrontEndSubnets
+          - FrontEndSubnet1ACIDR
+          - FrontEndSubnet2ACIDR
+          - FrontEndSubnet3ACIDR
+          - FrontEndSubnet4ACIDR
           - CreateAdditionalPrivateSubnets
           - PrivateSubnet1BCIDR
           - PrivateSubnet2BCIDR
@@ -35,8 +40,9 @@ Metadata:
           - PrivateSubnet4BCIDR
           - VPCTenancy
       - Label:
-          default: Amazon EC2 Configuration
+          default: Amazon NAT Configuration
         Parameters:
+          - UseNATGateway
           - KeyPairName
           - NATInstanceType
     ParameterLabels:
@@ -52,20 +58,20 @@ Metadata:
         default: NAT instance type
       NumberOfAZs:
         default: Number of Availability Zones
-      PrivateSubnet1ACIDR:
-        default: Private subnet 1A CIDR
+      FrontEndSubnet1ACIDR:
+        default: FrontEnd subnet 1A CIDR
       PrivateSubnet1BCIDR:
         default: Private subnet 1B with dedicated network ACL CIDR
-      PrivateSubnet2ACIDR:
-        default: Private subnet 2A CIDR
+      FrontEndSubnet2ACIDR:
+        default: FrontEnd subnet 2A CIDR
       PrivateSubnet2BCIDR:
         default: Private subnet 2B with dedicated network ACL CIDR
-      PrivateSubnet3ACIDR:
-        default: Private subnet 3A CIDR
+      FrontEndSubnet3ACIDR:
+        default: FrontEnd subnet 3A CIDR
       PrivateSubnet3BCIDR:
         default: Private subnet 3B with dedicated network ACL CIDR
-      PrivateSubnet4ACIDR:
-        default: Private subnet 4A CIDR
+      FrontEndSubnet4ACIDR:
+        default: FrontEnd subnet 4A CIDR
       PrivateSubnet4BCIDR:
         default: Private subnet 4B with dedicated network ACL CIDR
       PublicSubnet1CIDR:
@@ -76,6 +82,8 @@ Metadata:
         default: Public subnet 3 CIDR
       PublicSubnet4CIDR:
         default: Public subnet 4 CIDR
+      UseNATGateway:
+        default: Use NAT gateway instead of NAT instance
       VPCCIDR:
         default: VPC CIDR
       VPCTenancy:
@@ -97,14 +105,14 @@ Parameters:
       true, it also requires that the 'Create private subnets' parameter is also
       true to have any effect.
     Type: String
-  CreatePrivateSubnets:
+  CreateFrontEndSubnets:
     AllowedValues:
       - 'true'
       - 'false'
     Default: 'true'
     Description: >-
       Set to false to create only public subnets. If false, the CIDR parameters
-      for ALL private subnets will be ignored.
+      for ALL FrontEnd subnets will be ignored.
     Type: String
   KeyPairName:
     Description: >-
@@ -112,6 +120,14 @@ Parameters:
       instance after it launches. This is used only if the region does not
       support NAT gateways.
     Type: 'AWS::EC2::KeyPair::KeyName'
+  UseNATGateway:
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: 'true'
+    Description: >-
+      Set to false to use NAT instances instead of NAT gateways.  If true then CloudFormation will create NAT gateways.
+    Type: String
   NATInstanceType:
     AllowedValues:
       - t2.nano
@@ -137,12 +153,12 @@ Parameters:
       Number of Availability Zones to use in the VPC. This must match your
       selections in the list of Availability Zones parameter.
     Type: String
-  PrivateSubnet1ACIDR:
+  FrontEndSubnet1ACIDR:
     AllowedPattern: >-
       ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-    Default: 10.0.0.0/19
-    Description: CIDR block for private subnet 1A located in Availability Zone 1
+    Default: 10.57.254.0/24
+    Description: CIDR block for FrontEnd subnet 1A located in Availability Zone 1
     Type: String
   PrivateSubnet1BCIDR:
     AllowedPattern: >-
@@ -153,12 +169,12 @@ Parameters:
       CIDR block for private subnet 1B with dedicated network ACL located in
       Availability Zone 1
     Type: String
-  PrivateSubnet2ACIDR:
+  FrontEndSubnet2ACIDR:
     AllowedPattern: >-
       ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-    Default: 10.0.32.0/19
-    Description: CIDR block for private subnet 2A located in Availability Zone 2
+    Default: 10.57.255.0/24
+    Description: CIDR block for FrontEnd subnet 2A located in Availability Zone 2
     Type: String
   PrivateSubnet2BCIDR:
     AllowedPattern: >-
@@ -169,12 +185,12 @@ Parameters:
       CIDR block for private subnet 2B with dedicated network ACL located in
       Availability Zone 2
     Type: String
-  PrivateSubnet3ACIDR:
+  FrontEndSubnet3ACIDR:
     AllowedPattern: >-
       ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
     Default: 10.0.64.0/19
-    Description: CIDR block for private subnet 3A located in Availability Zone 3
+    Description: CIDR block for FrontEnd subnet 3A located in Availability Zone 3
     Type: String
   PrivateSubnet3BCIDR:
     AllowedPattern: >-
@@ -185,12 +201,12 @@ Parameters:
       CIDR block for private subnet 3B with dedicated network ACL located in
       Availability Zone 3
     Type: String
-  PrivateSubnet4ACIDR:
+  FrontEndSubnet4ACIDR:
     AllowedPattern: >-
       ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
     Default: 10.0.96.0/19
-    Description: CIDR block for private subnet 4A located in Availability Zone 4
+    Description: CIDR block for FrontEnd subnet 4A located in Availability Zone 4
     Type: String
   PrivateSubnet4BCIDR:
     AllowedPattern: >-
@@ -205,14 +221,14 @@ Parameters:
     AllowedPattern: >-
       ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-    Default: 10.0.128.0/20
+    Default: 10.57.252.0/24
     Description: CIDR block for the public DMZ subnet 1 located in Availability Zone 1
     Type: String
   PublicSubnet2CIDR:
     AllowedPattern: >-
       ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-    Default: 10.0.144.0/20
+    Default: 10.57.253.0/24
     Description: CIDR block for the public DMZ subnet 2 located in Availability Zone 2
     Type: String
   PublicSubnet3CIDR:
@@ -233,7 +249,7 @@ Parameters:
     AllowedPattern: >-
       ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-    Default: 10.0.0.0/16
+    Default: 10.57.252.0/22
     Description: CIDR block for the VPC
     Type: String
   VPCTenancy:
@@ -246,7 +262,9 @@ Parameters:
 Mappings:
   AWSAMIRegionMap:
     AMI:
-      AWSNATHVM: amzn-ami-vpc-nat-hvm-2017.03.0.20170401-x86_64-ebs
+      AWSNATHVM: amazon/amzn-ami-vpc-nat-hvm-2017.09.1.20171120-x86_64-ebs
+    us-east-1:
+      AWSNATHVM: ami-25ef665f
     us-gov-west-1:
       AWSNATHVM: ami-3f0a8f5e
 Conditions:
@@ -260,7 +278,7 @@ Conditions:
     - '4'
   AdditionalPrivateSubnetsCondition: !And 
     - !Equals 
-      - !Ref CreatePrivateSubnets
+      - !Ref CreateFrontEndSubnets
       - 'true'
     - !Equals 
       - !Ref CreateAdditionalPrivateSubnets
@@ -274,13 +292,16 @@ Conditions:
   GovCloudCondition: !Equals 
     - !Ref 'AWS::Region'
     - us-gov-west-1
+  IsNATGatewaySet: !Equals
+    - !Ref UseNATGateway
+    - 'true'
   NATInstanceCondition: !And 
-    - !Condition PrivateSubnetsCondition
-    - !Condition GovCloudCondition
+    - !Condition FrontEndSubnetsCondition
+    - !Not
+      - !Condition IsNATGatewaySet
   NATGatewayCondition: !And 
-    - !Condition PrivateSubnetsCondition
-    - !Not 
-      - !Condition GovCloudCondition
+    - !Condition FrontEndSubnetsCondition
+    - !Condition IsNATGatewaySet
   NATInstance&3AZCondition: !And 
     - !Condition NATInstanceCondition
     - !Condition 3AZCondition
@@ -296,17 +317,17 @@ Conditions:
   NVirginiaRegionCondition: !Equals 
     - !Ref 'AWS::Region'
     - us-east-1
-  PrivateSubnetsCondition: !Equals 
-    - !Ref CreatePrivateSubnets
+  FrontEndSubnetsCondition: !Equals 
+    - !Ref CreateFrontEndSubnets
     - 'true'
-  PrivateSubnets&3AZCondition: !And 
-    - !Condition PrivateSubnetsCondition
+  FrontEndSubnets&3AZCondition: !And 
+    - !Condition FrontEndSubnetsCondition
     - !Condition 3AZCondition
-  PrivateSubnets&4AZCondition: !And 
-    - !Condition PrivateSubnetsCondition
+  FrontEndSubnets&4AZCondition: !And 
+    - !Condition FrontEndSubnetsCondition
     - !Condition 4AZCondition
   S3VPCEndpointCondition: !And 
-    - !Condition PrivateSubnetsCondition
+    - !Condition FrontEndSubnetsCondition
     - !Not 
       - !Or 
         - !Equals 
@@ -338,6 +359,8 @@ Resources:
       Tags:
         - Key: Name
           Value: !Ref 'AWS::StackName'
+        - Key: Project
+          Value: "web2cloud"
   VPCDHCPOptionsAssociation:
     Type: 'AWS::EC2::VPCDHCPOptionsAssociation'
     Properties:
@@ -351,23 +374,25 @@ Resources:
           Value: !Ref 'AWS::StackName'
         - Key: Network
           Value: Public
+        - Key: Project
+          Value: "web2cloud"
   VPCGatewayAttachment:
     Type: 'AWS::EC2::VPCGatewayAttachment'
     Properties:
       VpcId: !Ref VPC
       InternetGatewayId: !Ref InternetGateway
-  PrivateSubnet1A:
-    Condition: PrivateSubnetsCondition
+  FrontEndSubnet1A:
+    Condition: FrontEndSubnetsCondition
     Type: 'AWS::EC2::Subnet'
     Properties:
       VpcId: !Ref VPC
-      CidrBlock: !Ref PrivateSubnet1ACIDR
+      CidrBlock: !Ref FrontEndSubnet1ACIDR
       AvailabilityZone: !Select 
         - '0'
         - !Ref AvailabilityZones
       Tags:
         - Key: Name
-          Value: Private subnet 1A
+          Value: FrontEnd subnet 1A
         - Key: Network
           Value: Private
   PrivateSubnet1B:
@@ -384,18 +409,18 @@ Resources:
           Value: Private subnet 1B
         - Key: Network
           Value: Private
-  PrivateSubnet2A:
-    Condition: PrivateSubnetsCondition
+  FrontEndSubnet2A:
+    Condition: FrontEndSubnetsCondition
     Type: 'AWS::EC2::Subnet'
     Properties:
       VpcId: !Ref VPC
-      CidrBlock: !Ref PrivateSubnet2ACIDR
+      CidrBlock: !Ref FrontEndSubnet2ACIDR
       AvailabilityZone: !Select 
         - '1'
         - !Ref AvailabilityZones
       Tags:
         - Key: Name
-          Value: Private subnet 2A
+          Value: FrontEnd subnet 2A
         - Key: Network
           Value: Private
   PrivateSubnet2B:
@@ -412,18 +437,18 @@ Resources:
           Value: Private subnet 2B
         - Key: Network
           Value: Private
-  PrivateSubnet3A:
-    Condition: PrivateSubnets&3AZCondition
+  FrontEndSubnet3A:
+    Condition: FrontEndSubnets&3AZCondition
     Type: 'AWS::EC2::Subnet'
     Properties:
       VpcId: !Ref VPC
-      CidrBlock: !Ref PrivateSubnet3ACIDR
+      CidrBlock: !Ref FrontEndSubnet3ACIDR
       AvailabilityZone: !Select 
         - '2'
         - !Ref AvailabilityZones
       Tags:
         - Key: Name
-          Value: Private subnet 3A
+          Value: FrontEnd subnet 3A
         - Key: Network
           Value: Private
   PrivateSubnet3B:
@@ -440,18 +465,18 @@ Resources:
           Value: Private subnet 3B
         - Key: Network
           Value: Private
-  PrivateSubnet4A:
-    Condition: PrivateSubnets&4AZCondition
+  FrontEndSubnet4A:
+    Condition: FrontEndSubnets&4AZCondition
     Type: 'AWS::EC2::Subnet'
     Properties:
       VpcId: !Ref VPC
-      CidrBlock: !Ref PrivateSubnet4ACIDR
+      CidrBlock: !Ref FrontEndSubnet4ACIDR
       AvailabilityZone: !Select 
         - '3'
         - !Ref AvailabilityZones
       Tags:
         - Key: Name
-          Value: Private subnet 4A
+          Value: FrontEnd subnet 4A
         - Key: Network
           Value: Private
   PrivateSubnet4B:
@@ -526,21 +551,21 @@ Resources:
         - Key: Network
           Value: Public
       MapPublicIpOnLaunch: true
-  PrivateSubnet1ARouteTable:
-    Condition: PrivateSubnetsCondition
+  FrontEndSubnet1ARouteTable:
+    Condition: FrontEndSubnetsCondition
     Type: 'AWS::EC2::RouteTable'
     Properties:
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: Private subnet 1A
+          Value: FrontEnd subnet 1A
         - Key: Network
           Value: Private
-  PrivateSubnet1ARoute:
-    Condition: PrivateSubnetsCondition
+  FrontEndSubnet1ARoute:
+    Condition: FrontEndSubnetsCondition
     Type: 'AWS::EC2::Route'
     Properties:
-      RouteTableId: !Ref PrivateSubnet1ARouteTable
+      RouteTableId: !Ref FrontEndSubnet1ARouteTable
       DestinationCidrBlock: 0.0.0.0/0
       InstanceId: !If 
         - NATInstanceCondition
@@ -550,27 +575,27 @@ Resources:
         - NATGatewayCondition
         - !Ref NATGateway1
         - !Ref 'AWS::NoValue'
-  PrivateSubnet1ARouteTableAssociation:
-    Condition: PrivateSubnetsCondition
+  FrontEndSubnet1ARouteTableAssociation:
+    Condition: FrontEndSubnetsCondition
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !Ref PrivateSubnet1A
-      RouteTableId: !Ref PrivateSubnet1ARouteTable
-  PrivateSubnet2ARouteTable:
-    Condition: PrivateSubnetsCondition
+      SubnetId: !Ref FrontEndSubnet1A
+      RouteTableId: !Ref FrontEndSubnet1ARouteTable
+  FrontEndSubnet2ARouteTable:
+    Condition: FrontEndSubnetsCondition
     Type: 'AWS::EC2::RouteTable'
     Properties:
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: Private subnet 2A
+          Value: FrontEnd subnet 2A
         - Key: Network
           Value: Private
-  PrivateSubnet2ARoute:
-    Condition: PrivateSubnetsCondition
+  FrontEndSubnet2ARoute:
+    Condition: FrontEndSubnetsCondition
     Type: 'AWS::EC2::Route'
     Properties:
-      RouteTableId: !Ref PrivateSubnet2ARouteTable
+      RouteTableId: !Ref FrontEndSubnet2ARouteTable
       DestinationCidrBlock: 0.0.0.0/0
       InstanceId: !If 
         - NATInstanceCondition
@@ -580,27 +605,27 @@ Resources:
         - NATGatewayCondition
         - !Ref NATGateway2
         - !Ref 'AWS::NoValue'
-  PrivateSubnet2ARouteTableAssociation:
-    Condition: PrivateSubnetsCondition
+  FrontEndSubnet2ARouteTableAssociation:
+    Condition: FrontEndSubnetsCondition
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !Ref PrivateSubnet2A
-      RouteTableId: !Ref PrivateSubnet2ARouteTable
-  PrivateSubnet3ARouteTable:
-    Condition: PrivateSubnets&3AZCondition
+      SubnetId: !Ref FrontEndSubnet2A
+      RouteTableId: !Ref FrontEndSubnet2ARouteTable
+  FrontEndSubnet3ARouteTable:
+    Condition: FrontEndSubnets&3AZCondition
     Type: 'AWS::EC2::RouteTable'
     Properties:
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: Private subnet 3A
+          Value: FrontEnd subnet 3A
         - Key: Network
           Value: Private
-  PrivateSubnet3ARoute:
-    Condition: PrivateSubnets&3AZCondition
+  FrontEndSubnet3ARoute:
+    Condition: FrontEndSubnets&3AZCondition
     Type: 'AWS::EC2::Route'
     Properties:
-      RouteTableId: !Ref PrivateSubnet3ARouteTable
+      RouteTableId: !Ref FrontEndSubnet3ARouteTable
       DestinationCidrBlock: 0.0.0.0/0
       InstanceId: !If 
         - NATInstanceCondition
@@ -610,27 +635,27 @@ Resources:
         - NATGatewayCondition
         - !Ref NATGateway3
         - !Ref 'AWS::NoValue'
-  PrivateSubnet3ARouteTableAssociation:
-    Condition: PrivateSubnets&3AZCondition
+  FrontEndSubnet3ARouteTableAssociation:
+    Condition: FrontEndSubnets&3AZCondition
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !Ref PrivateSubnet3A
-      RouteTableId: !Ref PrivateSubnet3ARouteTable
-  PrivateSubnet4ARouteTable:
-    Condition: PrivateSubnets&4AZCondition
+      SubnetId: !Ref FrontEndSubnet3A
+      RouteTableId: !Ref FrontEndSubnet3ARouteTable
+  FrontEndSubnet4ARouteTable:
+    Condition: FrontEndSubnets&4AZCondition
     Type: 'AWS::EC2::RouteTable'
     Properties:
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: Private subnet 4A
+          Value: FrontEnd subnet 4A
         - Key: Network
           Value: Private
-  PrivateSubnet4ARoute:
-    Condition: PrivateSubnets&4AZCondition
+  FrontEndSubnet4ARoute:
+    Condition: FrontEndSubnets&4AZCondition
     Type: 'AWS::EC2::Route'
     Properties:
-      RouteTableId: !Ref PrivateSubnet4ARouteTable
+      RouteTableId: !Ref FrontEndSubnet4ARouteTable
       DestinationCidrBlock: 0.0.0.0/0
       InstanceId: !If 
         - NATInstanceCondition
@@ -640,12 +665,12 @@ Resources:
         - NATGatewayCondition
         - !Ref NATGateway4
         - !Ref 'AWS::NoValue'
-  PrivateSubnet4ARouteTableAssociation:
-    Condition: PrivateSubnets&4AZCondition
+  FrontEndSubnet4ARouteTableAssociation:
+    Condition: FrontEndSubnets&4AZCondition
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !Ref PrivateSubnet4A
-      RouteTableId: !Ref PrivateSubnet4ARouteTable
+      SubnetId: !Ref FrontEndSubnet4A
+      RouteTableId: !Ref FrontEndSubnet4ARouteTable
   PrivateSubnet1BRouteTable:
     Condition: AdditionalPrivateSubnetsCondition
     Type: 'AWS::EC2::RouteTable'
@@ -949,7 +974,7 @@ Resources:
       SubnetId: !Ref PublicSubnet4
       RouteTableId: !Ref PublicSubnetRouteTable
   NAT1EIP:
-    Condition: PrivateSubnetsCondition
+    Condition: FrontEndSubnetsCondition
     DependsOn: VPCGatewayAttachment
     Type: 'AWS::EC2::EIP'
     Properties:
@@ -959,7 +984,7 @@ Resources:
         - !Ref NATInstance1
         - !Ref 'AWS::NoValue'
   NAT2EIP:
-    Condition: PrivateSubnetsCondition
+    Condition: FrontEndSubnetsCondition
     DependsOn: VPCGatewayAttachment
     Type: 'AWS::EC2::EIP'
     Properties:
@@ -969,7 +994,7 @@ Resources:
         - !Ref NATInstance2
         - !Ref 'AWS::NoValue'
   NAT3EIP:
-    Condition: PrivateSubnets&3AZCondition
+    Condition: FrontEndSubnets&3AZCondition
     DependsOn: VPCGatewayAttachment
     Type: 'AWS::EC2::EIP'
     Properties:
@@ -979,7 +1004,7 @@ Resources:
         - !Ref NATInstance3
         - !Ref 'AWS::NoValue'
   NAT4EIP:
-    Condition: PrivateSubnets&4AZCondition
+    Condition: FrontEndSubnets&4AZCondition
     DependsOn: VPCGatewayAttachment
     Type: 'AWS::EC2::EIP'
     Properties:
@@ -1147,15 +1172,15 @@ Resources:
             Resource: '*'
             Principal: '*'
       RouteTableIds:
-        - !Ref PrivateSubnet1ARouteTable
-        - !Ref PrivateSubnet2ARouteTable
+        - !Ref FrontEndSubnet1ARouteTable
+        - !Ref FrontEndSubnet2ARouteTable
         - !If 
-          - PrivateSubnets&3AZCondition
-          - !Ref PrivateSubnet3ARouteTable
+          - FrontEndSubnets&3AZCondition
+          - !Ref FrontEndSubnet3ARouteTable
           - !Ref 'AWS::NoValue'
         - !If 
-          - PrivateSubnets&4AZCondition
-          - !Ref PrivateSubnet4ARouteTable
+          - FrontEndSubnets&4AZCondition
+          - !Ref FrontEndSubnet4ARouteTable
           - !Ref 'AWS::NoValue'
         - !If 
           - AdditionalPrivateSubnetsCondition
@@ -1181,41 +1206,41 @@ Resources:
       VpcId: !Ref VPC
 Outputs:
   NAT1EIP:
-    Condition: PrivateSubnetsCondition
+    Condition: FrontEndSubnetsCondition
     Description: NAT 1 IP address
     Value: !Ref NAT1EIP
     Export:
       Name: !Sub '${AWS::StackName}-NAT1EIP'
   NAT2EIP:
-    Condition: PrivateSubnetsCondition
+    Condition: FrontEndSubnetsCondition
     Description: NAT 2 IP address
     Value: !Ref NAT2EIP
     Export:
       Name: !Sub '${AWS::StackName}-NAT2EIP'
   NAT3EIP:
-    Condition: PrivateSubnets&3AZCondition
+    Condition: FrontEndSubnets&3AZCondition
     Description: NAT 3 IP address
     Value: !Ref NAT3EIP
     Export:
       Name: !Sub '${AWS::StackName}-NAT3EIP'
   NAT4EIP:
-    Condition: PrivateSubnets&4AZCondition
+    Condition: FrontEndSubnets&4AZCondition
     Description: NAT 4 IP address
     Value: !Ref NAT4EIP
     Export:
       Name: !Sub '${AWS::StackName}-NAT4EIP'
-  PrivateSubnet1ACIDR:
-    Condition: PrivateSubnetsCondition
-    Description: Private subnet 1A CIDR in Availability Zone 1
-    Value: !Ref PrivateSubnet1ACIDR
+  FrontEndSubnet1ACIDR:
+    Condition: FrontEndSubnetsCondition
+    Description: FrontEnd subnet 1A CIDR in Availability Zone 1
+    Value: !Ref FrontEndSubnet1ACIDR
     Export:
-      Name: !Sub '${AWS::StackName}-PrivateSubnet1ACIDR'
-  PrivateSubnet1AID:
-    Condition: PrivateSubnetsCondition
-    Description: Private subnet 1A ID in Availability Zone 1
-    Value: !Ref PrivateSubnet1A
+      Name: !Sub '${AWS::StackName}-FrontEndSubnet1ACIDR'
+  FrontEndSubnet1AID:
+    Condition: FrontEndSubnetsCondition
+    Description: FrontEnd subnet 1A ID in Availability Zone 1
+    Value: !Ref FrontEndSubnet1A
     Export:
-      Name: !Sub '${AWS::StackName}-PrivateSubnet1AID'
+      Name: !Sub '${AWS::StackName}-FrontEndSubnet1AID'
   PrivateSubnet1BCIDR:
     Condition: AdditionalPrivateSubnetsCondition
     Description: Private subnet 1B CIDR in Availability Zone 1
@@ -1228,18 +1253,18 @@ Outputs:
     Value: !Ref PrivateSubnet1B
     Export:
       Name: !Sub '${AWS::StackName}-PrivateSubnet1BID'
-  PrivateSubnet2ACIDR:
-    Condition: PrivateSubnetsCondition
-    Description: Private subnet 2A CIDR in Availability Zone 2
-    Value: !Ref PrivateSubnet2ACIDR
+  FrontEndSubnet2ACIDR:
+    Condition: FrontEndSubnetsCondition
+    Description: FrontEnd subnet 2A CIDR in Availability Zone 2
+    Value: !Ref FrontEndSubnet2ACIDR
     Export:
-      Name: !Sub '${AWS::StackName}-PrivateSubnet2ACIDR'
-  PrivateSubnet2AID:
-    Condition: PrivateSubnetsCondition
-    Description: Private subnet 2A ID in Availability Zone 2
-    Value: !Ref PrivateSubnet2A
+      Name: !Sub '${AWS::StackName}-FrontEndSubnet2ACIDR'
+  FrontEndSubnet2AID:
+    Condition: FrontEndSubnetsCondition
+    Description: FrontEnd subnet 2A ID in Availability Zone 2
+    Value: !Ref FrontEndSubnet2A
     Export:
-      Name: !Sub '${AWS::StackName}-PrivateSubnet2AID'
+      Name: !Sub '${AWS::StackName}-FrontEndSubnet2AID'
   PrivateSubnet2BCIDR:
     Condition: AdditionalPrivateSubnetsCondition
     Description: Private subnet 2B CIDR in Availability Zone 2
@@ -1252,18 +1277,18 @@ Outputs:
     Value: !Ref PrivateSubnet2B
     Export:
       Name: !Sub '${AWS::StackName}-PrivateSubnet2BID'
-  PrivateSubnet3ACIDR:
-    Condition: PrivateSubnets&3AZCondition
-    Description: Private subnet 3A CIDR in Availability Zone 3
-    Value: !Ref PrivateSubnet3ACIDR
+  FrontEndSubnet3ACIDR:
+    Condition: FrontEndSubnets&3AZCondition
+    Description: FrontEnd subnet 3A CIDR in Availability Zone 3
+    Value: !Ref FrontEndSubnet3ACIDR
     Export:
-      Name: !Sub '${AWS::StackName}-PrivateSubnet3ACIDR'
-  PrivateSubnet3AID:
-    Condition: PrivateSubnets&3AZCondition
-    Description: Private subnet 3A ID in Availability Zone 3
-    Value: !Ref PrivateSubnet3A
+      Name: !Sub '${AWS::StackName}-FrontEndSubnet3ACIDR'
+  FrontEndSubnet3AID:
+    Condition: FrontEndSubnets&3AZCondition
+    Description: FrontEnd subnet 3A ID in Availability Zone 3
+    Value: !Ref FrontEndSubnet3A
     Export:
-      Name: !Sub '${AWS::StackName}-PrivateSubnet3AID'
+      Name: !Sub '${AWS::StackName}-FrontEndSubnet3AID'
   PrivateSubnet3BCIDR:
     Condition: AdditionalPrivateSubnets&3AZCondition
     Description: Private subnet 3B CIDR in Availability Zone 3
@@ -1276,18 +1301,18 @@ Outputs:
     Value: !Ref PrivateSubnet3B
     Export:
       Name: !Sub '${AWS::StackName}-PrivateSubnet3BID'
-  PrivateSubnet4ACIDR:
-    Condition: PrivateSubnets&4AZCondition
-    Description: Private subnet 4A CIDR in Availability Zone 4
-    Value: !Ref PrivateSubnet4ACIDR
+  FrontEndSubnet4ACIDR:
+    Condition: FrontEndSubnets&4AZCondition
+    Description: FrontEnd subnet 4A CIDR in Availability Zone 4
+    Value: !Ref FrontEndSubnet4ACIDR
     Export:
-      Name: !Sub '${AWS::StackName}-PrivateSubnet4ACIDR'
-  PrivateSubnet4AID:
-    Condition: PrivateSubnets&4AZCondition
-    Description: Private subnet 4A ID in Availability Zone 4
-    Value: !Ref PrivateSubnet4A
+      Name: !Sub '${AWS::StackName}-FrontEndSubnet4ACIDR'
+  FrontEndSubnet4AID:
+    Condition: FrontEndSubnets&4AZCondition
+    Description: FrontEnd subnet 4A ID in Availability Zone 4
+    Value: !Ref FrontEndSubnet4A
     Export:
-      Name: !Sub '${AWS::StackName}-PrivateSubnet4AID'
+      Name: !Sub '${AWS::StackName}-FrontEndSubnet4AID'
   PrivateSubnet4BCIDR:
     Condition: AdditionalPrivateSubnets&4AZCondition
     Description: Private subnet 4B CIDR in Availability Zone 4
@@ -1350,48 +1375,48 @@ Outputs:
     Value: !Ref S3VPCEndpoint
     Export:
       Name: !Sub '${AWS::StackName}-S3VPCEndpoint'
-  PrivateSubnet1ARouteTable:
-    Condition: PrivateSubnetsCondition
-    Value: !Ref PrivateSubnet1ARouteTable
-    Description: Private subnet 1A route table
+  FrontEndSubnet1ARouteTable:
+    Condition: FrontEndSubnetsCondition
+    Value: !Ref FrontEndSubnet1ARouteTable
+    Description: FrontEnd subnet 1A route table
     Export:
-      Name: !Sub '${AWS::StackName}-PrivateSubnet1ARouteTable'
+      Name: !Sub '${AWS::StackName}-FrontEndSubnet1ARouteTable'
   PrivateSubnet1BRouteTable:
     Condition: AdditionalPrivateSubnetsCondition
     Value: !Ref PrivateSubnet1BRouteTable
     Description: Private subnet 1B route table
     Export:
       Name: !Sub '${AWS::StackName}-PrivateSubnet1BRouteTable'
-  PrivateSubnet2ARouteTable:
-    Condition: PrivateSubnetsCondition
-    Value: !Ref PrivateSubnet2ARouteTable
-    Description: Private subnet 2A route table
+  FrontEndSubnet2ARouteTable:
+    Condition: FrontEndSubnetsCondition
+    Value: !Ref FrontEndSubnet2ARouteTable
+    Description: FrontEnd subnet 2A route table
     Export:
-      Name: !Sub '${AWS::StackName}-PrivateSubnet2ARouteTable'
+      Name: !Sub '${AWS::StackName}-FrontEndSubnet2ARouteTable'
   PrivateSubnet2BRouteTable:
     Condition: AdditionalPrivateSubnetsCondition
     Value: !Ref PrivateSubnet2BRouteTable
     Description: Private subnet 2B route table
     Export:
       Name: !Sub '${AWS::StackName}-PrivateSubnet2BRouteTable'
-  PrivateSubnet3ARouteTable:
-    Condition: PrivateSubnets&3AZCondition
-    Value: !Ref PrivateSubnet3ARouteTable
-    Description: Private subnet 3A route table
+  FrontEndSubnet3ARouteTable:
+    Condition: FrontEndSubnets&3AZCondition
+    Value: !Ref FrontEndSubnet3ARouteTable
+    Description: FrontEnd subnet 3A route table
     Export:
-      Name: !Sub '${AWS::StackName}-PrivateSubnet3ARouteTable'
+      Name: !Sub '${AWS::StackName}-FrontEndSubnet3ARouteTable'
   PrivateSubnet3BRouteTable:
     Condition: AdditionalPrivateSubnets&3AZCondition
     Value: !Ref PrivateSubnet3BRouteTable
     Description: Private subnet 3B route table
     Export:
       Name: !Sub '${AWS::StackName}-PrivateSubnet3BRouteTable'
-  PrivateSubnet4ARouteTable:
-    Condition: PrivateSubnets&4AZCondition
-    Value: !Ref PrivateSubnet4ARouteTable
-    Description: Private subnet 4A route table
+  FrontEndSubnet4ARouteTable:
+    Condition: FrontEndSubnets&4AZCondition
+    Value: !Ref FrontEndSubnet4ARouteTable
+    Description: FrontEnd subnet 4A route table
     Export:
-      Name: !Sub '${AWS::StackName}-PrivateSubnet4ARouteTable'
+      Name: !Sub '${AWS::StackName}-FrontEndSubnet4ARouteTable'
   PrivateSubnet4BRouteTable:
     Condition: AdditionalPrivateSubnets&4AZCondition
     Value: !Ref PrivateSubnet4BRouteTable

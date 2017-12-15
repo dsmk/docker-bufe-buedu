@@ -5,8 +5,8 @@ starts, examples, and reference architectures stiched together; and 2) I wanted 
 
 The templates should be run in the following order:
 
-- (vpc) - still needs to be done as the POC VPC was hand-built.  Once this is done we need to convert
-          the other templates to importvalues from this template
+- need to create the basic account stuff and the initial keypair.
+- 1-vpc - creates the core VPC configuration
 - 2-deployment-base - creates the basic ECR and S3 buckets - needs to be done before iam so the S3 buckbets can be referenced
 - 3-iam - all security groups and IAM roles 
 - 4-ecs-buedu (rename) - application load balancer and ECS cluster
@@ -43,3 +43,7 @@ https://aws.amazon.com/blogs/compute/build-a-serverless-private-url-shortener/ (
 
 
 aws --profile webpoc cloudformation validate-template --template-body file:///home/dsmk/projects/docker-bufe-buedu/aws/iam.yaml
+
+VPC: This can be done with the CLI doing something like:
+
+aws --profile webpoc cloudformation create-stack --template-body file://1-vpc.yaml --tags file://non-prod-vpc-tags.json --parameters file://non-prod-vpc-parameters.json --stack-name vpctest
