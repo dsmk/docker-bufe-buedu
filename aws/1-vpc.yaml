@@ -5,6 +5,9 @@ Description: >-
   been renamed FrontEnd and the default IPs for 2 zones public and front-end reflect
   the non-production network layout.
 
+  The VPN connection part is based on the web page:
+  https://ypoonawala.wordpress.com/2014/11/26/setting-up-a-hardware-vpn-connection-to-your-aws-vpc-using-cloudformation-for-dummies/
+
   This template creates a Multi-AZ, multi-subnet VPC infrastructure with managed
   NAT gateways in the public subnet for each Availability Zone. You can also
   create additional private subnets with dedicated custom network access control
@@ -39,6 +42,12 @@ Metadata:
           - PrivateSubnet3BCIDR
           - PrivateSubnet4BCIDR
           - VPCTenancy
+      - Label:
+          default: VPN Configuration
+        Parameters:
+          - CreateVPNConnection
+          - BGPAsn
+          - CustomerGatewayIP
       - Label:
           default: Amazon NAT Configuration
         Parameters:
@@ -88,6 +97,12 @@ Metadata:
         default: VPC CIDR
       VPCTenancy:
         default: VPC Tenancy
+      CreateVPNConnection:
+        default: Create VPN connection automatically
+      BGPAsn:
+        default: BGP setting for the VPN connection
+      CustomerGatewayIP:
+        default: Customer Gateway internet facing IP address
 Parameters:
   AvailabilityZones:
     Description: >-
@@ -128,6 +143,24 @@ Parameters:
     Description: >-
       Set to true to create the VPN connection to an off-site location.  If 
       false then all VPN parameters will be ignored.
+    Type: String
+  BGPAsn:
+    Description: >-
+      Set to the BGP number that the VPN should use.  This is relevant only if
+      CreateVPNConnection is set to true.  The Default value should be changed
+      for any real usage.
+    Type: String
+    AllowedPattern: >-
+      ^([0-9]+)$
+    Default: 99000
+  CustomerGatewayIP:
+    Description: >-
+      Set to the internet facing IP address of the customer gateway.  This is
+      ignored if CreateVPNConnection is false.
+    AllowedPattern: >-
+      ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
+    ConstraintDescription: IP address parameter must be in the form x.x.x.x
+    Default: 192.5.206.36
     Type: String
   UseNATGateway:
     AllowedValues:
@@ -1215,6 +1248,90 @@ Resources:
           - !Ref 'AWS::Region'
           - .s3
       VpcId: !Ref VPC
+  VPCCustomerGateway:
+    Condition: IsCreateVPNSet
+    Type: 'AWS::EC2::CustomerGateway'
+    Properties:
+      BgpAsn: !Ref BGPAsn
+      IpAddress: !Ref CustomerGatewayIP
+      Type: 'ipsec.1'
+      Tags:
+        - Key: Name
+          Value: !Ref 'AWS::StackName'
+  VpcVpnGateway:
+    Condition: IsCreateVPNSet
+    Type: 'AWS::EC2::VPNGateway'
+    Properties:
+      Type: 'ipsec.1'
+      Tags:
+        - Key: Name
+          Value: !Ref 'AWS::StackName'
+  VPCVPNGatewayAttachment:
+    Condition: IsCreateVPNSet
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    Properties:
+      VpcId: !Ref 'VPC'
+      VpnGatewayId: !Ref 'VpcVpnGateway'
+  VpcVpnConnectionPrimary:
+    Condition: IsCreateVPNSet
+    Type: 'AWS::EC2::VPNConnection'
+    Properties:
+      Type: 'ipsec.1'
+      CustomerGatewayId: !Ref 'VPCCustomerGateway'
+      Tags:
+        - Key: Name
+          Value: !Ref 'AWS::StackName'
+      VpnGatewayId: !Ref 'VpcVpnGateway'
+  VpcVpnGatewayRouteProp:
+    Condition: IsCreateVPNSet
+    DependsOn: VPCVPNGatewayAttachment
+    Type: 'AWS::EC2::VPNGatewayRoutePropagation'
+    Properties:
+      RouteTableIds:
+        - !Ref FrontEndSubnet1ARouteTable
+        - !Ref FrontEndSubnet2ARouteTable
+        - !If 
+          - FrontEndSubnets&3AZCondition
+          - !Ref FrontEndSubnet3ARouteTable
+          - !Ref 'AWS::NoValue'
+        - !If 
+          - FrontEndSubnets&4AZCondition
+          - !Ref FrontEndSubnet4ARouteTable
+          - !Ref 'AWS::NoValue'
+        - !If 
+          - AdditionalPrivateSubnetsCondition
+          - !Ref PrivateSubnet1BRouteTable
+          - !Ref 'AWS::NoValue'
+        - !If 
+          - AdditionalPrivateSubnetsCondition
+          - !Ref PrivateSubnet2BRouteTable
+          - !Ref 'AWS::NoValue'
+        - !If 
+          - AdditionalPrivateSubnets&3AZCondition
+          - !Ref PrivateSubnet3BRouteTable
+          - !Ref 'AWS::NoValue'
+        - !If 
+          - AdditionalPrivateSubnets&4AZCondition
+          - !Ref PrivateSubnet4BRouteTable
+          - !Ref 'AWS::NoValue'
+      VpnGatewayId: !Ref 'VpcVpnGateway'
+#  VpcConnectionRoute:
+#    Condition: IsCreateVPNSet
+#    Type: "AWS::EC2::VPNConnectionRoute"
+#    Properties:
+#      DestinationCidrBlock: "10.0.0.0/11"
+#      VpnConnectionId: !Ref VpcVpnConnectionPrimary
+#10.0.0.0/11
+#10.32.0.0/12
+#10.48.0.0/13
+#10.56.0.0/16
+#10.58.0.0/15
+#10.60.0.0/14
+#10.64.0.0/10
+#10.128.0.0/9
+#10.241.0.0/16
+#128.197.0.0/16
+#168.122.0.0/16
 Outputs:
   NAT1EIP:
     Condition: FrontEndSubnetsCondition
