@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 #
 # Run this script to generate the nginx.conf from nginx.conf.erb
 #
