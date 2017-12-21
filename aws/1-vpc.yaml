@@ -397,7 +397,7 @@ Resources:
     Properties:
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-igw"
+          Value: !Sub "${AWS::StackName}-igw"
         - Key: Network
           Value: Public
   VPCGatewayAttachment:
@@ -416,7 +416,7 @@ Resources:
         - !Ref AvailabilityZones
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-frontend-subnet-1"
+          Value: !Sub "${AWS::StackName}-frontend-subnet-1"
         - Key: Network
           Value: Private
   FrontEndSubnet2A:
@@ -430,7 +430,7 @@ Resources:
         - !Ref AvailabilityZones
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-frontend-subnet-2"
+          Value: !Sub "${AWS::StackName}-frontend-subnet-2"
         - Key: Network
           Value: Private
   FrontEndSubnet3A:
@@ -444,7 +444,7 @@ Resources:
         - !Ref AvailabilityZones
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-frontend-subnet-3"
+          Value: !Sub "${AWS::StackName}-frontend-subnet-3"
         - Key: Network
           Value: Private
   FrontEndSubnet4A:
@@ -458,7 +458,7 @@ Resources:
         - !Ref AvailabilityZones
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-frontend-subnet-4"
+          Value: !Sub "${AWS::StackName}-frontend-subnet-4"
         - Key: Network
           Value: Private
   PublicSubnet1:
@@ -471,7 +471,7 @@ Resources:
         - !Ref AvailabilityZones
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-public-subnet-1"
+          Value: !Sub "${AWS::StackName}-public-subnet-1"
         - Key: Network
           Value: Public
       MapPublicIpOnLaunch: true
@@ -485,7 +485,7 @@ Resources:
         - !Ref AvailabilityZones
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-public-subnet-2"
+          Value: !Sub "${AWS::StackName}-public-subnet-2"
         - Key: Network
           Value: Public
       MapPublicIpOnLaunch: true
@@ -500,7 +500,7 @@ Resources:
         - !Ref AvailabilityZones
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-public-subnet-3"
+          Value: !Sub "${AWS::StackName}-public-subnet-3"
         - Key: Network
           Value: Public
       MapPublicIpOnLaunch: true
@@ -515,7 +515,7 @@ Resources:
         - !Ref AvailabilityZones
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-public-subnet-4"
+          Value: !Sub "${AWS::StackName}-public-subnet-4"
         - Key: Network
           Value: Public
       MapPublicIpOnLaunch: true
@@ -526,7 +526,7 @@ Resources:
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-frontend-route-1"
+          Value: !Sub "${AWS::StackName}-frontend-route-1"
         - Key: Network
           Value: Private
   FrontEndSubnet1ARoute:
@@ -556,7 +556,7 @@ Resources:
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-frontend-route-2"
+          Value: !Sub "${AWS::StackName}-frontend-route-2"
         - Key: Network
           Value: Private
   FrontEndSubnet2ARoute:
@@ -586,7 +586,7 @@ Resources:
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-frontend-route-3"
+          Value: !Sub "${AWS::StackName}-frontend-route-3"
         - Key: Network
           Value: Private
   FrontEndSubnet3ARoute:
@@ -616,7 +616,7 @@ Resources:
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-frontend-route-4"
+          Value: !Sub "${AWS::StackName}-frontend-route-4"
         - Key: Network
           Value: Private
   FrontEndSubnet4ARoute:
@@ -681,7 +681,7 @@ Resources:
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-public-route"
+          Value: !Sub "${AWS::StackName}-public-route"
         - Key: Network
           Value: Public
   PublicSubnetRoute:
@@ -760,7 +760,7 @@ Resources:
     Properties:
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-natgw-1"
+          Value: !Sub "${AWS::StackName}-natgw-1"
       AllocationId: !GetAtt 
         - NAT1EIP
         - AllocationId
@@ -772,7 +772,7 @@ Resources:
     Properties:
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-natgw-2"
+          Value: !Sub "${AWS::StackName}-natgw-2"
       AllocationId: !GetAtt 
         - NAT2EIP
         - AllocationId
@@ -784,7 +784,7 @@ Resources:
     Properties:
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-natgw-3"
+          Value: !Sub "${AWS::StackName}-natgw-3"
       AllocationId: !GetAtt 
         - NAT3EIP
         - AllocationId
@@ -796,7 +796,7 @@ Resources:
     Properties:
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-natgw-4"
+          Value: !Sub "${AWS::StackName}-natgw-4"
       AllocationId: !GetAtt 
         - NAT4EIP
         - AllocationId
@@ -813,7 +813,7 @@ Resources:
       InstanceType: !Ref NATInstanceType
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-natinst-1"
+          Value: !Sub "${AWS::StackName}-natinst-1"
       NetworkInterfaces:
         - GroupSet:
             - !Ref NATInstanceSecurityGroup
@@ -838,7 +838,7 @@ Resources:
       InstanceType: !Ref NATInstanceType
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-natinst-2"
+          Value: !Sub "${AWS::StackName}-natinst-2"
       NetworkInterfaces:
         - GroupSet:
             - !Ref NATInstanceSecurityGroup
@@ -863,7 +863,7 @@ Resources:
       InstanceType: !Ref NATInstanceType
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-natinst-3"
+          Value: !Sub "${AWS::StackName}-natinst-3"
       NetworkInterfaces:
         - GroupSet:
             - !Ref NATInstanceSecurityGroup
@@ -888,7 +888,7 @@ Resources:
       InstanceType: !Ref NATInstanceType
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-natinst-4"
+          Value: !Sub "${AWS::StackName}-natinst-4"
       NetworkInterfaces:
         - GroupSet:
             - !Ref NATInstanceSecurityGroup
@@ -908,7 +908,7 @@ Resources:
       GroupDescription: Enables outbound internet access for the VPC via the NAT instances
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-nat-sg"
+          Value: !Sub "${AWS::StackName}-nat-sg"
       VpcId: !Ref VPC
       SecurityGroupIngress:
         - IpProtocol: '-1'
@@ -952,7 +952,7 @@ Resources:
       Type: 'ipsec.1'
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-cgw-${CustomerGateway1Suffix}"
+          Value: !Sub "${AWS::StackName}-cgw-${CustomerGateway1Suffix}"
   VpcCustomerGateway2:
     Condition: IsCreateVPN2Set
     Type: 'AWS::EC2::CustomerGateway'
@@ -962,7 +962,7 @@ Resources:
       Type: 'ipsec.1'
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-cgw-${CustomerGateway2Suffix}"
+          Value: !Sub "${AWS::StackName}-cgw-${CustomerGateway2Suffix}"
   VpcVpnGateway:
     Condition: IsCreateVPNSet
     Type: 'AWS::EC2::VPNGateway'
@@ -970,7 +970,7 @@ Resources:
       Type: 'ipsec.1'
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-vgw"
+          Value: !Sub "${AWS::StackName}-vgw"
   VpcVpnConnection1:
     Condition: IsCreateVPNSet
     Type: 'AWS::EC2::VPNConnection'
@@ -980,7 +980,7 @@ Resources:
       VpnGatewayId: !Ref 'VpcVpnGateway'
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-vpn-${CustomerGateway1Suffix}"
+          Value: !Sub "${AWS::StackName}-vpn-${CustomerGateway1Suffix}"
   VpcVpnConnection2:
     Condition: IsCreateVPN2Set
     Type: 'AWS::EC2::VPNConnection'
@@ -990,7 +990,7 @@ Resources:
       VpnGatewayId: !Ref 'VpcVpnGateway'
       Tags:
         - Key: Name
-          Value: !Sub "buaws-${AWS::StackName}-vpn-${CustomerGateway2Suffix}"
+          Value: !Sub "${AWS::StackName}-vpn-${CustomerGateway2Suffix}"
   VPCVPNGatewayAttachment:
     Condition: IsCreateVPNSet
     Type: 'AWS::EC2::VPCGatewayAttachment'
