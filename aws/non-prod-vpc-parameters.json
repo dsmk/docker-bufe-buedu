@@ -21,6 +21,10 @@
         },
         {
             "ParameterValue": "false",
+            "ParameterKey": "CreateVPNConnection2"
+        },
+        {
+            "ParameterValue": "false",
             "ParameterKey": "UseNATGateway"
         },
         {
@@ -30,10 +34,6 @@
         {
             "ParameterValue": "t2.small",
             "ParameterKey": "NATInstanceType"
-        },
-        {
-            "ParameterValue": "false",
-            "ParameterKey": "CreateAdditionalPrivateSubnets"
         },
         {
             "ParameterValue": "10.57.253.0/24",
