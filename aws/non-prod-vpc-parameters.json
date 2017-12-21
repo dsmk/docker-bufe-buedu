@@ -4,7 +4,7 @@
             "ParameterKey": "FrontEndSubnet1ACIDR"
         },
         {
-            "ParameterValue": "buaws-webpoc-dsmk",
+            "ParameterValue": "chefdeveloper",
             "ParameterKey": "KeyPairName"
         },
         {
@@ -16,7 +16,7 @@
             "ParameterKey": "NumberOfAZs"
         },
         {
-            "ParameterValue": "true",
+            "ParameterValue": "false",
             "ParameterKey": "CreateVPNConnection"
         },
         {
