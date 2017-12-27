@@ -18,9 +18,13 @@ Parameters:
     Type: Number
     Default: '1'
     Description: Maximum number of instances that can be launched in your ECS cluster.
+  IsSSL:
+    Type: String
+    Default: 'false'
+    Description: true if we are doing the port 443 port group
 Conditions:
   IsTargetGroup443: !Equals
-    - "Fn::ImportValue": !Sub "${Prefix}-is-targetgroup443"
+    - !Ref "IsSSL"
     - "true"
 Resources:
   taskdefinition:
