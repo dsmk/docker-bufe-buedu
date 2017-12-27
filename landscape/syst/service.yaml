@@ -18,6 +18,10 @@ Parameters:
     Type: Number
     Default: '1'
     Description: Maximum number of instances that can be launched in your ECS cluster.
+Conditions:
+  IsTargetGroup443: !Equals
+    - "Fn::ImportValue": !Sub "${Prefix}-is-targetgroup443"
+    - "true"
 Resources:
   taskdefinition:
     Type: AWS::ECS::TaskDefinition
@@ -81,6 +85,7 @@ Resources:
           - ContainerPort: 80
           - ContainerPort: 443
   service443:
+    Condition: IsTargetGroup443
     Type: AWS::ECS::Service
     Properties:
       Cluster: 
