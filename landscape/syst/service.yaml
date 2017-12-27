@@ -121,6 +121,7 @@ Outputs:
   ecsservice:
     Value: !Ref 'service'
   ecsservice443:
+    Condition: IsTargetGroup443
     Value: !Ref 'service443'
   taskdef:
     Value: !Ref 'taskdefinition'
