@@ -101,7 +101,7 @@ Resources:
         TargetGroupArn: 
           "Fn::ImportValue": !Sub "${Prefix}-targetgroup443-arn"
       Role: 
-        "Fn::ImportValue": !Sub "${Prefix}-iam-container-role"
+        "Fn::ImportValue": !Sub "${Prefix}-container-role"
       TaskDefinition: !Ref 'taskdefinition'
   service:
     Type: AWS::ECS::Service
@@ -115,7 +115,7 @@ Resources:
         TargetGroupArn: 
           "Fn::ImportValue": !Sub "${Prefix}-targetgroup80-arn"
       Role:
-        "Fn::ImportValue": !Sub "${Prefix}-iam-container-role"
+        "Fn::ImportValue": !Sub "${Prefix}-container-role"
       TaskDefinition: !Ref 'taskdefinition'
 Outputs:
   ecsservice:
