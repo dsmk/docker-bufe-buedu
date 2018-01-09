@@ -61,7 +61,6 @@ Resources:
             Value: "www-syst.bu.edu"
           - Name: BACKEND_W3_CONTENT
             Value: "www-syst.bu.edu:80"
-            #Value: "ist-w3-content-test.bu.edu:381"
           - Name: BACKEND_WP_APP
             Value: "ist-wp-app-test101.bu.edu"
           - Name: BACKEND_WP_CONTENT
