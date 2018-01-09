@@ -18,14 +18,12 @@ Parameters:
     Type: Number
     Default: '1'
     Description: Maximum number of instances that can be launched in your ECS cluster.
-  IsSSL:
+  PublicAlbAcmCertificate:
+    Description: '[ Optional ] The AWS Certification Manager certificate ARN for the ALB certificate - this certificate should be created in the region you wish to run the ALB and must reference the WordPress domain name you use below.'
     Type: String
-    Default: 'false'
-    Description: true if we are doing the port 443 port group
+    Default: ''
 Conditions:
-  IsTargetGroup443: !Equals
-    - !Ref "IsSSL"
-    - "true"
+  IsTargetGroup443: !Not [ !Equals [ '', !Ref "PublicAlbAcmCertificate" ] ]
 Resources:
   taskdefinition:
     Type: AWS::ECS::TaskDefinition
@@ -54,15 +52,16 @@ Resources:
             awslogs-stream-prefix: bufe-buedu
         Environment:
           - Name: LANDSCAPE
-            Value: test
+            Value: syst
           - Name: LOG_LEVEL
             Value: warn
           - Name: ROBOTS_TXT
             Value: /home/robots.txt.test
           - Name: BACKEND_REDIRECT
-            Value: "www-test.bu.edu"
+            Value: "www-syst.bu.edu"
           - Name: BACKEND_W3_CONTENT
-            Value: "ist-w3-content-test.bu.edu:381"
+            Value: "www-syst.bu.edu:80"
+            #Value: "ist-w3-content-test.bu.edu:381"
           - Name: BACKEND_WP_APP
             Value: "ist-wp-app-test101.bu.edu"
           - Name: BACKEND_WP_CONTENT
