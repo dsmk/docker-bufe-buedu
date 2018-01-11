@@ -10,13 +10,13 @@ map $toplevel $backend {
 # These are upstream so we don't need to adjust the configuration
 #
 upstream media {
-<% elems = ENV['BACKEND_MEDIA'] || "ist-w3-media-#{ENV['LANDSCAPE']}.bu.edu:481" %>
+<% elems = ENV['BACKEND_W3_MEDIA'] || "ist-w3-media-#{ENV['LANDSCAPE']}.bu.edu:481" %>
 <% elems.split(' ').each do |elem| %>
   server <%= elem %> ; <% end %>
 }
 
 upstream content {
-<% elems = ENV['BACKEND_CONTENT'] || "ist-w3-content-#{ENV['LANDSCAPE']}.bu.edu:381" %>
+<% elems = ENV['BACKEND_W3_CONTENT'] || "ist-w3-content-#{ENV['LANDSCAPE']}.bu.edu:381" %>
 <% elems.split(' ').each do |elem| %>
   server <%= elem %> ; <% end %>
 }
