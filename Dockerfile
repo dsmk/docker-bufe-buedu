@@ -26,10 +26,19 @@ VOLUME [ "/var/lib/nginx", "/tmp", "/var/run", "/var/log/nginx", "/etc/nginx" ]
 
 CMD /usr/sbin/run-nginx.sh
 
+# everything before this should be split into a base configuration for all landscapes.
+# Everything after this should remain in this repo and be autobuilt by CodePipeline.
+
+# the following configs should remain down here if we want to pre-generate them and make the configuration
+# directory fully read-only.  They should go above the line if we want to ensure they do not change between
+# landscapes (and keep variable substituting them on each invocation.
+#
 ADD files/nginx.conf.erb /etc/erb/nginx/nginx.conf.erb
 ADD files/conf.d-map-def.conf.erb /etc/erb/nginx/conf.d/map-def.conf.erb
 ADD files/conf.d-ssl.conf.erb /etc/erb/nginx/conf.d/ssl.conf.erb
 ADD files/conf.d-default.conf.erb /etc/erb/nginx/conf.d/default.conf.erb
 ADD files/default.d-www.conf.erb /etc/erb/nginx/default.d/www.conf.erb
+
+# This file remains in the landscape specific CodePipeline area.
 ADD files/sites.map /etc/nginx/sites.map
 
