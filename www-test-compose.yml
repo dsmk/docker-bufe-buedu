@@ -1,26 +1,28 @@
-bufe-buedu-test:
-  #image: docker.io/dsmk/bufe-buedu:latest
-  build: ./
-  #build: apache/
-  #build: nginx/
-  #volumes:
-  #  - /home/dsmk/docker-bufe-buedu/logs/test:/var/log/nginx
-  read_only: true
-  ports:
-    - 80:80
-    - 443:443
-  restart: always
-  environment:
-    - LOG_LEVEL=warn
-    - LANDSCAPE=test
-    - ROBOTS_TXT=/home/robots.txt.test
-    - BACKEND_REDIRECT=www-test.bu.edu
-    - BACKEND_W3_CONTENT=ist-w3-content-test.bu.edu:381
-    - BACKEND_W3_MEDIA=ist-w3-media-test.bu.edu:481
-    - "BACKEND_WP_APP=ist-wp-app-test101.bu.edu ist-wp-app-test102.bu.edu"
-    - "BACKEND_WP_CONTENT=ist-wp-assets-test101.bu.edu ist-wp-assets-test102.bu.edu"
-    - BACKEND_PHPBIN=phpbin-test.bu.edu:181
-    - BACKEND_DBIN=dbin-test.bu.edu:181
-      #- "BACKEND_DJANGO=vsc66.bu.edu:197 vsc67.bu.edu:197"
-    - "BACKEND_DJANGO=vsc66.bu.edu:197"
-    - BACKEND_DEGREE_ADVICE=vsc08.bu.edu
+version: '2'
+
+services:
+  bufe-buedu-test:
+    build: 
+      context: .
+      args:
+        landscape: test
+    read_only: true
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
+    environment:
+      - landscape=syst
+      - LOG_LEVEL=warn
+      - LANDSCAPE=test
+      - ROBOTS_TXT=/home/robots.txt.test
+      - BACKEND_REDIRECT=www-test.bu.edu
+      - BACKEND_W3_CONTENT=ist-w3-content-test.bu.edu:381
+      - BACKEND_W3_MEDIA=ist-w3-media-test.bu.edu:481
+      - "BACKEND_WP_APP=ist-wp-app-test101.bu.edu ist-wp-app-test102.bu.edu"
+      - "BACKEND_WP_CONTENT=ist-wp-assets-test101.bu.edu ist-wp-assets-test102.bu.edu"
+      - BACKEND_PHPBIN=phpbin-test.bu.edu:181
+      - BACKEND_DBIN=dbin-test.bu.edu:181
+        #- "BACKEND_DJANGO=vsc66.bu.edu:197 vsc67.bu.edu:197"
+      - "BACKEND_DJANGO=vsc66.bu.edu:197"
+      - BACKEND_DEGREE_ADVICE=vsc08.bu.edu
