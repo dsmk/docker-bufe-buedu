@@ -73,7 +73,7 @@ Resources:
             Value: "www-syst.bu.edu:80"
           - Name: BACKEND_DBIN
             Value: "www-syst.bu.edu:80"
-          - Name: BACKEND_MEDIA
+          - Name: BACKEND_W3_MEDIA
             Value: "www-syst.bu.edu:80"
           - Name: BACKEND_DJANGO
             Value: "www-syst.bu.edu:80"
