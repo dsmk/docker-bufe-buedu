@@ -62,25 +62,25 @@ Resources:
           - Name: BACKEND_W3_CONTENT
             Value: "www-syst.bu.edu:80"
           - Name: BACKEND_WP_APP
-            Value: "ist-wp-app-test101.bu.edu"
+            Value: "www-syst.bu.edu:80"
           - Name: BACKEND_WP_CONTENT
-            Value: "ist-wp-assets-test101.bu.edu"
+            Value: "www-syst.bu.edu:80"
           - Name: BACKEND_WP_APP2
-            Value: "ist-wp-app-test102.bu.edu"
+            Value: "www-syst.bu.edu:80"
           - Name: BACKEND_WP_CONTENT2
-            Value: "ist-wp-assets-test102.bu.edu"
+            Value: "www-syst.bu.edu:80"
           - Name: BACKEND_PHPBIN
-            Value: phpbin-test.bu.edu:181
+            Value: "www-syst.bu.edu:80"
           - Name: BACKEND_DBIN
-            Value: dbin-test.bu.edu:181
-          - Name: BACKEND_MEDIA
-            Value: ist-w3-media-test.bu.edu:481
+            Value: "www-syst.bu.edu:80"
+          - Name: BACKEND_W3_MEDIA
+            Value: "www-syst.bu.edu:80"
           - Name: BACKEND_DJANGO
-            Value: vsc66.bu.edu:197
+            Value: "www-syst.bu.edu:80"
           - Name: BACKEND_DJANGO2
-            Value: vsc67.bu.edu:197
+            Value: "www-syst.bu.edu:80"
           - Name: BACKEND_DEGREE_ADVICE
-            Value: vsc08.bu.edu
+            Value: "www-syst.bu.edu:80"
           - Name: RELEASE
             Value: 20170829a
         PortMappings:
