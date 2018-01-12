@@ -39,6 +39,10 @@ ADD files/conf.d-ssl.conf.erb /etc/erb/nginx/conf.d/ssl.conf.erb
 ADD files/conf.d-default.conf.erb /etc/erb/nginx/conf.d/default.conf.erb
 ADD files/default.d-www.conf.erb /etc/erb/nginx/default.d/www.conf.erb
 
-# This file remains in the landscape specific CodePipeline area.
-ADD files/sites.map /etc/nginx/sites.map
+# the final default landscape should be test
+ARG landscape=syst
+
+# These files remains in the landscape specific CodePipeline area.
+ADD landscape/${landscape}/sites.map /etc/nginx/sites.map
+ADD landscape/${landscape}/vars.sh /etc/nginx/vars.sh
 
