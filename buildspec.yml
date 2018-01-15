@@ -1,3 +1,5 @@
+# This is the buildspec used by CodeBuild to generate the image
+#
 version: 0.2
 phases:
   pre_build:
@@ -11,5 +13,6 @@ phases:
   post_build:
     commands:
       - docker push "$IMAGEURI"
+      - printf '[{"name":"bufe.buedu", "imageUri":"%s"}]' "$IMAGEURI" >build.json 
 artifacts:
   files: build.json
