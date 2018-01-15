@@ -16,7 +16,7 @@ export BACKEND_PHPBIN=www-syst.bu.edu
 export BACKEND_DBIN=www-syst.bu.edu
 export BACKEND_DJANGO=www-syst.bu.edu
 export BACKEND_DEGREE_ADVICE=www-syst.bu.edu
-#
+#export BACKEND_REDIRECT=www-test.bu.edu
 #export BACKEND_W3_CONTENT=ist-w3-content-test.bu.edu:381
 #export BACKEND_W3_MEDIA=ist-w3-media-test.bu.edu:481
 #export BACKEND_WP_APP=ist-wp-app-test101.bu.edu
