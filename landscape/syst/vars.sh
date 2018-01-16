@@ -8,6 +8,7 @@ export LANDSCAPE=syst
 export ROBOTS_TXT=/home/robots.txt.test
 export BACKEND_REDIRECT=www-syst.bu.edu
 # backends until we get the F5 intermediaries in place
+export BACKEND_WEB_LEGACY=10.254.17.53
 export BACKEND_W3_CONTENT=www-syst.bu.edu
 export BACKEND_W3_MEDIA=www-syst.bu.edu
 export BACKEND_WP_APP=www-syst.bu.edu

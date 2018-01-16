@@ -9,6 +9,12 @@ map $toplevel $backend {
 # ####
 # These are upstream so we don't need to adjust the configuration
 #
+upstream legacy {
+<% elems = ENV['BACKEND_WEB_LEGACY'] || "ist-web-legacy-#{ENV['LANDSCAPE']}.bu.edu" %>
+<% elems.split(' ').each do |elem| %>
+  server <%= elem %> ; <% end %>
+}
+
 upstream media {
 <% elems = ENV['BACKEND_W3_MEDIA'] || "ist-w3-media-#{ENV['LANDSCAPE']}.bu.edu:481" %>
 <% elems.split(' ').each do |elem| %>
