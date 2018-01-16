@@ -13,6 +13,6 @@ phases:
   post_build:
     commands:
       - docker push "$IMAGEURI"
-      - printf '[{"name":"bufe-buedu", "imageUri":"%s"}]' "$IMAGEURI" >build.json 
+      - printf '[{"name":"bu-webrouter", "imageUri":"%s"}]' "$IMAGEURI" >build.json 
 artifacts:
   files: build.json
